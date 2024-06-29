@@ -1,0 +1,198 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+%\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{\textbf{New Collision model}}
+\author{Jian Eduardo Cardenas Cabezas}
+
+\begin{document}
+\maketitle
+
+\section{Modification of the classical BGK operator}
+The classical BGK is a collision operator really easy to implement. It could be interpreted as the relaxation time needed to accomplish the equilibrium. The problem thai it has is that it lacks from stability point of view. In order to improve stability
+in the classical control theory it could be interpreted as the inversed of the P part in the PID control. Suddenly, according to control theory, if we use a big value of proportionality 
+it could be unstable. Then, in order to improve stability the idea is to add the derivative part that is going to reduce the oscilations. The purpose of this document is to  
+show that adding the derivative part could increase stability without changing the viscosity.
+The new collision operator has the shape of:
+
+\begin{equation}
+    \Omega(f) = -\frac{\sigma}{\tau}(f-feq) - \frac{(1-\sigma)}{\tau}\frac{d(f-feq)}{dt}    
+\end{equation}
+
+There are some thermodynamics relations in order to relate P, V, T and entropy like: $dW = -PdV$ and $dQ = TdS$
+
+Replacing this relations in the previous formula, we have: 
+
+\begin{equation}
+    dU = TdS - PdV
+\end{equation}
+
+This expression is known as a \textbf{fundamental property relation}. in order to compute a calculation of properties some interesting relationships are needed:
+
+\begin{equation}
+    H = U + PV
+\end{equation}
+
+ \begin{equation*}
+     A = U - TS
+ \end{equation*}
+
+  \begin{equation*}
+     G = U +PV - TS = H - TS
+ \end{equation*}
+The two last equations are interesting in phase and chemical-equilibrium calculations. 
+
+derivation of the enthalpy equation gives:
+\begin{equation}
+    dH = dU + PdV + VdP
+\end{equation}
+
+\begin{equation}
+    dH = TdS - PdV + PdV + VdP
+\end{equation}
+
+\begin{equation}
+    dH = TdS + VdP
+\end{equation}
+
+Using Maxwell relations: 
+\begin{equation}
+    \left(\frac{\partial T}{\partial P}\right)_S = \left(\frac{\partial V}{\partial S}\right)_P 
+\end{equation}
+
+
+\section{Enthalpy and entropy as functions of T and P}
+\begin{equation}
+    dH = \left(\frac{\partial H}{\partial T}\right)_P dT + \left(\frac{\partial H}{\partial P}\right)_T dP 
+\end{equation}
+
+\begin{equation}
+    dH = C_PdT + \left[V - T\left(\frac{\partial V}{\partial T}\right)_P \right]dP
+\end{equation}
+
+\section{Departure functions for cubic Equations of state}
+
+\begin{equation}
+    P=\frac{RT}{V-b} - \frac{a\alpha(T_r)}{(V-V_1)(V-V_2)}
+\end{equation}
+
+\begin{equation*}
+    P\boldsymbol{\frac{V}{RT}}=\frac{RT}{V-b}\boldsymbol{\frac{V}{RT}} - \frac{a\alpha(T_r)}{(V-V_1)(V-V_2)}\boldsymbol{\frac{V}{RT}}
+\end{equation*}
+
+\begin{equation*}
+    Z = \frac{V}{V-b} - \frac{a\alpha(T_r)}{(V-V_1)(V-V_2)}\frac{V}{RT} 
+\end{equation*}
+
+\begin{equation*}
+    Z = \frac{1}{1-\rho b} - \frac{a\alpha(T_r)}{(V-V_1)(V-V_2)\rho RT}   
+\end{equation*}
+
+\begin{equation*}
+    Z = \frac{1}{1-\rho b} - \frac{a\alpha(T_r)\rho}{(1-\rho V_1)(1-\rho V_2)RT}   
+\end{equation*}
+
+In order to determine the departure functions, we have to calculate $\int_0^\rho{-T\left(\frac{\partial Z}{\partial T}\right)_\rho}\frac{d\rho}{\rho}$
+In the last expression we can see that only a part of the equation is dependent of the temperature.
+
+\begin{equation*}
+    \frac{\partial Z}{\partial T} = \frac{-a\rho}{(1-\rho V_1)(1-\rho V_2)R}\frac{\partial}{\partial T}\left(\frac{\alpha(T_r)}{T}\right)
+\end{equation*}
+
+\begin{equation*}
+    \frac{\partial Z}{\partial T} = \frac{-a\rho}{(1-\rho V_1)(1-\rho V_2)R}\left(\frac{T\partial(\alpha(T_r))/\partial T - \alpha(T_r)}{T^2}\right)
+\end{equation*}
+
+\begin{equation*}
+    \boldsymbol{-T}\frac{\partial Z}{\partial T} = \boldsymbol{-T}\frac{-a\rho}{(1-\rho V_1)(1-\rho V_2)R}\left(\frac{T\partial(\alpha(T_r))/\partial T - \alpha(T_r)}{T^2}\right)
+\end{equation*}
+
+\begin{equation*}
+    -T\frac{\partial Z}{\partial T} = \frac{Ta\rho}{(1-\rho V_1)(1-\rho V_2)R}\left(\frac{T\partial(\alpha(T_r))/\partial T - \alpha(T_r)}{T^2}\right)
+\end{equation*}
+
+\begin{equation*}
+    -T\frac{\partial Z}{\partial T} = \frac{a\rho}{(1-\rho V_1)(1-\rho V_2)R}\left(\frac{\partial(\alpha(T_r))}{\partial T} - \frac{\alpha(T_r)}{T}\right)
+\end{equation*}
+
+\begin{equation*}
+    -T\frac{\partial Z}{\partial T} = \frac{\rho}{(1-\rho V_1)(1-\rho V_2)}\left(\frac{a}{R}\frac{\partial(\alpha(T_r))}{\partial T} - \frac{a}{R}\frac{\alpha(T_r)}{T}\right)
+\end{equation*}
+
+the term $F(T_r)$ is introduced as a shorthand
+\begin{equation*}
+    -T\frac{\partial Z}{\partial T} = \frac{\rho}{(1-\rho V_1)(1-\rho V_2)}\left(F(T_r)\right)
+\end{equation*}
+
+The next step is to calculate $\int_0^\rho{-T\left(\frac{\partial Z}{\partial T}\right)_\rho}\frac{d\rho}{\rho}$: 
+
+\begin{equation}
+   \int_0^\rho{-T\left(\frac{\partial Z}{\partial T}\right)_\rho}\frac{d\rho}{\rho} = \int_0^\rho{\frac{\rho}{(1-\rho V_1)(1-\rho V_2)}\left(F(T_r)\right)}\frac{d\rho}{\rho}
+\end{equation}
+
+\begin{equation*}
+    \int_0^\rho{-T\left(\frac{\partial Z}{\partial T}\right)_\rho}\frac{d\rho}{\rho} = \int_0^\rho{\frac{F(T_r)}{(1-\rho V_1)(1-\rho V_2)}d\rho}
+\end{equation*}
+
+\begin{equation*}
+    \int_0^\rho{-T\left(\frac{\partial Z}{\partial T}\right)_\rho}\frac{d\rho}{\rho} = F(T_r)\left[\frac{ln\left(\frac{1-V_2\rho}{1-V_1\rho}\right)}{V_1-V_2} \right]
+\end{equation*}
+
+The departure functions for $U$, $H$ and $R$ are:
+
+\begin{equation*}
+    \frac{U-U^{ig}}{RT}=  \int_0^\rho{-T\left(\frac{\partial Z}{\partial T}\right)_\rho}\frac{d\rho}{\rho}
+\end{equation*}
+
+\begin{equation*}
+    \frac{H-H^{ig}}{RT}=  \int_0^\rho{-T\left(\frac{\partial Z}{\partial T}\right)_\rho}\frac{d\rho}{\rho} + Z-1
+\end{equation*}
+
+\begin{equation*}
+    \frac{S-S^{ig}}{RT}=  \int_0^\rho\left[{-T\left(\frac{\partial Z}{\partial T}\right)_\rho - (Z-1)}\right]\frac{d\rho}{\rho} + lnZ
+\end{equation*}
+
+\section{Heat capacities from departure functions}
+\subsection{Heat capacity at constant volume }
+
+The definition of constant volume heat capacity is:
+\begin{equation}
+    C_v = \left(\frac{\mathrm{d}U}{\mathrm{d}T}\right)_v
+\end{equation}
+
+According to the theory the definition of internal energy is:
+\begin{equation}
+    U_{(v,T)} = U^{IG}_{(T)} + U^{DF}_{(v,T)}    
+\end{equation}
+
+derivation of internal energy respect to temperature at a constant volume is:
+\begin{equation*}
+    C_v = \left(\frac{\mathrm{d}U}{\mathrm{d}T}\right)_v = \left(\frac{\mathrm{d}}{\mathrm{d}T}\left(U^{IG} + U^{DF}\right)\right)_v 
+\end{equation*}
+
+\subsection{Heat capacity at constant pressure}
+The definition of heat capacity at constant pressure is:
+\begin{equation}
+    C_p = \left(\frac{\mathrm{d}H}{\mathrm{d}T}\right)_P
+\end{equation}
+
+It could be separated as:
+\begin{equation*}
+    C_p = C_v - T\frac{}{\frac{\mathrm{d}P}{\mathrm{d}v}}
+\end{equation*}
+
+\end{document}
