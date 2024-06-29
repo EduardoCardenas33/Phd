@@ -23,17 +23,23 @@
 \maketitle
 
 \section{Modification of the classical BGK operator}
-The classical BGK is a collision operator really easy to implement. It could be interpreted as the relaxation time needed to accomplish the equilibrium. The problem thai it has is that it lacks from stability point of view. In order to improve stability
-in the classical control theory it could be interpreted as the inversed of the P part in the PID control. Suddenly, according to control theory, if we use a big value of proportionality 
-it could be unstable. Then, in order to improve stability the idea is to add the derivative part that is going to reduce the oscilations. The purpose of this document is to  
-show that adding the derivative part could increase stability without changing the viscosity.
-The new collision operator has the shape of:
+The classical BGK is a collision operator really easy to implement. It could be interpreted as the relaxation time needed to accomplish the equilibrium.
+As explained by the classical control theory it could be interpreted as the inversed of the P part in the PID control. The problem that it has is that it lacks from stability.
+By experience and also according to control theory, if we use a big value of proportionality it could be unstable. Then, in order to improve stability, in control theory,
+the derivative part is added provoquing a reduction of the oscilations. 
+The purpose of this document is to show that adding the derivative part could increase stability without changing the phisical viscosity, therefore representing well the
+Navier Stokes equations.
+
+This new collision operator has the shape of:
 
 \begin{equation}
-    \Omega(f_i) = -\frac{\sigma}{\tau}(f_i-f^{eq}) - \frac{(1-\sigma)}{\tau}\frac{d(f_i-f^{eq})}{dt}    
+    %\Omega(f_i) = -\frac{\sigma}{\tau}(f_i-f^{eq}) - \frac{(1-\sigma)}{\tau}\frac{d(f_i-f^{eq})}{dt}
+    \Omega(f_i) = -\frac{\sigma}{\tau}(f_i-f^{eq}) - \frac{\tau(\sigma-1)}{\sigma}\frac{d(f_i-f^{eq})}{dt}    
 \end{equation}
 
-\section{Discretization of the LBE using the new collision operator}
+In the next section we are going to find the discrete form of the Boltzmann equation with this new collision operator.
+
+\section{Discretization of the LBE}
 
 The lattice Boltzmann equation is: 
 
@@ -41,10 +47,56 @@ The lattice Boltzmann equation is:
     \frac{\partial f_{i}}{\partial t} +c_{i\alpha }\frac{\partial f_{i}}{\partial x_{\alpha }} =\Omega _{i} =\frac{\mathrm{d} f_{i}}{\mathrm{d} t}
 \end{equation}
 
+\begin{equation}
+    \frac{\mathrm{d} f_{i}}{\mathrm{d} t}=\Omega _{i}= -\frac{\sigma}{\tau}(f_i-f^{eq}) - \frac{\tau(\sigma-1)}{\sigma}\frac{d(f_i-f^{eq})}{dt} 
+\end{equation}
+
 This expression is known as a . in order to compute a calculation of properties some interesting relationships are needed:
 
 \section{Toy model to verify stability properties}
 
+In this part, the equilibrium function is going to be considered as a constant.
+First we are going to start solving the diferential equation analyticaly in order to the that adding this new term does not change the dynamics of the system.
+That means that the distribution function comes back to the equilibrium function.
+
+\subsection{Analytical solution}
+
+\begin{equation}
+    \frac{\mathrm{d} f_{i}}{\mathrm{d} t}= -\frac{\sigma}{\tau}(f_i-f^{eq}) - \frac{\tau(\sigma-1)}{\sigma}\frac{\mathrm{d}f_{i}}{\mathrm{d}t}
+\end{equation}
+
+\begin{equation*}
+    \left(1 + \frac{\tau(\sigma-1)}{\sigma}\right)\frac{\mathrm{d} f_{i}}{\mathrm{d} t}= -\frac{\sigma}{\tau}(f_i-f^{eq}) 
+\end{equation*}
+
+\begin{equation*}
+    \left(\frac{\sigma + \tau(\sigma-1)}{\sigma}\right)\frac{\mathrm{d} f_{i}}{\mathrm{d} t}= -\frac{\sigma}{\tau}(f_i-f^{eq}) 
+\end{equation*}
+
+\begin{equation*}
+    \frac{1}{f_i-f^{eq}}\frac{\mathrm{d} f_{i}}{\mathrm{d} t}= \frac{-\frac{\sigma}{\tau}}{\left(\frac{\sigma + \tau(\sigma-1)}{\sigma}\right)} 
+\end{equation*}
+
+\begin{equation*}
+    \frac{1}{f_i-f^{eq}}\mathrm{d} f_{i}= -\frac{\sigma^2}{\tau(\sigma + \tau(\sigma-1))}\mathrm{d} t 
+\end{equation*}
+
+\begin{equation*}
+    \int\frac{1}{f_i-f^{eq}}\mathrm{d} f_{i}= \int-\frac{\sigma^2}{\tau(\sigma + \tau(\sigma-1))}\mathrm{d} t 
+\end{equation*}
+
+\begin{equation*}
+    \ln{(f_i-f^{eq})}= -\frac{\sigma^2}{\tau(\sigma + \tau(\sigma-1))} t 
+\end{equation*}
+
+\begin{equation*}
+    f_i-f^{eq}= e^{{-\frac{\sigma^2}{\tau(\sigma + \tau(\sigma-1))} t}} 
+\end{equation*}
+
+\subsection{Discretization and numerical solution}
+
 \section{Chapman Enskog expansion of the new collision model}
+
+\section{Validation test cases}
 
 \end{document}
