@@ -17,6 +17,7 @@
 \usepackage{amssymb}
 \usepackage{bm}
 \usepackage{ulem}
+\usepackage{upgreek}
 
 % Define a bold Greek Omicron
 \newcommand{\Omicron}{\mathrm{O}}
@@ -39,7 +40,7 @@ This new collision operator has the shape of:
 
 \begin{equation}
     %\Omega(f_i) = -\frac{\sigma}{\tau}(f_i-f^{eq}) - \frac{(1-\sigma)}{\tau}\frac{d(f_i-f^{eq})}{dt}
-    \Omega(f_i) = -\frac{\sigma}{\tau}(f_i-f^{eq}) - \frac{\tau(\sigma-1)}{\sigma}\frac{d(f_i-f^{eq})}{dt}    
+    \Omega(f_i) = -\frac{\sigma}{\tau}(f_i-f^{eq}) - \frac{\Delta t(\sigma-1)}{2\tau}\frac{d(f_i-f^{eq})}{dt}    
 \end{equation}
 
 In the next section we are going to analyse this new collision operaator in the Boltzmann equation.
@@ -54,35 +55,31 @@ That means that the distribution function comes back to the equilibrium function
 \subsection{Analytical solution}
 
 \begin{equation}
-    \frac{\mathrm{d} f_{i}}{\mathrm{d} t}= -\frac{\sigma}{\tau}(f_i-f^{eq}) - \frac{\tau(\sigma-1)}{\sigma}\frac{\mathrm{d}f_{i}}{\mathrm{d}t}
+    \frac{\mathrm{d} f_{i}}{\mathrm{d} t}= -\frac{\sigma}{\tau}(f_i-f^{eq}) - \frac{\Delta t(\sigma-1)}{2\tau}\frac{\mathrm{d}f_{i}}{\mathrm{d}t}
 \end{equation}
 
 \begin{equation*}
-    \left(1 + \frac{\tau(\sigma-1)}{\sigma}\right)\frac{\mathrm{d} f_{i}}{\mathrm{d} t}= -\frac{\sigma}{\tau}(f_i-f^{eq}) 
+    \left(1 + \frac{\Delta t(\sigma-1)}{2\tau}\right)\frac{\mathrm{d} f_{i}}{\mathrm{d} t}= -\frac{\sigma}{\tau}(f_i-f^{eq}) 
 \end{equation*}
 
 \begin{equation*}
-    \left(\frac{\sigma + \tau(\sigma-1)}{\sigma}\right)\frac{\mathrm{d} f_{i}}{\mathrm{d} t}= -\frac{\sigma}{\tau}(f_i-f^{eq}) 
+    \left(\frac{2\tau + \Delta t(\sigma-1)}{2\tau}\right)\frac{\mathrm{d} f_{i}}{\mathrm{d} t}= -\frac{\sigma}{\tau}(f_i-f^{eq}) 
 \end{equation*}
 
 \begin{equation*}
-    \frac{1}{f_i-f^{eq}}\frac{\mathrm{d} f_{i}}{\mathrm{d} t}= \frac{-\frac{\sigma}{\tau}}{\left(\frac{\sigma + \tau(\sigma-1)}{\sigma}\right)} 
+    \frac{1}{f_i-f^{eq}}\mathrm{d} f_{i}= -\frac{2\sigma}{\tau(2\tau + \Delta t(\sigma-1))}\mathrm{d} t 
 \end{equation*}
 
 \begin{equation*}
-    \frac{1}{f_i-f^{eq}}\mathrm{d} f_{i}= -\frac{\sigma^2}{\tau(\sigma + \tau(\sigma-1))}\mathrm{d} t 
+    \int\frac{1}{f_i-f^{eq}}\mathrm{d} f_{i}= \int-\frac{2\sigma}{\tau(2\tau + \Delta t(\sigma-1))}\mathrm{d} t 
 \end{equation*}
 
 \begin{equation*}
-    \int\frac{1}{f_i-f^{eq}}\mathrm{d} f_{i}= \int-\frac{\sigma^2}{\tau(\sigma + \tau(\sigma-1))}\mathrm{d} t 
+    \ln{(f_i-f^{eq})}= -\frac{2\sigma}{\tau(2\tau + \Delta t(\sigma-1))} t 
 \end{equation*}
 
 \begin{equation*}
-    \ln{(f_i-f^{eq})}= -\frac{\sigma^2}{\tau(\sigma + \tau(\sigma-1))} t 
-\end{equation*}
-
-\begin{equation*}
-    f_i-f^{eq}= e^{{-\frac{\sigma^2}{\tau(\sigma + \tau(\sigma-1))} t}} 
+    f_i-f^{eq}= e^{-\frac{2\sigma}{\tau(2\tau + \Delta t(\sigma-1))} t} 
 \end{equation*}
 
 This analytical result show us that the new collision model doesn't change the physics of the problem.
@@ -97,7 +94,7 @@ The lattice Boltzmann equation is:
 \end{equation}
 
 \begin{equation}
-    \frac{\mathrm{d} f_{i}}{\mathrm{d} t}=\Omega _{i}= -\frac{\sigma}{\tau}(f_i-f^{eq}) - \frac{\tau(\sigma-1)}{\sigma}\frac{\mathrm{d}(f_i-f^{eq})}{\mathrm{d}t} 
+    \frac{\mathrm{d} f_{i}}{\mathrm{d} t}=\Omega _{i}= -\frac{\sigma}{\tau}(f_i-f^{eq}) - \frac{\Delta t(\sigma-1)}{2\tau}\frac{d(f_i-f^{eq})}{dt} 
 \end{equation}
 
 This expression is known as a . in order to compute a calculation of properties some interesting relationships are needed:
@@ -190,6 +187,103 @@ $\underline{\boldsymbol{\Omicron ( \varepsilon )}}$
 
 $\underline{\boldsymbol{\Omicron ( \varepsilon^2 )}}$
 
+\begin{equation*}
+    \partial _{t}^{( 2)} f^{eq} +\left( \partial _{t}^{( 1)} +c_{i\alpha } \partial _{\alpha }^{( 1)}\right) f^{( 1)} =-\frac{\sigma}{\tau } f_{i}^{( 2)} +\frac{\sigma\Delta t}{2\tau }\left( \partial _{t}^{( 1)} +c_{i\alpha } \partial _{\alpha }^{( 1)}\right) f^{( 1)} -k\left( \partial _{t}^{( 1)} +c_{i\alpha } \partial _{\alpha }^{( 1)}\right) f^{( 1)}
+\end{equation*}
+
+Taking moments of, $\Omicron ( \varepsilon )$ we have:
+
+\begin{equation*}
+    \partial _{t}^{( 1)} \rho +\partial _{\alpha }^{( 1)} \rho u_{\alpha } =0
+\end{equation*}
+
+\begin{equation*}
+    \partial _{t}^{( 1)} \rho u_{\alpha } +\partial _{\alpha }^{( 1)}\mathit{\Pi }_{\alpha \beta }^{eq} =0
+\end{equation*}
+
+\begin{equation*}
+    \partial _{t}^{( 1)}\mathit{\Pi }_{\alpha \beta }^{eq} +\partial _{\alpha }^{( 1)}\mathit{\Pi }_{\alpha \beta \gamma }^{eq} =-\frac{\sigma}{\tau } \mathit{\Pi }_{\alpha \beta }^{( 1)}\rightarrow \mathit{\Pi }_{\alpha \beta }^{( 1)} =-\frac{\tau}{\sigma} \left( \partial _{t}^{( 1)}\mathit{\Pi }_{\alpha \beta }^{eq} +\partial _{\alpha }^{( 1)}\mathit{\Pi }_{\alpha \beta \gamma }^{eq}\right)
+\end{equation*}
+
+Taking moments of, $\Omicron ( \varepsilon^2 )$ we have: 
+
+\begin{equation*}
+    \partial _{t}^{( 2)} \rho =0
+\end{equation*}
+
+\begin{equation*}
+    \partial _{t}^{( 2)} \rho u_{\alpha } +\partial _{\beta }^{( 1)}\left( 1-\frac{\sigma\Delta t}{2\tau }\right)\mathit{\Pi }_{\alpha \beta }^{( 1)} =\partial _{\beta }^{( 1)}( -k)\mathit{\Pi }_{\alpha \beta }^{( 1)}
+\end{equation*}
+
+Making the sum of the moments of order $\varepsilon$ and $\varepsilon^2$ we have:
+\begin{equation*}
+    \left( \varepsilon \partial _{t}^{( 1)} +\varepsilon ^{2} \partial _{t}^{( 2)}\right) \rho +\varepsilon \partial _{\alpha }^{( 1)} \rho u_{\alpha } =0
+\end{equation*}
+Reversing this equations we have $\partial _{t} \rho +\partial _{\alpha } \rho u_{\alpha } =0$ that corresponds exactly to the mass conservation equation.
+
+\begin{equation*}
+    \left( \varepsilon \partial _{t}^{( 1)} +\varepsilon ^{2} \partial _{t}^{( 2)}\right) \rho u_{\alpha } +\varepsilon \partial _{\alpha }^{( 1)} \Pi _{\alpha \beta }^{eq} +\varepsilon ^{2} \partial _{\beta }^{( 1)}\left( 1-\frac{\sigma\Delta t}{2\tau }\right) \Pi _{\alpha \beta }^{( 1)} =-k\varepsilon ^{2}\partial _{\beta }^{( 1)}\mathit{\Pi }_{\alpha \beta }^{( 1)}
+\end{equation*}
+
+we also known $\Pi _{\alpha \beta }^{eq} =\rho u_{\alpha } u_{\beta } +\rho c_{s}^{2} \delta _{\alpha \beta }$ and $\Pi _{\alpha \beta \gamma }^{eq} =\rho c_{s}^{2}( u_{\alpha } \delta _{\beta \gamma } +u_{\beta } \delta _{\alpha \gamma } +u_{\gamma } \delta _{\alpha \beta })$.
+From the moments of $\Omicron(\varepsilon)$, we have:
+
+\begin{equation*}
+    \partial _{t}^{( 1)} \rho =-\partial _{\alpha }^{( 1)} \rho u_{\alpha }
+\end{equation*}
+
+\begin{equation*}
+    \partial _{t}^{( 1)} \rho u_{\alpha } =-\partial _{\alpha }^{( 1)}\mathit{\Pi }_{\alpha \beta }^{eq} =-\partial _{\beta }^{( 1)}\left( \rho u_{\alpha } u_{\beta } +\rho c_{s}^{2} \delta _{\alpha \beta }\right)
+\end{equation*}
+
+In order to finish with the development, we have to callculate what $\Pi _{\alpha \beta }^{( 1)}$ is.  Actually this term only relies in raw moments of the equilibrium function.
+
+\begin{equation*}
+    \partial _{\gamma }^{( 1)} \Pi _{\alpha \beta \gamma }^{eq} =\partial _{\gamma }^{( 1)}\left( \rho c_{s}^{2}( u_{\alpha } \delta _{\beta \gamma } +u_{\beta } \delta _{\alpha \gamma } +u_{\gamma } \delta _{\alpha \beta })\right)
+\end{equation*}
+\begin{equation*}
+    \partial _{\gamma }^{( 1)} \Pi _{\alpha \beta \gamma }^{eq}=c_{s}^{2}\left( \partial _{\beta }^{( 1)} \rho u_{\alpha } +\partial _{\alpha }^{( 1)} \rho u_{\beta }\right) +c_{s}^{2} \delta _{\alpha \beta } \partial _{\gamma }^{( 1)}( \rho u_{\gamma })
+\end{equation*}
+
+The other equilibrium moment is more complicated.
+\begin{equation*}
+    \partial _{t}^{( 1)} \Pi _{\alpha \beta }^{eq} =-u_{\alpha } \partial _{\gamma }^{( 1)}\left( \rho u_{\beta } u_{\gamma } +\rho c_{s}^{2} \delta _{\alpha \beta }\right) -u_{\beta } \partial _{\gamma }^{( 1)}\left( \rho u_{\alpha } u_{\gamma } +\rho c_{s}^{2} \delta _{\alpha \gamma }\right) +u_{\alpha } u_{\beta } \partial _{\gamma }^{( 1)}( \rho u_{\gamma }) -c_{s}^{2} \delta _{\alpha \beta } \partial _{\gamma }^{( 1)}( \rho u_{\gamma })
+\end{equation*}
+\begin{equation*}
+    \partial _{t}^{( 1)} \Pi _{\alpha \beta }^{eq} =-\left[ u_{\alpha } \partial _{\gamma }^{( 1)}( \rho u_{\beta } u_{\gamma }) +u_{\beta } \partial _{\gamma }^{( 1)}( \rho u_{\alpha } u_{\gamma }) -u_{\alpha } u_{\beta } \partial _{\gamma }^{( 1)}( \rho u_{\gamma })\right] -c_{s}^{2}\left( u_{\alpha } \partial _{\beta }^{( 1)} \rho +u_{\beta } \partial _{\alpha }^{( 1)} \rho \right) -c_{s}^{2} \delta _{\alpha \beta } \partial _{\gamma }^{( 1)}( \rho u_{\gamma })
+\end{equation*}
+
+Finally,
+\begin{equation*}
+    \partial _{t}^{( 1)} \Pi _{\alpha \beta }^{eq} =-\partial _{\gamma }^{( 1)}( \rho u_{\alpha } u_{\beta } u_{\gamma }) -c_{s}^{2}\left( u_{\alpha } \partial _{\beta }^{( 1)} \rho +u_{\beta } \partial _{\alpha }^{( 1)} \rho \right) -c_{s}^{2} \delta _{\alpha \beta } \partial _{\gamma }^{( 1)}( \rho u_{\gamma })
+\end{equation*}
+
+\begin{equation*}
+    {\Pi }_{\alpha \beta }^{( 1)} =-\tau [ \rho c_{s}^{2}\left( \partial _{\beta }^{( 1)} u_{\alpha } +\partial _{\alpha }^{( 1)} u_{\beta }\right) -\partial _{\gamma }^{( 1)}( \rho u_{\alpha } u_{\beta } u_{\gamma })]
+\end{equation*}
+
+Reeplacing that in expression, and reverting the solution we have:
+\begin{equation*}
+    \partial _{t}( \rho u_{\alpha }) +\ \partial _{\alpha }\left( \rho u_{\alpha } u_{\beta } +\rho c_{s}^{2} \delta _{\alpha \beta }\right) -\partial _{\beta }\left( \tau \left( 1-\frac{\sigma\Delta t}{2\tau} + k\right) \rho c_{s}^{2}( \partial _{\beta } u_{\alpha } +\partial _{\alpha } u_{\beta })\right) = 0
+\end{equation*}
+
+Replacing the value of $k$ we have:
+
+\begin{equation*}
+    \partial _{t}( \rho u_{\alpha }) +\ \partial _{\alpha }\left( \rho u_{\alpha } u_{\beta } +\rho c_{s}^{2} \delta _{\alpha \beta }\right) -\partial _{\beta }\left( \tau \left( 1-\frac{\sigma\Delta t}{2\tau} + \frac{\Delta t}{2\tau}(\sigma-1)\right) \rho c_{s}^{2}( \partial _{\beta } u_{\alpha } +\partial _{\alpha } u_{\beta })\right) = 0
+\end{equation*}
+
+\begin{equation*}
+    \partial _{t}( \rho u_{\alpha }) +\ \partial _{\alpha }\left( \rho u_{\alpha } u_{\beta } +\rho c_{s}^{2} \delta _{\alpha \beta }\right) -\partial _{\beta }\left(  \left( \tau-\frac{\Delta t}{2}\right) \rho c_{s}^{2}( \partial _{\beta } u_{\alpha } +\partial _{\alpha } u_{\beta })\right) = 0
+\end{equation*}
+
+By comparison with the Navier-Stokes equations we have that:
+
+\begin{equation}
+    \tau =\frac{\mu }{\rho c_{s}^{2}} +\frac{\Delta t}{2}
+\end{equation}
+
+With that we demonstrate that we doesn't change the viscosity, and we have and extra parameter for tunning the stability.
 \section{Validation test cases}
 
 \end{document}
