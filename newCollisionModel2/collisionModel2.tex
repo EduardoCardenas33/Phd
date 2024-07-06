@@ -1,0 +1,285 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+%\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{ulem}
+\usepackage{upgreek}
+
+% Define a bold Greek Omicron
+\newcommand{\Omicron}{\mathrm{O}}
+
+\title{\textbf{New Collision model}}
+\author{Jian Eduardo Cardenas Cabezas}
+
+\begin{document}
+\maketitle
+
+\section{Modification of the classical BGK operator}
+The classical BGK is a collision operator really easy to implement. It could be interpreted as the relaxation time needed to accomplish the equilibrium.
+As explained by the classical control theory it could be interpreted as the inversed of the P part in the PID control. The problem that it has is that it lacks from stability.
+By experience and also according to control theory, if we use a big value of proportionality it could be unstable. Then, in order to improve stability, in control theory,
+the derivative part is added provoquing a reduction of the oscilations. 
+The purpose of this document is to show that adding the derivative part could increase stability without changing the phisical viscosity, therefore representing well the
+Navier Stokes equations.
+
+This new collision operator has the shape of:
+
+\begin{equation}
+    %\Omega(f_i) = -\frac{\sigma}{\tau}(f_i-f^{eq}) - \frac{(1-\sigma)}{\tau}\frac{d(f_i-f^{eq})}{dt}
+    \Omega(f_i) = -\frac{1}{\sigma\tau}(f_i-f^{eq}) - (1-\sigma)\tau\frac{d(f_i-f^{eq})}{dt}    
+\end{equation}
+
+In the next section we are going to analyse this new collision operaator in the Boltzmann equation.
+
+
+\section{Toy model to verify stability properties}
+
+In this part, the equilibrium function is going to be considered as a constant.
+First we are going to start solving the diferential equation analyticaly in order to the that adding this new term does not change the dynamics of the system.
+That means that the distribution function comes back to the equilibrium function.
+
+\subsection{Analytical solution}
+
+\begin{equation}
+    \frac{\mathrm{d} f_{i}}{\mathrm{d} t}= -\frac{1}{\sigma\tau}(f_i-f^{eq}) - (1-\sigma)\tau\frac{d(f_i-f^{eq})}{dt}
+\end{equation}
+
+\begin{equation*}
+    \left(1 + \tau(1-\sigma)\right)\frac{\mathrm{d} f_{i}}{\mathrm{d} t}= -\frac{1}{\sigma\tau}(f_i-f^{eq}) 
+\end{equation*}
+
+\begin{equation*}
+    \frac{1}{f_i-f^{eq}}\mathrm{d} f_{i}= -\frac{1}{\sigma\tau(1+\tau-\sigma\tau)}\mathrm{d} t 
+\end{equation*}
+
+\begin{equation*}
+    \int\frac{1}{f_i-f^{eq}}\mathrm{d} f_{i}= \int -\frac{1}{\sigma\tau(1+\tau-\sigma\tau)}\mathrm{d} t 
+\end{equation*}
+
+\begin{equation*}
+    \ln{(f_i-f^{eq})}= -\frac{1}{\sigma\tau(1+\tau-\sigma\tau)}t
+\end{equation*}
+
+\begin{equation*}
+    f_i-f^{eq}= e^{-\frac{1}{\sigma\tau(1+\tau-\sigma\tau)}t} 
+\end{equation*}
+
+This analytical result show us that the new collision model doesn't change the physics of the problem.
+That means that our distribution function is going to arrive to the equilibrium position.
+
+\section{Discretization of the LBE}
+
+The lattice Boltzmann equation is: 
+
+\begin{equation}
+    \frac{\partial f_{i}}{\partial t} +c_{i\alpha }\frac{\partial f_{i}}{\partial x_{\alpha }} =\Omega _{i} =\frac{\mathrm{d} f_{i}}{\mathrm{d} t}
+\end{equation}
+
+\begin{equation}
+    \frac{\mathrm{d} f_{i}}{\mathrm{d} t}=\Omega _{i}=-\frac{1}{\sigma\tau}(f_i-f^{eq}) - (1-\sigma)\tau\frac{d(f_i-f^{eq})}{dt} 
+\end{equation}
+
+This expression is known as a . in order to compute a calculation of properties some interesting relationships are needed:
+\subsection{First order discretization}
+
+\subsection{Second order discretization}
+The Crank Nicholson discretization method was used into the DVE.
+
+\begin{equation}
+    f_{i+1}^{n+1} -f_{i}^{n} =\frac{\Delta t}{2\sigma}\left( \Omega _{BGK,i+1}^{n+1} +\Omega _{BGK,i}^{n}\right) -k\left( f_{i+1}^{neq,n+1} -f_{i}^{neq,n}\right)
+\end{equation}
+
+In order to have an explicit scheme, a change of variable was made:
+\begin{equation}
+    \overline{f} =f-\frac{\Delta t}{2\sigma}\Omega _{BGK} +k\left( f^{neq}\right)
+\end{equation}
+
+Then the new equation is:
+\begin{equation}
+    \overline{f}_{i+1}^{n+1} =\overline{f}_{i}^{n} +\frac{\Delta t}{\sigma}\left( \Omega _{BGK,i}^{n}\right)
+\end{equation}
+
+This new equation could be expressed in another way to be more similar to the classical BGK model.
+
+\begin{equation}
+    \overline{f}_{i+1}^{n+1} =\overline{f}_{i}^{n} -\frac{\Delta t}{\overline{\tau }}\left(\overline{f}_{i}^{n} -f_{i}^{eq,n}\right)\rightarrow \overline{\tau } =\frac{\tau}{\sigma} ( 1+k) +\frac{\Delta t}{2}
+\end{equation}
+
+\begin{equation*}
+    \overline{f}_{i+1}^{n+1} =(1-\frac{\Delta t}{\overline{\tau }})\overline{f}_{i}^{n} + \frac{\Delta t}{\overline{\tau }}f_{i}^{eq,n}
+\end{equation*}
+
+The stability criterion says that in order to have something stable, $\frac{\overline{\tau}}{\Delta t}$ should be bigger or equal to 0.5.
+But what is important to note here is that we have the $k$ parameter to tune the stability without changing the viscosity.
+
+\section{Chapman Enskog expansion of the new collision model}
+From the last section, we have that the first order and the second order development have the same shape. In order to analyse in an easy way the first order approximation is
+used.
+
+\begin{equation}
+    f_{i+1}^{n+1} =f_{i}^{n} -\frac{\sigma\Delta t}{\tau } f_{i}^{neq,n} -k\left( f_{i+1}^{neq,n+1} -f_{i}^{neq,n}\right)
+\end{equation}
+
+Applying the Taylor expansion of this equation we have:
+\begin{equation}
+    \left( \Delta t( \partial _{t} +c_{i\alpha } \partial _{\alpha }) +\frac{\Delta t^{2}}{2}( \partial _{t} +c_{i\alpha } \partial _{\alpha })^{2}\right) f_{i} = -\frac{\sigma\Delta t}{\tau } f_{i}^{neq} -k\left( \Delta t( \partial _{t} +c_{i\alpha } \partial _{\alpha }) +\frac{\Delta t^{2}}{2}( \partial _{t} +c_{i\alpha })^{2}\right) f^{neq}
+\end{equation}
+
+\begin{equation*}
+    \left(( \partial _{t} +c_{i\alpha } \partial _{\alpha }) +\frac{\Delta t}{2}( \partial _{t} +c_{i\alpha } \partial _{\alpha })^{2}\right) f_{i} = -\frac{\sigma}{\tau } f_{i}^{neq} -k\left(( \partial _{t} +c_{i\alpha } \partial _{\alpha }) +\frac{\Delta t}{2}( \partial _{t} +c_{i\alpha })^{2}\right) f^{neq}
+\end{equation*}
+
+In order to eliminate the second order terms we could make:
+
+\begin{equation}
+    ( \partial _{t} +c_{i\alpha } \partial _{\alpha }) f_{i} = -\frac{\sigma}{\tau } f_{i}^{neq} +\frac{\sigma\Delta t}{2\tau } f^{neq}( \partial _{t} +c_{i\alpha } \partial _{\alpha }) -k( \partial _{t} +c_{i\alpha } \partial _{\alpha }) f^{neq}
+\end{equation}
+
+We known from the perturbation theory that $f_{i} =f^{eq} +\varepsilon f_{i}^{( 1)} +\varepsilon ^{2} f_{i}^{( 2)} +...$
+
+\begin{equation}
+    \begin{aligned}
+        ( \partial _{t} + c_{i\alpha } \partial _{\alpha })\left( f^{eq} + \varepsilon f_{i}^{( 1)} + \varepsilon ^{2} f_{i}^{( 2)}\right) 
+        &= -\frac{\sigma}{\tau }\left( \varepsilon f_{i}^{( 1)} + \varepsilon ^{2} f_{i}^{( 2)}\right) \\
+        &\quad + \frac{\sigma \Delta t}{2 \tau }\left( \varepsilon f_{i}^{( 1)} + \varepsilon ^{2} f_{i}^{( 2)}\right)( \partial _{t} + c_{i\alpha } \partial _{\alpha }) \\
+        &\quad - k( \partial _{t} + c_{i\alpha } \partial _{\alpha })\left( \varepsilon f_{i}^{( 1)} + \varepsilon ^{2} f_{i}^{( 2)}\right)
+    \end{aligned}
+\end{equation}
+We known also that $\partial _{t} f_{i} = \varepsilon \partial _{t}^{( 1)} f_{i} +\varepsilon ^{2} \partial _{t}^{( 2)} f_{i}$
+and $c_{i\alpha } \partial _{\alpha } f_{i} =\varepsilon c_{i\alpha } \partial _{\alpha }^{( 1)} f_{i}$
+
+Replacing that, we have:
+\begin{equation}
+    \begin{aligned}
+        \left( \varepsilon \partial_{t}^{(1)} + \varepsilon^{2} \partial_{t}^{(2)} + c_{i\alpha} \varepsilon \partial_{\alpha}^{(1)} \right) 
+        \left( f^{eq} + \varepsilon f_{i}^{(1)} + \varepsilon^{2} f_{i}^{(2)} \right) 
+        &= -\frac{\sigma}{\tau} \left( \varepsilon f_{i}^{(1)} + \varepsilon^{2} f_{i}^{(2)} \right) \\
+        &\quad + \frac{\sigma \Delta t}{2\tau} \left( \varepsilon f_{i}^{(1)} + \varepsilon^{2} f_{i}^{(2)} \right) 
+        \left( \varepsilon \partial_{t}^{(1)} + \varepsilon^{2} \partial_{t}^{(2)} + \varepsilon c_{i\alpha} \partial_{\alpha}^{(1)} \right) \\
+        &\quad - k \left( \varepsilon \partial_{t}^{(1)} + \varepsilon^{2} \partial_{t}^{(2)} + \varepsilon c_{i\alpha} \partial_{\alpha}^{(1)} \right) 
+        \left( \varepsilon f_{i}^{(1)} + \varepsilon^{2} f_{i}^{(2)} \right)
+    \end{aligned}
+\end{equation}
+
+$\underline{\boldsymbol{\Omicron ( \varepsilon )}}$
+
+\begin{equation*}
+    \left( \partial _{t}^{( 1)} +c_{i\alpha } \partial _{\alpha }^{( 1)}\right) f^{eq} =-\frac{\sigma}{\tau } f_{i}^{( 1)}
+\end{equation*}
+
+$\underline{\boldsymbol{\Omicron ( \varepsilon^2 )}}$
+
+\begin{equation*}
+    \partial _{t}^{( 2)} f^{eq} +\left( \partial _{t}^{( 1)} +c_{i\alpha } \partial _{\alpha }^{( 1)}\right) f^{( 1)} =-\frac{\sigma}{\tau } f_{i}^{( 2)} +\frac{\sigma\Delta t}{2\tau }\left( \partial _{t}^{( 1)} +c_{i\alpha } \partial _{\alpha }^{( 1)}\right) f^{( 1)} -k\left( \partial _{t}^{( 1)} +c_{i\alpha } \partial _{\alpha }^{( 1)}\right) f^{( 1)}
+\end{equation*}
+
+Taking moments of, $\Omicron ( \varepsilon )$ we have:
+
+\begin{equation*}
+    \partial _{t}^{( 1)} \rho +\partial _{\alpha }^{( 1)} \rho u_{\alpha } =0
+\end{equation*}
+
+\begin{equation*}
+    \partial _{t}^{( 1)} \rho u_{\alpha } +\partial _{\alpha }^{( 1)}\mathit{\Pi }_{\alpha \beta }^{eq} =0
+\end{equation*}
+
+\begin{equation*}
+    \partial _{t}^{( 1)}\mathit{\Pi }_{\alpha \beta }^{eq} +\partial _{\alpha }^{( 1)}\mathit{\Pi }_{\alpha \beta \gamma }^{eq} =-\frac{\sigma}{\tau } \mathit{\Pi }_{\alpha \beta }^{( 1)}\rightarrow \mathit{\Pi }_{\alpha \beta }^{( 1)} =-\frac{\tau}{\sigma} \left( \partial _{t}^{( 1)}\mathit{\Pi }_{\alpha \beta }^{eq} +\partial _{\alpha }^{( 1)}\mathit{\Pi }_{\alpha \beta \gamma }^{eq}\right)
+\end{equation*}
+
+Taking moments of, $\Omicron ( \varepsilon^2 )$ we have: 
+
+\begin{equation*}
+    \partial _{t}^{( 2)} \rho =0
+\end{equation*}
+
+\begin{equation*}
+    \partial _{t}^{( 2)} \rho u_{\alpha } +\partial _{\beta }^{( 1)}\left( 1-\frac{\sigma\Delta t}{2\tau }\right)\mathit{\Pi }_{\alpha \beta }^{( 1)} =\partial _{\beta }^{( 1)}( -k)\mathit{\Pi }_{\alpha \beta }^{( 1)}
+\end{equation*}
+
+Making the sum of the moments of order $\varepsilon$ and $\varepsilon^2$ we have:
+\begin{equation*}
+    \left( \varepsilon \partial _{t}^{( 1)} +\varepsilon ^{2} \partial _{t}^{( 2)}\right) \rho +\varepsilon \partial _{\alpha }^{( 1)} \rho u_{\alpha } =0
+\end{equation*}
+Reversing this equations we have $\partial _{t} \rho +\partial _{\alpha } \rho u_{\alpha } =0$ that corresponds exactly to the mass conservation equation.
+
+\begin{equation*}
+    \left( \varepsilon \partial _{t}^{( 1)} +\varepsilon ^{2} \partial _{t}^{( 2)}\right) \rho u_{\alpha } +\varepsilon \partial _{\alpha }^{( 1)} \Pi _{\alpha \beta }^{eq} +\varepsilon ^{2} \partial _{\beta }^{( 1)}\left( 1-\frac{\sigma\Delta t}{2\tau }\right) \Pi _{\alpha \beta }^{( 1)} =-k\varepsilon ^{2}\partial _{\beta }^{( 1)}\mathit{\Pi }_{\alpha \beta }^{( 1)}
+\end{equation*}
+
+we also known $\Pi _{\alpha \beta }^{eq} =\rho u_{\alpha } u_{\beta } +\rho c_{s}^{2} \delta _{\alpha \beta }$ and $\Pi _{\alpha \beta \gamma }^{eq} =\rho c_{s}^{2}( u_{\alpha } \delta _{\beta \gamma } +u_{\beta } \delta _{\alpha \gamma } +u_{\gamma } \delta _{\alpha \beta })$.
+From the moments of $\Omicron(\varepsilon)$, we have:
+
+\begin{equation*}
+    \partial _{t}^{( 1)} \rho =-\partial _{\alpha }^{( 1)} \rho u_{\alpha }
+\end{equation*}
+
+\begin{equation*}
+    \partial _{t}^{( 1)} \rho u_{\alpha } =-\partial _{\alpha }^{( 1)}\mathit{\Pi }_{\alpha \beta }^{eq} =-\partial _{\beta }^{( 1)}\left( \rho u_{\alpha } u_{\beta } +\rho c_{s}^{2} \delta _{\alpha \beta }\right)
+\end{equation*}
+
+In order to finish with the development, we have to callculate what $\Pi _{\alpha \beta }^{( 1)}$ is.  Actually this term only relies in raw moments of the equilibrium function.
+
+\begin{equation*}
+    \partial _{\gamma }^{( 1)} \Pi _{\alpha \beta \gamma }^{eq} =\partial _{\gamma }^{( 1)}\left( \rho c_{s}^{2}( u_{\alpha } \delta _{\beta \gamma } +u_{\beta } \delta _{\alpha \gamma } +u_{\gamma } \delta _{\alpha \beta })\right)
+\end{equation*}
+\begin{equation*}
+    \partial _{\gamma }^{( 1)} \Pi _{\alpha \beta \gamma }^{eq}=c_{s}^{2}\left( \partial _{\beta }^{( 1)} \rho u_{\alpha } +\partial _{\alpha }^{( 1)} \rho u_{\beta }\right) +c_{s}^{2} \delta _{\alpha \beta } \partial _{\gamma }^{( 1)}( \rho u_{\gamma })
+\end{equation*}
+
+The other equilibrium moment is more complicated.
+\begin{equation*}
+    \partial _{t}^{( 1)} \Pi _{\alpha \beta }^{eq} =-u_{\alpha } \partial _{\gamma }^{( 1)}\left( \rho u_{\beta } u_{\gamma } +\rho c_{s}^{2} \delta _{\alpha \beta }\right) -u_{\beta } \partial _{\gamma }^{( 1)}\left( \rho u_{\alpha } u_{\gamma } +\rho c_{s}^{2} \delta _{\alpha \gamma }\right) +u_{\alpha } u_{\beta } \partial _{\gamma }^{( 1)}( \rho u_{\gamma }) -c_{s}^{2} \delta _{\alpha \beta } \partial _{\gamma }^{( 1)}( \rho u_{\gamma })
+\end{equation*}
+\begin{equation*}
+    \partial _{t}^{( 1)} \Pi _{\alpha \beta }^{eq} =-\left[ u_{\alpha } \partial _{\gamma }^{( 1)}( \rho u_{\beta } u_{\gamma }) +u_{\beta } \partial _{\gamma }^{( 1)}( \rho u_{\alpha } u_{\gamma }) -u_{\alpha } u_{\beta } \partial _{\gamma }^{( 1)}( \rho u_{\gamma })\right] -c_{s}^{2}\left( u_{\alpha } \partial _{\beta }^{( 1)} \rho +u_{\beta } \partial _{\alpha }^{( 1)} \rho \right) -c_{s}^{2} \delta _{\alpha \beta } \partial _{\gamma }^{( 1)}( \rho u_{\gamma })
+\end{equation*}
+
+Finally,
+\begin{equation*}
+    \partial _{t}^{( 1)} \Pi _{\alpha \beta }^{eq} =-\partial _{\gamma }^{( 1)}( \rho u_{\alpha } u_{\beta } u_{\gamma }) -c_{s}^{2}\left( u_{\alpha } \partial _{\beta }^{( 1)} \rho +u_{\beta } \partial _{\alpha }^{( 1)} \rho \right) -c_{s}^{2} \delta _{\alpha \beta } \partial _{\gamma }^{( 1)}( \rho u_{\gamma })
+\end{equation*}
+
+\begin{equation*}
+    {\Pi }_{\alpha \beta }^{( 1)} =-\tau [ \rho c_{s}^{2}\left( \partial _{\beta }^{( 1)} u_{\alpha } +\partial _{\alpha }^{( 1)} u_{\beta }\right) -\partial _{\gamma }^{( 1)}( \rho u_{\alpha } u_{\beta } u_{\gamma })]
+\end{equation*}
+
+Reeplacing that in expression, and reverting the solution we have:
+\begin{equation*}
+    \partial _{t}( \rho u_{\alpha }) +\ \partial _{\alpha }\left( \rho u_{\alpha } u_{\beta } +\rho c_{s}^{2} \delta _{\alpha \beta }\right) -\partial _{\beta }\left( \tau \left( 1-\frac{\sigma\Delta t}{2\tau} + k\right) \rho c_{s}^{2}( \partial _{\beta } u_{\alpha } +\partial _{\alpha } u_{\beta })\right) = 0
+\end{equation*}
+
+Replacing the value of $k$ we have:
+
+\begin{equation*}
+    \partial _{t}( \rho u_{\alpha }) +\ \partial _{\alpha }\left( \rho u_{\alpha } u_{\beta } +\rho c_{s}^{2} \delta _{\alpha \beta }\right) -\partial _{\beta }\left( \tau \left( 1-\frac{\sigma\Delta t}{2\tau} + \frac{\Delta t}{2\tau}(\sigma-1)\right) \rho c_{s}^{2}( \partial _{\beta } u_{\alpha } +\partial _{\alpha } u_{\beta })\right) = 0
+\end{equation*}
+
+\begin{equation*}
+    \partial _{t}( \rho u_{\alpha }) +\ \partial _{\alpha }\left( \rho u_{\alpha } u_{\beta } +\rho c_{s}^{2} \delta _{\alpha \beta }\right) -\partial _{\beta }\left(  \left( \tau-\frac{\Delta t}{2}\right) \rho c_{s}^{2}( \partial _{\beta } u_{\alpha } +\partial _{\alpha } u_{\beta })\right) = 0
+\end{equation*}
+
+By comparison with the Navier-Stokes equations we have that:
+
+\begin{equation}
+    \tau =\frac{\mu }{\rho c_{s}^{2}} +\frac{\Delta t}{2}
+\end{equation}
+
+With that we demonstrate that we doesn't change the viscosity, and we have and extra parameter for tunning the stability.
+\section{Validation test cases}
+
+\end{document}
