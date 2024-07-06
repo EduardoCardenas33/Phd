@@ -3,3 +3,5 @@ these.*
 !these.bbl
 collisionModel.*
 !collisionModel.tex
+collisionModel2.*
+!collisionModel2.tex
