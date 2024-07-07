@@ -1,31 +1,86 @@
-\chapter{Simulation of fluid part}
+\chapter{Fluid simulation}
 \chaptertoc{}
 
-\section{LBM}
+In fluid simulation, there are different approaches: the microscopic, 
+the mesoscopic, and the macroscopic approach. In the microscopic approach, 
+all the interactions between molecules are modeled. While this method provides a 
+highly detailed representation of the fluid's behavior, it is extremely 
+time-consuming due to the complexity of calculating every molecular interaction.
 
-	Hey iashon2
-	\\ %  retour à la ligne
-	La réaction de fusion la plus favorable est celle faisant intervenir le deutérium et le tritium:
-	\begin{equation}
-		_{1}^{2}D^{+}~+~_{1}^{3}T^{+}~\rightarrow ~_{2}^{4}He^{2+}~(3,5\,\textrm{MeV})~+~n~(14,1\,\textrm{MeV})
-	    \label{equ:fusion}
-	\end{equation}
+The mesoscopic approach, on the other hand, is based on kinetic theory. In this 
+approach, a group of molecules is treated as a single entity. This method relies 
+on statistical mechanics to describe the distribution of particles in a fluid and
+how this distribution evolves over time. It provides a balance between 
+computational efficiency and accuracy by focusing on the collective behavior of 
+particles rather than individual interactions.
 
-	\noindent % pas d'indentation en début de paragraphe
-	\lipsum[2]\index{Nam dui ligula}
-	Un acronyme utilisé une première fois \gls{asb} puis une seconde fois \gls{asb}. Une définition du glossaire \gls{rutile} et une entrée de la nomenclature \gls{+a}.
+The macroscopic approach is the classical method, where the fluid is treated by
+considering only its macroscopic properties, such as velocity, pressure, and 
+temperature. This method typically involves solving the Navier-Stokes (NS) 
+equations, which describe the motion of fluid substances.
 
-\section{Deuxième partie du premier chapitre}
+In this manuscript, the mesoscopic approach is utilized, specifically through
+ the Lattice Boltzmann Method (LBM). The LBM has proven its efficiency in 
+ simulating fluid dynamics by significantly improving computational speed compared 
+ to classical NS solvers.
 
-	\lipsum[2]
+To achieve this, some fundamental concepts from kinetic theory are introduced,
+followed by an overview of the classical Lattice Boltzmann Method. 
+Subsequently, the method used for the simulation of supercritical 
+CO\textsubscript{2} is presented.
 
-	L'utilisation des formules dans un environnement autorise les références croisées. Par exemple, nous pouvons faire appel à la formule de la fusion deutérium-tritium \ref{equ:fusion}. Contrairement à une simple formule centrée :
-	$$\ce{(2Na+,SO4^2- ) + (Ba^2+, 2Cl- ) -> BaSO4 v + 2NaCl}$$
+\section{Fundamentals on kinetic theory}
 
-	\lipsum[9]
+\section{Fundamentals on Lattice Boltzmann Method}
 
-	\begin{displayquote}
-	\lipsum[10]
-	\end{displayquote}
+The Lattice Boltzmann Method (LBM) was developed in the late 1980s and has been used
+for Computational Fluid Dynamics (CFD) since then. Specifically, the foundational
+work on LBM can be traced back to the work of Frisch, Hasslacher, and Pomeau in 
+1986, who introduced the Lattice Gas Automaton (LGA), which is the precursor to 
+LBM. The LBM, as it is known today, evolved from these early developments in the 
+late 1980s and early 1990s. This first method was only used for weakly compressible
+flows, where the temperature is constant and a perfect gas equation is used to close
+the system and being equivalent to a Navier-Stokes formulation. The method has 
+evelouated from that basic formulation and nowadays permits the use of difficult 
+equations of state and the use for High compressible flows. 
+This section provides the main concepts and expressions used in the classical and 
+more simplest LBM. For doing that, a brief introduction of the Boltzmann equation
+is made. 
 
-	A titre d'exemple, nous venons d'insérer une courte citation fictive.
+\subsection{Boltzmann equation}
+The Boltzmann equation, formulated by Ludwig Boltzmann in 1872, is a fundamental
+equation in statistical mechanics that describes the statistical behavior of a 
+thermodynamic system out of equilibrium. It is used to study the dynamics of a 
+gas at the microscopic level by considering the distribution function 
+f($x$,$\xi$,$t$), which represents the number of particles at a given 
+position $x$, with a given velocity $\xi$, at time $t$.
+
+In order to see the time evolution, the total derivative of the distribution
+function can be expressed as:
+
+\begin{equation}
+	\frac{\mathrm{d}f}{\mathrm{d}t} = 
+	\left(\frac{\partial f}{\partial t}\right)\frac{\mathrm{d}t}{\mathrm{d}t}
+	+\left(\frac{\partial f}{\partial x_{\beta}}\right)\frac{\mathrm{d}x_{\beta}}{\mathrm{d}t}
+	+\left(\frac{\partial f}{\partial \xi_{\beta}}\right)\frac{\mathrm{d}\xi_{\beta}}{\mathrm{d}t}
+\end{equation}
+
+Looking each term, we can indentify and define $\frac{\mathrm{d}f}{\mathrm{d}t} = \Omega(f)$
+as the collision operator, $\frac{\mathrm{d}t}{\mathrm{d}t}=1$, 
+the particle velocity as $\frac{\mathrm{d}x_{\beta}}{\mathrm{d}t} = \xi_{\beta}$
+and $\frac{\mathrm{d}\xi_{\beta}}{\mathrm{d}t} = \frac{F_{\beta}}{\rho}$.
+
+Leading to the final expresion for the Boltzmann equation.
+
+\begin{equation}
+	\Omega(f) = \frac{\partial f}{\partial t} 
+	+ \xi_{\beta}\frac{\partial f}{\partial x_{\beta}}
+	+ \frac{F_{\beta}}{\rho}\frac{\partial f}{\partial \xi_{\beta}}
+\end{equation}
+
+This expresion can be see as an advection equation for the distribution function, 
+where the collision operator is a source term.
+In the first equation developed by Ludwig Boltzmann, the formulation for 
+the collision operator involved some integrals and cumbersome mathematical 
+operations. But thanks a  
+\section{Unified Lattice Boltzmann method}
