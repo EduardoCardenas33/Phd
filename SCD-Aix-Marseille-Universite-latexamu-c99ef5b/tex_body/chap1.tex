@@ -139,7 +139,12 @@ Finally, the Boltzmann equation using the BGK collision operator is written as:
 \subsection{Numerical Discretization}
 
 \section{Unified Lattice Boltzmann method}
-The basics of the Lattice Boltzmann Method (LBM) have been presented. After performing the Chapman-Enskog expansion, it becomes apparent that a primary limitation of the standard LBM is its reliance on the ideal gas equation of state ($P$$=$$\rho$$c_s^2$). However, to accurately simulate supercritical fluids, a more sophisticated equation of state is required, as explained in the chapter on thermodynamics. For capturing the properties of supercritical CO2, an equation like the Peng-Robinson equation of state is necessary.
+The basics of the Lattice Boltzmann Method (LBM) have been presented. After performing the Chapman-Enskog expansion, it becomes apparent that a primary limitation of the standard LBM is its reliance on the ideal gas equation of state ($P$$=$$\rho$$c_s^2$).
+
+However, to accurately simulate supercritical fluids, a more sophisticated equation of state is required, as explained in the chapter on thermodynamics. For capturing the properties of supercritical CO2, an equation like the Peng-Robinson equation of state is necessary.
+
+In order to address this limitation, in the LBM comunity exists two methods, the called
+improved density based models, where the second moment order is changed for having a free parameter for change the pressure as wanted and also the pressure based, where the zero order moment is changed, having directly the pressure as variable.  
 
 To address this limitation, Farag et al. proposed the Unified Hybrid Recursive Regularized model. This model allows the use of any equation of state, overcoming the constraints of the traditional LBM.
 
@@ -159,4 +164,5 @@ distribution function.
 	\end{split}
 \end{equation}
 
+Where
 
