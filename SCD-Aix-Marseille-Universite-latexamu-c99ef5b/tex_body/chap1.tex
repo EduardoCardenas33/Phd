@@ -93,12 +93,13 @@ simplifies these calculations by incorporating only a single relaxation time.
 The next subsection is dedicated to show a little bit about the BGK collision 
 operator and how it was constructed.
 
-\subsection{BGK collision operator}
-This collision operator could be seen as a linearization of the complicated 
-collision operator proposed by Boltzmann. As any other collision operator,
-it should respect the mass, momentum and energy conservation. In order to show
-how his shape is constructed, a taylor expansion of the collision operator
-around the equilibrium point is developed.
+\subsection{BGK Collision Operator}
+
+The BGK collision operator can be seen as a linearization of the complicated 
+collision operator proposed by Boltzmann. Like any other collision operator, 
+it must respect the conservation of mass, momentum, and energy. 
+To illustrate how its form is constructed, a Taylor expansion of the 
+collision operator around the equilibrium point is developed.
 
 \begin{equation}
 	\Omega(f) = \Omega|_{f^{eq}} 
@@ -106,18 +107,18 @@ around the equilibrium point is developed.
 	+ \mathrm{O}(\Delta f^2)
 \end{equation}
 
-As explained before, the collision operator evaluated at the equilibrium, should 
-be equal to zero. Then the linearized expression to represent the collision
-operator is represend by the equation xx....
+As explained before, the collision operator evaluated at the equilibrium 
+should be equal to zero. Thus, the linearized expression for the collision 
+operator is represented by the following equation:
 
 \begin{equation}
 	\Omega(f) \approx 
-	(f-f^{eq}) \frac{\partial \Omega}{\partial f} \bigg|_{f^{eq}} 
+	(f - f^{eq}) \frac{\partial \Omega}{\partial f} \bigg|_{f^{eq}} 
 \end{equation}
 
-Typically, this first derivative evaluated at the equilibrium point is going to 
-be considered as relaxation parameter, that tell us that, in a long time, an
-equilibrium is achieved.
+Typically, this first derivative evaluated at the equilibrium point is 
+considered as the relaxation parameter, which indicates that over a 
+long time, equilibrium is achieved.
 
 \begin{equation}
 	\frac{\partial \Omega}{\partial f} \bigg|_{f^{eq}} = -\frac{1}{\tau}	
@@ -126,18 +127,36 @@ equilibrium is achieved.
 Finally, the Boltzmann equation using the BGK collision operator is written as:
 
 \begin{equation}
-		\frac{\partial f}{\partial t} 
-		+ \xi_{\beta}\frac{\partial f}{\partial x_{\beta}}
-		+ \frac{F_{\beta}}{\rho}\frac{\partial f}{\partial \xi_{\beta}} = -\frac{1}{\tau}(f-f^{eq})
+	\frac{\partial f}{\partial t} 
+	+ \xi_{\beta} \frac{\partial f}{\partial x_{\beta}}
+	+ \frac{F_{\beta}}{\rho} \frac{\partial f}{\partial \xi_{\beta}} = -\frac{1}{\tau}(f - f^{eq})
 \end{equation}
-
-
-
-
 
 
 \subsection{Hybrid recursive regularised collision operator}
 
+
 \subsection{Numerical Discretization}
 
 \section{Unified Lattice Boltzmann method}
+The basics of the Lattice Boltzmann Method (LBM) have been presented. After performing the Chapman-Enskog expansion, it becomes apparent that a primary limitation of the standard LBM is its reliance on the ideal gas equation of state ($P$$=$$\rho$$c_s^2$). However, to accurately simulate supercritical fluids, a more sophisticated equation of state is required, as explained in the chapter on thermodynamics. For capturing the properties of supercritical CO2, an equation like the Peng-Robinson equation of state is necessary.
+
+To address this limitation, Farag et al. proposed the Unified Hybrid Recursive Regularized model. This model allows the use of any equation of state, overcoming the constraints of the traditional LBM.
+
+This section aims to present the essential differentiating features and the algorithm used in the Unified Hybrid Recursive Regularized model.
+
+The main difference between the classical LBM is the redefinition of the equilibrium 
+distribution function.
+
+\begin{equation}
+	\begin{split}
+		f_{i}^{eq} = \omega_{i} \left\{ \rho 
+		+ \frac{\omega_{i} - \delta_{0i}}{\omega_{i}} \rho \left[ \theta - 1 \right] (1 - \zeta) 
+		+ \frac{H_{i\alpha}^{(1)}}{c_{s}^{2}} \rho u_{\alpha} 
+		+ \frac{H_{i\alpha\beta}^{(2)}}{2c_{s}^{4}} \left[ \rho u_{\alpha} u_{\beta} + \zeta \delta_{\alpha\beta} \rho c_{s}^{2} (\theta - 1) \right] 
+		+ \frac{H_{i\alpha\beta\gamma}^{(3)}}{6c_{s}^{6}} \left[ \rho u_{\alpha} u_{\beta} u_{\gamma} - \kappa \rho c_{s}^{2} (u_{\alpha} \delta_{\beta\gamma} + u_{\beta} \delta_{\gamma\alpha} + u_{\gamma} \delta_{\alpha\beta}) \right] 
+		\right\}
+	\end{split}
+\end{equation}
+
+
