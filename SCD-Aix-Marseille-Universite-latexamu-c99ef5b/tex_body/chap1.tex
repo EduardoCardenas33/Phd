@@ -115,6 +115,27 @@ operator is represend by the equation xx....
 	(f-f^{eq}) \frac{\partial \Omega}{\partial f} \bigg|_{f^{eq}} 
 \end{equation}
 
+Typically, this first derivative evaluated at the equilibrium point is going to 
+be considered as relaxation parameter, that tell us that, in a long time, an
+equilibrium is achieved.
+
+\begin{equation}
+	\frac{\partial \Omega}{\partial f} \bigg|_{f^{eq}} = -\frac{1}{\tau}	
+\end{equation}
+
+Finally, the Boltzmann equation using the BGK collision operator is written as:
+
+\begin{equation}
+		\frac{\partial f}{\partial t} 
+		+ \xi_{\beta}\frac{\partial f}{\partial x_{\beta}}
+		+ \frac{F_{\beta}}{\rho}\frac{\partial f}{\partial \xi_{\beta}} = -\frac{1}{\tau}(f-f^{eq})
+\end{equation}
+
+
+
+
+
+
 \subsection{Hybrid recursive regularised collision operator}
 
 \subsection{Numerical Discretization}
