@@ -153,16 +153,12 @@ This section aims to present the essential differentiating features and the algo
 The main difference between the classical LBM is the redefinition of the equilibrium 
 distribution function.
 
-\begin{equation}
-	\begin{split}
-		f_{i}^{eq} = \omega_{i} \left\{ \rho 
-		+ \frac{\omega_{i} - \delta_{0i}}{\omega_{i}} \rho \left[ \theta - 1 \right] (1 - \zeta) 
-		+ \frac{H_{i\alpha}^{(1)}}{c_{s}^{2}} \rho u_{\alpha} 
-		+ \frac{H_{i\alpha\beta}^{(2)}}{2c_{s}^{4}} \left[ \rho u_{\alpha} u_{\beta} + \zeta \delta_{\alpha\beta} \rho c_{s}^{2} (\theta - 1) \right] 
-		+ \frac{H_{i\alpha\beta\gamma}^{(3)}}{6c_{s}^{6}} \left[ \rho u_{\alpha} u_{\beta} u_{\gamma} - \kappa \rho c_{s}^{2} (u_{\alpha} \delta_{\beta\gamma} + u_{\beta} \delta_{\gamma\alpha} + u_{\gamma} \delta_{\alpha\beta}) \right] 
-		\right\}
-	\end{split}
-\end{equation}
 
-Where
+\begin{align}
+	\begin{split}
+		f_{i}^{eq} = \omega_{i} & \left\{ \rho + \frac{\omega_{i} - \delta_{0i}}{\omega_{i}} \rho \left[ \theta - 1 \right] (1 - \zeta) + \frac{H_{i\alpha}^{(1)}}{c_{s}^{2}} \rho u_{\alpha} + \frac{H_{i\alpha\beta}^{(2)}}{2c_{s}^{4}} \left[ \rho u_{\alpha} u_{\beta} + \zeta \delta_{\alpha\beta} \rho c_{s}^{2} (\theta - 1) \right] \right.\\ 
+		+ &  \left.  \frac{H_{i\alpha\beta\gamma}^{(3)}}{6c_{s}^{6}} \left[ \rho u_{\alpha} u_{\beta} u_{\gamma} - \kappa \rho c_{s}^{2} (u_{\alpha} \delta_{\beta\gamma} + u_{\beta} \delta_{\gamma\alpha} + u_{\gamma} \delta_{\alpha\beta}) \right] \right\}
+	\end{split}
+\end{align}
+
 
