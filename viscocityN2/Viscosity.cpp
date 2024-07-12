@@ -6,7 +6,7 @@
 #include <iomanip>
 #include <vector>
 /*
-	Viscosit and Thermal Conductivity Equations for Nitrogen, Oxigen
+	Viscosity and Thermal Conductivity Equations for Nitrogen, Oxigen
 	Argon and Air. Lemon and Jacobsen 2003
 */
 
