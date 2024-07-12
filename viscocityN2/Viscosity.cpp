@@ -44,6 +44,20 @@ namespace coeffResidualVisco //Table 3
 	std::vector<double> gamma{0.,1.,1.,1.,1.};
 }
 
+namespace coeffResidualCond //Table 4
+{
+	std::vector<double> N{1.511, 2.117,-3.332, 8.862, 31.11, -73.13, 20.03, -0.7096, 0.2672};
+	std::vector<double> t{0., -1., -0.7, 0., 0.03, 0.2, 0.8, 0.6, 1.9};
+	std::vector<double> d{0, 0, 0, 1,2,3,4,8,10};
+	std::vector<double> l{0, 0, 0, 0,0,1,2,2,2};
+	/*
+	In the article they say that gamma[i] is zero when l[i] is zero,
+	and one when l[i] is not zero
+	*/
+	std::vector<double> gamma{0, 0, 0, 0,0,1,1,1,1};
+}
+
+
 double collisionIntegral(double t)
 {
 	double collision{0.};
@@ -77,9 +91,48 @@ double viscosity(double rho, double t)
 {
 	return diluteViscosity(t)+residualVisco(rho,t);
 }
+///////////////////////////////////////////////////////////////
+//////////////////////Conductivity/////////////////////////////
+///////////////////////////////////////////////////////////////
+
+double diluteCond(double t)
+{
+	double tau = constants::Tc/t;
+	return coeffResidualCond::N[0]*(diluteViscosity(t)) + coeffResidualCond::N[1]*pow(tau,coeffResidualCond::t[1]) + coeffResidualCond::N[2]*pow(tau,coeffResidualCond::t[2]);
+}
+
+double residualCond(double rho, double t)
+{
+	double tau = constants::Tc/t;
+	double delta = rho/constants::rhoc;
+	double resCond = 0.;
+	for(int i{3};i<9;i++)
+	{
+		resCond += coeffResidualCond::N[i]*pow(tau,coeffResidualCond::t[i])*pow(delta, coeffResidualCond::d[i])*exp(-coeffResidualCond::gamma[i]*pow(delta, coeffResidualCond::l[i]));
+	}
+	return resCond;
+}
+
+double conductivity(double rho, double t)
+{
+	return diluteCond(t)+residualCond(rho,t);
+}
+
 int main()
 {
 	std::cout<<coeffCollisionIntegral::b[0]<<std::endl;
+	std::cout<<viscosity(0.,100)<<std::endl;
+	std::cout<<viscosity(0.,300)<<std::endl;
 	std::cout<<viscosity(25,100)<<std::endl;
+	std::cout<<viscosity(10,200)<<std::endl;
+	std::cout<<viscosity(5,300)<<std::endl;
+	std::cout<<viscosity(11.18,126.195 )<<std::endl;
+	std::cout<<"//////////////////"<<std::endl;
+	std::cout<<conductivity(0.,100)<<std::endl;
+	std::cout<<conductivity(0,300)<<std::endl;
+	std::cout<<conductivity(25.,100)<<std::endl;
+	std::cout<<conductivity(10,200)<<std::endl;
+	std::cout<<conductivity(5,300)<<std::endl;
+	std::cout<<conductivity(11.18,126.195)<<std::endl;
 	return 0;
 }
