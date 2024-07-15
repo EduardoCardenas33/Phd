@@ -113,9 +113,51 @@ double residualCond(double rho, double t)
 	return resCond;
 }
 
+double chi(double rho, double t)
+{	rho = rho*1000;//For having in the units of my EoS
+	double R = 8.31451;
+	double a = 0.45724*pow(R*constants::Tc,2)/(constants::Pc*1e6);//
+	double b = 0.0778*R*constants::Tc/(constants::Pc*1e6);//
+	double w = 0.0372;//
+	double kappa = 0.37464 + 1.54226*w -0.26992*pow(w,2);//
+	double alpha = pow(1+kappa*(1-sqrt(t/constants::Tc)),2);//
+	//In this part R, b comes from the EoS
+	double drho_dP = 1/(R*t/pow(1-rho*b,2) - (2*a*alpha*rho*(1+b*rho))/pow(1+2*b*rho - rho*rho*b*b,2)) ;
+	//if(rho ==11180)
+	//{drho_dP*=118;}
+	//else drho_dP =0;
+	//std::cout<<"drho_dP: "<<drho_dP<<std::endl;
+	rho = rho/1000;
+	return constants::Pc*rho/pow(constants::rhoc,2)*drho_dP;
+}
+
+double criticalCond(double rho, double t)
+{
+	if((chi(rho,t)-chi(rho,constants::Tref)*constants::Tref/t)/constants::BigGamma <=0.)
+	{
+		std::cout<<"NTM"<<std::endl;
+		return 0.; 
+	}
+	else
+	{
+		double pi = 3.14159;
+		double k = 1.380658e-23;
+		double R0 = 1.01;
+		double xi = constants::xi0* pow((chi(rho,t)-chi(rho,constants::Tref)*constants::Tref/t)/constants::BigGamma,0.63/1.2415);
+		double cp =31568304.135880508;// 
+		double cv =1892.5136680237792;//
+		double bigOmega = 2./pi*((cp-cv)/cp*atan(xi/constants::qd) + cv/cp*(xi/constants::qd));
+		double bigOmega0 = 2./pi*(1-exp(-1/(pow(xi/constants::qd,-1) + 1./3.*pow(xi/constants::qd,2)*pow(constants::rhoc/rho,2))));
+		//std::cout<<"SHIT: "<<rho*cp*k*R0*t/(6*pi*xi*viscosity(rho,t))*(bigOmega - bigOmega0)<<std::endl;
+		//std::cout<<"xi: "<< xi<<std::endl;
+		//std::cout<<"bigOmega0: "<< bigOmega0<<std::endl;
+		return rho*cp*k*R0*t/(6*pi*xi*viscosity(rho,t))*(bigOmega - bigOmega0)*1e18 ;
+	}
+}
+
 double conductivity(double rho, double t)
 {
-	return diluteCond(t)+residualCond(rho,t);
+	return diluteCond(t)+residualCond(rho,t)+ criticalCond(rho,t);
 }
 
 int main()
