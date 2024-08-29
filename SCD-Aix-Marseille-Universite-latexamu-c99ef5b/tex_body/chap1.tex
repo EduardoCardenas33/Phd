@@ -113,7 +113,7 @@ operator is represented by the following equation:
 
 \begin{equation}
 	\Omega(f) \approx 
-	(f - f^{eq}) \frac{\partial \Omega}{\partial f} \bigg|_{f^{eq}} 
+	(f - f^{eq}) \frac{\partial \Omega}{\partial f} \bigg|_{f^{eq}} The basics of the Lattice Boltzmann Method (LBM) have been presented. After performing the Chapman-Enskog expansion, it becomes apparent that a primary limitation of the standard LBM is its reliance on the ideal gas equation of state 
 \end{equation}
 
 Typically, this first derivative evaluated at the equilibrium point is 
@@ -134,24 +134,21 @@ Finally, the Boltzmann equation using the BGK collision operator is written as:
 
 
 \subsection{Hybrid recursive regularised collision operator}
+The BGK collision operator is the most simplest representation for the collision, but suddenly it lacks from stability. One interesting thing in order to improve stability is the recursive regularized step. 
 
 
 \subsection{Numerical Discretization}
 
 \section{Unified Lattice Boltzmann method}
-The basics of the Lattice Boltzmann Method (LBM) have been presented. After performing the Chapman-Enskog expansion, it becomes apparent that a primary limitation of the standard LBM is its reliance on the ideal gas equation of state ($P$$=$$\rho$$c_s^2$).
+The basics of the Lattice Boltzmann Method (LBM) have been presented. After performing the Chapman-Enskog expansion, it becomes apparent that a primary limitation of the standard LBM is its reliance on the ideal gas equation of state (($P$$=$$\rho$$c_s^2$).
 
-However, to accurately simulate supercritical fluids, a more sophisticated equation of state is required, as explained in the chapter on thermodynamics. For capturing the properties of supercritical CO2, an equation like the Peng-Robinson equation of state is necessary.
+However, to accurately simulate supercritical fluids, a more sophisticated equation of state is required, as explained in the chapter on thermodynamics. For capturing the properties of supercritical CO\textsubscript{2}, an equation such as the Peng-Robinson equation of state is necessary.
 
-In order to address this limitation, in the LBM comunity exists two methods, the called
-improved density based models, where the second moment order is changed for having a free parameter for change the pressure as wanted and also the pressure based, where the zero order moment is changed, having directly the pressure as variable.  
+In the LBM community, there are two main approaches to address this limitation: improved density-based models and pressure-based models. In the improved density-based models, the second moment is modified to include a free parameter that allows for the adjustment of pressure as needed. In the pressure-based models, the zeroth moment is altered to directly use pressure as a variable.
 
-To address this limitation, Farag et al. proposed the Unified Hybrid Recursive Regularized model. This model allows the use of any equation of state, overcoming the constraints of the traditional LBM.
+To unify these two models and address the limitation related to the equation of state, Farag et al. proposed the Unified Hybrid Recursive Regularized (UHRR) model. This model allows the use of any equation of state, overcoming the constraints of the traditional LBM. Depending on the parameters $\kappa$ or $\zeta$, which will be introduced in this section, the model can represent either the pressure-based or density-based algorithm.
 
-This section aims to present the essential differentiating features and the algorithm used in the Unified Hybrid Recursive Regularized model.
-
-The main difference between the classical LBM is the redefinition of the equilibrium 
-distribution function.
+This section aims to present the essential differentiating features and the algorithm used in the Unified Hybrid Recursive Regularized model. The main difference from the classical LBM lies in the redefinition of the equilibrium distribution function.
 
 
 \begin{align}
@@ -161,4 +158,5 @@ distribution function.
 	\end{split}
 \end{align}
 
+\subsection{title}
 
