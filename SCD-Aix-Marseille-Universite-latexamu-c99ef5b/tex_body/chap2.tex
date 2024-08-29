@@ -1,21 +1,41 @@
-\chapter{ Méthodologie de la recherche}
+\chapter{ Thermodynamics}
 \chaptertoc{}
 
-\section{Matériel et méthodes}
+\section{Ideal Gas EoS}
 
-	\subsection{Modèle animal}
+A mathematical relationship that connects temperature, pressure, and volume is known as an Equation of State (EOS). These equations can be expressed in either a pressure-explicit form (such as CEOS) or a volume-explicit form. The ideal gas (IG) model is the most basic theoretical representation of a gas, grounded in the principles of kinetic theory. This model is based on the key assumption that the gas consists of point-like particles, which interact only through elastic collisions, with no long-range intermolecular forces. The main advantage of this simplified model is its straightforward and easy-to-use EOS, which is described below:
 
-	\lipsum[1]\index{Lorem ipsum}
+\begin{equation}
+	P = \frac{RT}{V}
+\end{equation}
 
-	Une première note de fin de document\endnote{Première note de fin de document.}, une deuxième\endnote{Deuxième note de fin de document.} et \ldots \endnote{\ldots note de fin de document.} \endnote{\ldots note de fin de document.} \endnote{\ldots note de fin de document.} \endnote{\ldots note de fin de document.} \endnote{\ldots note de fin de document.} \endnote{\ldots note de fin de document.} \endnote{\ldots note de fin de document.}: le package enotez associé à hyperref permet l'appel et le retour de note\endnote{\lipsum[1]\index{Lorem ipsum}}.
+Where $P$ represents the gas pressure, $V$ is the molar volume, $T$ is the temperature, and $R$ is the ideal gas constant. This equation can also be expressed in a specific form as follows:
 
-	\subsection{Traitement expérimental}
+\begin{equation}
+	P = \frac{rT}{v} = \rho rT
+\end{equation}
 
-		\subsubsection{Hypergravité}
-			\label{hypergravite} % on peut mettre systématiquement un \label après chaque titre de partie au cas où un appel \ref{} serait nécessaire
+Where $\rho = \frac{1}{v}=\frac{M}{V}$ represents the density, $M$ is the fluid's molecular weight, , $v$ is the specific volume of the fluid, and $r$ is known as the specific gas constant:
 
-			L'hypergravité consiste à augmenter la force du vecteur gravitaire en lui sur-imposant la force centrifuge. En effet, la force centrifuge induite par la rotation se surimpose à la gravité terrestre ce qui permet d'avoir une force résultante dépendante de la vitesse de rotation. On utilise pour cela des centrifugeuses qui sont des carrousels équipés de nacelles suspendues à des axes libres permettant à la force résultante d'être perpendiculaire au plancher de la nacelle et ainsi obtenir une «gravité» dont la force est supérieure à la gravité terrestre tout en maintenant, pour les individus expérimentaux, l'orientation \og naturelle \fg de celle-ci.
-		
+\begin{equation}
+	r = \frac{R}{M}
+\end{equation}
+
+	\subsection{Heat capacities, enthalpy and entropy}
+
+	Using the Ideal Gas Equation of State (IG EOS), the following standard relationships apply:
+	\subsection{NASA Polynomials}
+	
+	In its simplest form, the Ideal Gas Equation of State (IG EOS) assumes constant heat capacities, leading to linear relationships between enthalpy and internal energy 
+	with respect to temperature. However, this assumption is not valid across a wide range of temperatures. For example, in the field of combustion, the NASA polynomial 
+	model is commonly used to describe heat capacities more accurately. The NASA-7 model, for instance, expresses heat capacities in the following form [10]:
+
+
+	The ideal gas equation of state (EOS) is a straightforward yet accurate model for describing gas behavior at high temperatures and relatively low pressures. 
+	However, it falls short in representing condensed fluids. Despite this limitation, the ideal gas model has been extensively studied and documented over the years. 
+	Consequently, many thermodynamic problems transition from the Real Gas (RG) state to the Ideal Gas (IG) state using residual or departure functions (see Section 2.4.3.2)
+	to leverage the wealth of existing knowledge associated with the IG model.
+	
 		\subsubsection{La centrifugeuse}
 
 			Les caractéristiques techniques de la centrifugeuse\index{centrifugeuse} ont été décrites dans un article de~\cite{jamon_ground-based_2008} et dans la partie~\ref{hypergravite}. Brièvement, la centrifugeuse (Figure~\ref{photo_centrifugeuse}) est de grand diamètre (jusqu'à \SI{3.6}{\m} en rotation). Pour limiter les vibrations, la centrifugeuse repose sur des dispositifs anti-vibrations. Le bruit produit par la centrifugeuse est faible. A un mètre de distance, le niveau sonore n'est que de \SI{58}{\dB} contre \SI{52}{\dB} si la centrifugeuse est arrêtée. Les nacelles sont sur des axes libres et chacune peut contenir trois cages de type standard \qtyproduct{364 x 206 x 131}{\mm} avec 4 souris par cage, soit un total de 48 souris. La centrifugeuse est équipée de caméras infra-rouge couplées à un système de vidéo-surveillance accessible sur internet. Cela nous permet de contrôler les niveaux d'eau et de nourriture ainsi que de conduire des études de l'activité des individus expérimentaux à distance, de jour comme de nuit. La quantité d'eau et de nourriture disponible par cage permet de faire fonctionner la centrifugeuse 3 semaines sans interruption. Les animaux ont à disposition \SI{400}{\g} de nourriture et \SI{500}{\ml} d'eau, mais la consommation de nourriture sur cette période est en moyenne de \SI{209(14)}{\g}, et la consommation d'eau de \SI{258(21)}{\ml} pour une cage de 4 souris.
@@ -31,17 +51,19 @@
 
 			\lipsum[2]\index{Nam dui ligula}
 
-\section{Deuxième partie du deuxième chapitre}
+	\subsection{Compressibility Factor}
+
+\section{Supercritical Fluids}
 
 	Le faisceau passe ensuite dans un module comprenant un cristal non linéaire permettant de doubler le féquence (excitation de \SIrange{345}{500}{\nano\meter}). Toutes les mesures ont été faites entre \SIlist{400;1200}{\nano\meter} avec un pas de \SI{5}{\nano\meter}.
 	
 	\lipsum[3]\index{Nulla malesuada}
 
-	\subsection{Première sous-partie de la deuxième partie}
+	\subsection{Physical Structure of Supercritical Fluids}
 
 		\lipsum[4]\index{Quisque ullamcorper}
 
-	\subsection[Sous-partie 2]{Deuxième sous-partie de la deuxième partie} % entre [] pour le texte dans la TOC
+	\subsection{Pseudo-Boiling} % entre [] pour le texte dans la TOC
 
 		Ajout d'une nouvelle entrée d'index de la centrifugeuse\index{centrifugeuse}. Les entrées \gls{+a} \gls{2a} \gls{ca} \gls{Aa} \gls{aa} \gls{alpha} {\NoAutoSpaceBeforeFDP}sont dans la nomenclature. On peux utiliser les commandes personnelles pour appeler rapidement des formules lors de la rédaction \acc et passer des arguments aux commandes pour en modifier l'éxécution \emiss[\nu]{\Omega}.
 		
@@ -70,3 +92,4 @@
 			\paragraph{Paramétrer siunitx avec sisetup}~~\\
 			
         		Célérité de la lumière dans le vide: $$c=\SI{2.99792458e8}{\meter\per\second}$$
+\section{Cubic EoS}
