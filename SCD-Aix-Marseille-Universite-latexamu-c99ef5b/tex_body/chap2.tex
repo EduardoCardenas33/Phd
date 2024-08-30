@@ -24,34 +24,65 @@ Where $\rho = \frac{1}{v}=\frac{M}{V}$ represents the density, $M$ is the fluid'
 	\subsection{Heat capacities, enthalpy and entropy}
 
 	Using the Ideal Gas Equation of State (IG EOS), the following standard relationships apply:
+	
+	\begin{enumerate}
+		\item Mayer's relation:
+		\begin{equation}
+			C_P - C_V = R
+		\end{equation}
+
+		\item Variation in internal energy:
+		\begin{equation}
+			\mathrm{d}E = C_V\mathrm{d}T
+		\end{equation}
+
+		\item Variation in enthalpy:
+		\begin{equation}
+			\mathrm{d}H = C_P\mathrm{d}T
+		\end{equation}
+
+		\item Variation in entropy:
+		\begin{equation}
+			\mathrm{d}S = \frac{C_P}{T}\mathrm{d}T - R\frac{\mathrm{d}P}{P}
+		\end{equation}
+
+	\end{enumerate}
+
 	\subsection{NASA Polynomials}
 	
 	In its simplest form, the Ideal Gas Equation of State (IG EOS) assumes constant heat capacities, leading to linear relationships between enthalpy and internal energy 
 	with respect to temperature. However, this assumption is not valid across a wide range of temperatures. For example, in the field of combustion, the NASA polynomial 
 	model is commonly used to describe heat capacities more accurately. The NASA-7 model, for instance, expresses heat capacities in the following form [10]:
 
+	\begin{equation}
+		\frac{C_p}{R} = a_1 + a_2 + a_3 T^2 + a_4 T^3 + a_5 T^4
+	\end{equation}
 
+	\begin{equation}
+		\frac{H}{RT} = a_1 + \frac{a_2}{2}T + \frac{a_3}{3}T^2 + \frac{a_4}{4}T^3 + \frac{a_5}{5}T^4 + \frac{a_6}{T}
+	\end{equation}
+
+	\begin{equation}
+		\frac{S}{R} = a_1 \ln T + a_2 T + \frac{a_3}{2}T^2 + \frac{a_4}{3}T^3 + \frac{a_5}{4}T^4 + a_7
+	\end{equation}
 	The ideal gas equation of state (EOS) is a straightforward yet accurate model for describing gas behavior at high temperatures and relatively low pressures. 
 	However, it falls short in representing condensed fluids. Despite this limitation, the ideal gas model has been extensively studied and documented over the years. 
 	Consequently, many thermodynamic problems transition from the Real Gas (RG) state to the Ideal Gas (IG) state using residual or departure functions (see Section 2.4.3.2)
 	to leverage the wealth of existing knowledge associated with the IG model.
-	
-		\subsubsection{La centrifugeuse}
 
-			Les caractéristiques techniques de la centrifugeuse\index{centrifugeuse} ont été décrites dans un article de~\cite{jamon_ground-based_2008} et dans la partie~\ref{hypergravite}. Brièvement, la centrifugeuse (Figure~\ref{photo_centrifugeuse}) est de grand diamètre (jusqu'à \SI{3.6}{\m} en rotation). Pour limiter les vibrations, la centrifugeuse repose sur des dispositifs anti-vibrations. Le bruit produit par la centrifugeuse est faible. A un mètre de distance, le niveau sonore n'est que de \SI{58}{\dB} contre \SI{52}{\dB} si la centrifugeuse est arrêtée. Les nacelles sont sur des axes libres et chacune peut contenir trois cages de type standard \qtyproduct{364 x 206 x 131}{\mm} avec 4 souris par cage, soit un total de 48 souris. La centrifugeuse est équipée de caméras infra-rouge couplées à un système de vidéo-surveillance accessible sur internet. Cela nous permet de contrôler les niveaux d'eau et de nourriture ainsi que de conduire des études de l'activité des individus expérimentaux à distance, de jour comme de nuit. La quantité d'eau et de nourriture disponible par cage permet de faire fonctionner la centrifugeuse 3 semaines sans interruption. Les animaux ont à disposition \SI{400}{\g} de nourriture et \SI{500}{\ml} d'eau, mais la consommation de nourriture sur cette période est en moyenne de \SI{209(14)}{\g}, et la consommation d'eau de \SI{258(21)}{\ml} pour une cage de 4 souris.
-
-			\begin{figure}[h!tbp]
-				\vspace{0.5cm}
-				\setcapindent{2em}
-				\centering
-				\includegraphics[width=0.7\textwidth]{photo_centrifugeuse.png}
-				\caption[Photographie de la centrifugeuse]{Photographie de la centrifugeuse utilisée.}
-				\label{photo_centrifugeuse}
-			\end{figure}
-
-			\lipsum[2]\index{Nam dui ligula}
 
 	\subsection{Compressibility Factor}
+
+	Real fluids at low density and high temperature can be accurately modeled by the perfect gas 
+	equation of state (EOS). However, at lower temperatures or higher densities, a real fluid 
+	deviates significantly from ideal gas behavior, especially during phase changes, such as when 
+	it condenses from a gas to a liquid or deposits from a gas to a solid. This deviation is 
+	quantified by the compressibility factor, ZZ, which indicates how much the fluid's behavior
+	differs from that of an ideal gas:
+
+	\begin{equation}
+		Z = \frac{PV}{RT} =\frac{Pv}{rT} = \frac{P}{\rho RT} 
+	\end{equation}
 
 \section{Supercritical Fluids}
 
