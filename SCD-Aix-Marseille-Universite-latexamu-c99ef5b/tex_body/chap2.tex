@@ -77,7 +77,7 @@ Where $\rho = \frac{1}{v}=\frac{M}{V}$ represents the density, $M$ is the fluid'
 	equation of state (EOS). However, at lower temperatures or higher densities, a real fluid 
 	deviates significantly from ideal gas behavior, especially during phase changes, such as when 
 	it condenses from a gas to a liquid or deposits from a gas to a solid. This deviation is 
-	quantified by the compressibility factor, ZZ, which indicates how much the fluid's behavior
+	quantified by the compressibility factor, $Z$, which indicates how much the fluid's behavior
 	differs from that of an ideal gas:
 
 	\begin{equation}
@@ -86,13 +86,122 @@ Where $\rho = \frac{1}{v}=\frac{M}{V}$ represents the density, $M$ is the fluid'
 
 \section{Supercritical Fluids}
 
-	Le faisceau passe ensuite dans un module comprenant un cristal non linéaire permettant de doubler le féquence (excitation de \SIrange{345}{500}{\nano\meter}). Toutes les mesures ont été faites entre \SIlist{400;1200}{\nano\meter} avec un pas de \SI{5}{\nano\meter}.
-	
-	\lipsum[3]\index{Nulla malesuada}
+Supercritical phenomena are crucial in various industrial applications,
+particularly in power cycles and energy recovery, which are the focus of this
+work. This section is dedicated to understanding the key differences between
+supercritical and subcritical fluids, with an emphasis on their role in power
+generation.
+
+Supercritical fluids, especially supercritical carbon dioxide ($CO_2$) and water,
+are increasingly important in the development of advanced power cycles due to
+their exceptional thermodynamic properties. These fluids are used to enhance
+efficiency, reduce the size of equipment, and minimize environmental impact in
+power generation systems. Here are some key applications:
+
+    Supercritical $CO_2$ Power Cycles: Brayton Cycle: Supercritical $CO_2$ is a
+        promising working fluid in closed-loop Brayton cycles, where it operates
+        at temperatures and pressures above its critical point. These cycles
+        have the potential to surpass the efficiency of traditional steam
+        Rankine cycles, primarily because supercritical $CO_2$ has a higher
+        density, which allows for more compact and efficient turbomachinery.
+        This increased efficiency translates into lower fuel consumption and
+        reduced greenhouse gas emissions, making supercritical $CO_2$ Brayton
+        cycles a leading candidate for next-generation power plants. Waste Heat
+        Recovery: One of the significant advantages of supercritical $CO_2$ cycles
+        is their ability to recover waste heat from industrial processes, gas
+        turbines, and even nuclear reactors. By utilizing waste heat, these
+        systems can generate additional electricity without burning extra fuel,
+        improving the overall efficiency of energy systems and reducing the
+        carbon footprint of power generation.
+
+    Supercritical Water Power Cycles: Supercritical Water-Cooled Reactors
+        (SCWRs): In nuclear power generation, supercritical water is used as a
+        coolant in advanced reactor designs. SCWRs operate at supercritical
+        pressures and temperatures, allowing for higher thermal efficiency
+        compared to conventional reactors. This not only improves the power
+        output but also contributes to the safety and economic viability of
+        nuclear energy.
+
+    Supercritical Steam Cycles: Traditional fossil fuel power plants are
+        evolving with the adoption of supercritical and ultra-supercritical
+        steam cycles. By operating at temperatures and pressures above the
+        critical point of water, these power plants achieve higher thermal
+        efficiencies, reducing fuel consumption and emissions. The move towards
+        supercritical steam cycles represents a significant advancement in
+        making coal-fired power generation cleaner and more efficient.
+		
+    Hybrid Power Cycles: Integration with Renewable Energy: Supercritical $CO_2$
+        and water cycles are being integrated with renewable energy sources,
+        such as concentrated solar power (CSP) and geothermal energy. In CSP
+        plants, supercritical $CO_2$ is used to transfer heat from the solar field
+        to the power block, allowing for more efficient energy conversion.
+        Similarly, in geothermal systems, supercritical fluids can enhance
+        energy extraction from deep, high-temperature reservoirs, providing a
+        reliable and sustainable source of electricity. Combined Cycle Plants:
+        In combined cycle power plants, supercritical $CO_2$ can be used in
+        conjunction with gas turbines to further increase overall efficiency.
+        The exhaust heat from the gas turbine is used to generate additional
+        power in a supercritical $CO_2$ cycle, making these plants among the most
+        efficient forms of fossil fuel-based power generation.
+
+    Environmental Benefits and Future Potential: Carbon Capture and Utilization:
+        Supercritical $CO_2$ power cycles not only improve efficiency but also
+        facilitate carbon capture and utilization (CCU). By integrating CCU with
+        supercritical $CO_2$ cycles, power plants can reduce their carbon emissions
+        while potentially producing valuable products like synthetic fuels. This
+        dual benefit supports the transition to more sustainable energy systems.
+        Future Research and Development: Ongoing research into supercritical
+        fluid power cycles is focused on optimizing system design, improving
+        materials that can withstand the harsh conditions of supercritical
+        operation, and integrating these cycles with emerging technologies. The
+        goal is to create highly efficient, low-emission power plants that can
+        meet the growing global demand for electricity while minimizing
+        environmental impact.
+
+In conclusion, supercritical fluids are at the forefront of power generation
+technology, offering significant advantages in efficiency, compactness, and
+environmental sustainability. As research and development continue, these
+systems are expected to play a central role in the future of energy, making them
+a critical area of study for advancing power cycles and reducing the carbon
+footprint of electricity generation.
+
+In order to star with a better comprehension of the supercritical state
+comprehension, some reduced parameters are introduced:
+
+\begin{equation}
+	Pr = \frac{P}{P_c}
+\end{equation}
+
+\begin{equation}
+	T_r = \frac{T}{T_c}
+\end{equation}
+
+\begin{equation}
+	V_r = \frac{V}{V_c}
+\end{equation}
+
+\begin{equation}
+	\rho_r = \frac{\rho}{\rho_c}
+\end{equation}
+
+where subscript $c$ denotes the parameter's value at the critical point.
 
 	\subsection{Physical Structure of Supercritical Fluids}
 
-		\lipsum[4]\index{Quisque ullamcorper}
+	The first topic to address is the nature of supercritical fluids. It is
+	well-known that, in the supercritical state, there is no distinctly separate
+	phase (see Figure 2.1) [14].
+
+	Using molecular dynamics simulations of liquid and transcritical states at a
+	reduced temperature of 0.5 and reduced pressures of 0.7, 1.4, and 3.0,
+	Banuti [15] demonstrated that there is no need to separate quadrants IL and
+	IV in Figure 2.1. This is because densely packed fluids in IL exhibit the
+	same physical behavior as their supercritical counterparts in IV. For gases,
+	however, the equivalency between the supercritical fluid and the ideal gas
+	model in the ($P_r,T_r$) plane is reduced to a line. It is important to
+	note that, up to $P_r=3$ and for $T_r>2$, describing a supercritical
+	fluid as an ideal gas results in a compressibility factor error of less than
+	5$\%$, as shown in Figure 2.2.
 
 	\subsection{Pseudo-Boiling} % entre [] pour le texte dans la TOC
 
