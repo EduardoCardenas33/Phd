@@ -3,13 +3,23 @@
 
 \section{Ideal Gas EoS}
 
-A mathematical relationship that connects temperature, pressure, and volume is known as an Equation of State (EOS). These equations can be expressed in either a pressure-explicit form (such as CEOS) or a volume-explicit form. The ideal gas (IG) model is the most basic theoretical representation of a gas, grounded in the principles of kinetic theory. This model is based on the key assumption that the gas consists of point-like particles, which interact only through elastic collisions, with no long-range intermolecular forces. The main advantage of this simplified model is its straightforward and easy-to-use EOS, which is described below:
+A mathematical relationship that connects temperature, pressure, and volume is
+known as an Equation of State (EOS). These equations can be expressed in either
+a pressure-explicit form (such as CEOS) or a volume-explicit form. The ideal gas
+(IG) model is the most basic theoretical representation of a gas, grounded in
+the principles of kinetic theory. This model is based on the key assumption that
+the gas consists of point-like particles, which interact only through elastic
+collisions, with no long-range intermolecular forces. The main advantage of this
+simplified model is its straightforward and easy-to-use EOS, which is described
+below:
 
 \begin{equation}
 	P = \frac{RT}{V}
 \end{equation}
 
-Where $P$ represents the gas pressure, $V$ is the molar volume, $T$ is the temperature, and $R$ is the ideal gas constant. This equation can also be expressed in a specific form as follows:
+Where $P$ represents the gas pressure, $V$ is the molar volume, $T$ is the
+temperature, and $R$ is the ideal gas constant. This equation can also be
+expressed in a specific form as follows:
 
 \begin{equation}
 	P = \frac{rT}{v} = \rho rT
@@ -23,7 +33,8 @@ Where $\rho = \frac{1}{v}=\frac{M}{V}$ represents the density, $M$ is the fluid'
 
 	\subsection{Heat capacities, enthalpy and entropy}
 
-	Using the Ideal Gas Equation of State (IG EOS), the following standard relationships apply:
+	Using the Ideal Gas Equation of State (IG EOS), the following standard
+	relationships apply:
 	
 	\begin{enumerate}
 		\item Mayer's relation:
@@ -50,9 +61,13 @@ Where $\rho = \frac{1}{v}=\frac{M}{V}$ represents the density, $M$ is the fluid'
 
 	\subsection{NASA Polynomials}
 	
-	In its simplest form, the Ideal Gas Equation of State (IG EOS) assumes constant heat capacities, leading to linear relationships between enthalpy and internal energy 
-	with respect to temperature. However, this assumption is not valid across a wide range of temperatures. For example, in the field of combustion, the NASA polynomial 
-	model is commonly used to describe heat capacities more accurately. The NASA-7 model, for instance, expresses heat capacities in the following form [10]:
+	In its simplest form, the Ideal Gas Equation of State (IG EOS) assumes
+	constant heat capacities, leading to linear relationships between enthalpy
+	and internal energy with respect to temperature. However, this assumption is
+	not valid across a wide range of temperatures. For example, in the field of
+	combustion, the NASA polynomial model is commonly used to describe heat
+	capacities more accurately. The NASA-7 model, for instance, expresses heat
+	capacities in the following form [10]:
 
 	\begin{equation}
 		\frac{C_p}{R} = a_1 + a_2 + a_3 T^2 + a_4 T^3 + a_5 T^4
@@ -65,20 +80,25 @@ Where $\rho = \frac{1}{v}=\frac{M}{V}$ represents the density, $M$ is the fluid'
 	\begin{equation}
 		\frac{S}{R} = a_1 \ln T + a_2 T + \frac{a_3}{2}T^2 + \frac{a_4}{3}T^3 + \frac{a_5}{4}T^4 + a_7
 	\end{equation}
-	The ideal gas equation of state (EOS) is a straightforward yet accurate model for describing gas behavior at high temperatures and relatively low pressures. 
-	However, it falls short in representing condensed fluids. Despite this limitation, the ideal gas model has been extensively studied and documented over the years. 
-	Consequently, many thermodynamic problems transition from the Real Gas (RG) state to the Ideal Gas (IG) state using residual or departure functions (see Section 2.4.3.2)
-	to leverage the wealth of existing knowledge associated with the IG model.
+	The ideal gas equation of state (EOS) is a straightforward yet accurate
+	model for describing gas behavior at high temperatures and relatively low
+	pressures. However, it falls short in representing condensed fluids. Despite
+	this limitation, the ideal gas model has been extensively studied and
+	documented over the years. Consequently, many thermodynamic problems
+	transition from the Real Gas (RG) state to the Ideal Gas (IG) state using
+	residual or departure functions (see Section 2.4.3.2) to leverage the wealth
+	of existing knowledge associated with the IG model.
 
 
 	\subsection{Compressibility Factor}
 
-	Real fluids at low density and high temperature can be accurately modeled by the perfect gas 
-	equation of state (EOS). However, at lower temperatures or higher densities, a real fluid 
-	deviates significantly from ideal gas behavior, especially during phase changes, such as when 
-	it condenses from a gas to a liquid or deposits from a gas to a solid. This deviation is 
-	quantified by the compressibility factor, $Z$, which indicates how much the fluid's behavior
-	differs from that of an ideal gas:
+	Real fluids at low density and high temperature can be accurately modeled by
+	the perfect gas equation of state (EOS). However, at lower temperatures or
+	higher densities, a real fluid deviates significantly from ideal gas
+	behavior, especially during phase changes, such as when it condenses from a
+	gas to a liquid or deposits from a gas to a solid. This deviation is
+	quantified by the compressibility factor, $Z$, which indicates how much the
+	fluid's behavior differs from that of an ideal gas:
 
 	\begin{equation}
 		Z = \frac{PV}{RT} =\frac{Pv}{rT} = \frac{P}{\rho RT} 
@@ -212,32 +232,225 @@ where subscript $c$ denotes the parameter's value at the critical point.
 	mechanism analogous to a subcritical phase transition.
 
 	\subsection{Pseudo-Boiling} % entre [] pour le texte dans la TOC
+		\subsubsection{The Widom line}
+		The existence of this pseudo-transition is confirmed at loci where the
+		isobaric heat capacity ($C_p$) exhibits a relative maximum, either at
+		constant pressure or constant temperature, in the ($P_r,T_r$) plane.
+		These two definitions correspond to the Widom Line and the Characteristic
+		Isobaric Inflection Curve (CIIC), respectively. Recently, Lamorgese et al.
+		compiled classical cubic Equation of State (EOS) results to map the Widom
+		Line locus [19].
 
-		Ajout d'une nouvelle entrée d'index de la centrifugeuse\index{centrifugeuse}. Les entrées \gls{+a} \gls{2a} \gls{ca} \gls{Aa} \gls{aa} \gls{alpha} {\NoAutoSpaceBeforeFDP}sont dans la nomenclature. On peux utiliser les commandes personnelles pour appeler rapidement des formules lors de la rédaction \acc et passer des arguments aux commandes pour en modifier l'éxécution \emiss[\nu]{\Omega}.
+		Banuti, however, advanced this understanding further. By applying the
+		theoretical definition of an equilibrium state—where Gibbs free energy is
+		equal—and using a correlation from Waring [20] along with a
+		Soave-Redlich-Kwong-based calculation of the subcritical coexistence line's
+		slope, he proposed a similarity law that aligns both the coexistence and
+		Widom lines across a range of fluids [21]. The strength of Banuti's approach
+		lies in its solid theoretical foundation, its adaptability to various
+		fluids, and its simplicity.
+
+		\begin{equation}
+			P_r = exp\left[\frac{A_s}{min(T_r,1)}(T_r-1)\right]
+		\end{equation}
+
+		where $A_s$ is the critical slope of the coexistence line and can be
+		calculated using a cubic Equation of State. For example, applying
+		the Soave-Redlich-Kwong EOS results in the following expression:
+
+		\begin{equation}
+			A_{SRK} = 5.51934 + 4.80640\omega - 0.537437\omega^2
+		\end{equation}
 		
-		\subsubsection{Ce titre de partie ne s'affiche pas dans la TOC (tocdepth=2) mais dans la TOC locale (etocsettocdepth=3)}
+		where $\omega$ is the acentric factor of the considered species [21]. The
+		corresponding scaling parameter is defined as:
 
-			Voir (Tableaux~\ref{table:alpha}~et~\ref{table:butcher}).
+		\begin{equation}
+			P_r^* = P_r^{\frac{A_0}{A_s}}
+		\end{equation}
 
-			\paragraph{Ce titre de partie n'est pas numéroté (secnumdepth=3)}~~\\ % ~~\\ fait le saut de ligne après le titre de 'paragraph' sinon le texte suivant est accolé au titre
+		where $A_0$ is the result of Eq. (2.19) for a zero acentric factor. This
+		scaling parameter is illustrated graphically in Figure 2.3 below.
 
-				% ce saut de ligne indente le texte de 'paragraph' sinon le paragraphe débute à la marge
-				Ajout d'une citation entre parenthèses~\parencite{godard_borreliose_2012} avec la commande \textit{\textbackslash parencite}. Ajout d'une citation simple de \cite{zohdy_mapping_2012} avec la commande \textit{\textbackslash cite}. Ajout d'une citation avec année et page entre parenthèses de \textcite[9]{godard_borreliose_2012} avec la commande \textit{\textbackslash textcite}. La citation suivante, sur la même page, de \textcite[12]{godard_borreliose_2012} utilise ibidem avec le style de citation \textit{authoryear-ibid} et l'utilisation des options biblatex \textit{pagetracker} et \textit{ibidtracker}.
+	\subsection{Supercritical Latent Heat}
 
-			\paragraph{Plusieurs figures côte à côte}~~\\
+	To highlight the differences between subcritical and supercritical phase
+	transitions, Banuti [22] illustrated the contrast between low-pressure and
+	high-pressure state transitions. As shown in Figure 2.4, at low pressures,
+	the latent heat $\Delta h_{th}$ required to overcome intermolecular forces is
+	gradually replaced by a thermal shielding effect $\Delta h_{th}$ at higher
+	pressures. This effect forces the fluid to heat up before it can undergo the
+	transition.
 
-				\lipsum[66]
+	Furthermore, the pseudo-boiling phenomenon involves both dynamic and
+	thermodynamic state transitions [23]. Banuti et al. note in their study that
+	at very high pressures, this transition loses its thermodynamic nature and
+	is replaced by a dynamic shift from rigid to non-rigid liquids, which no
+	longer display liquid-like dispersion behavior.
 
+	Section 2.3 highlights the need for an accurate thermodynamic description of
+	heat capacities. Models of transport properties, such as thermal conductivity,
+	are discussed in Chapter 3 to ensure a proper understanding of supercritical
+	(SC) behavior.
 
-				\begin{figure}
-					\centering
-					\subfloat[Figure A]{\includegraphics[width=.5\textwidth, max height=2in]{example-image-a}}
-					\subfloat[Figure B]{\includegraphics[width=.5\textwidth, max height=2in]{example-image-b}}
-					\caption{Deux figures}
-					\label{fig:deux_figures}
-				\end{figure}
-
-			\paragraph{Paramétrer siunitx avec sisetup}~~\\
 			
-        		Célérité de la lumière dans le vide: $$c=\SI{2.99792458e8}{\meter\per\second}$$
 \section{Cubic EoS}
+
+In this section, some of the most popular cubic equations of state (CEOS) are
+introduced. Energy changes are expressed by applying the results from the
+previous section. The widespread use of these equations is due to three key
+reasons [4, 24]:
+
+    They are applicable across a wide range of pressures and temperatures. They
+    can represent compounds in both liquid and vapor phases. They are
+    well-suited for the study of supercritical fluids.
+
+All thermodynamic properties presented in this chapter are either obtained from
+the NIST Chemistry WebBook [16] or calculated using some EOS.
+		
+	\subsection{A bit of history}
+	This first section provides a brief historical overview of the EOS class
+	under consideration.
+
+	\subsubsection{The Corresponding States Principle and Criticalicity Condition}
+	Van der Waals introduced the Corresponding States Principle (CSP) with the
+	statement: 'Substances behave alike at the same reduced states. Substances
+	at the same reduced states are in corresponding states.' This principle is
+	of fundamental importance when considering supercritical fluids, as it
+	introduces the critical point of a fluid (denoted by the subscript $\phi_c$) as
+	a scaling factor, allowing for comparisons between different compounds. The
+	concept gave rise to the widely used 'reduced' thermodynamic variables. The
+	critical point serves as the ideal scaling reference for the application of
+	the corresponding states principle due to the existence of specific
+	criticality conditions, which are as follows:
+
+	\begin{equation}
+		\left(\frac{\partial P}{\partial V}\right)_{T=T_c}
+	\end{equation}
+
+	\begin{equation}
+		\left(\frac{\partial^2 P}{\partial V^2}\right)_{T=T_c}
+	\end{equation}
+
+	These conditions express the fact that the saturation curve reaches a
+	maximum at the critical point, and that the critical isotherm exhibits an
+	inflection point at this same critical point. In fact, the attractive and
+	repulsive parameters in cubic equations of state (CEOS) are derived from
+	these critical conditions, making all compounds comparable under the
+	Corresponding States Principle (CSP)
+
+	\subsubsection{Van der Waals EOS}
+	Historically, cubic equations of state (EOS) have been expressed in
+	pressure-explicit form. They were specifically designed to account for
+	intermolecular forces and accurately depict multiphase behavior. Van der
+	Waals was the first to address this challenge, introducing the first cubic
+	EOS, for which he was awarded the Nobel Prize in 1910 [25]. His
+	straightforward formulation utilizes two constant parameters, aa and bb, to
+	model attractive and repulsive forces, respectively
+
+	\begin{equation}
+		P = \frac{RT}{V-b} - \frac{a}{V^2}
+	\end{equation}
+
+	This formulation was developed into various equations of state (EOS)
+	throughout the second half of the 20th century, particularly to refine the
+	attractive term and make it more complex and accurate for different
+	applications.
+
+	\subsubsection{Redlich and Kwong's modification}
+	
+	In 1949, Redlich and Kwong, building on Van der Waals’ hard-sphere term,
+	introduced an improved equation of state (EOS) by incorporating a more
+	detailed temperature dependency into the attractive term [27]. This
+	modification allowed their EOS to provide more accurate predictions of fluid
+	behavior, particularly for gases near the critical point:
+
+	\begin{equation}
+		P = \frac{RT}{V-b} - \frac{a}{\sqrt(T_r)}\frac{1}{V(V+b)}
+	\end{equation}
+
+	Its widespread success stemmed from its adaptability, as Chueh and Prausnitz
+	demonstrated that it could accurately predict both liquid and vapor
+	saturation properties [28, 29].
+
+	\subsubsection{Acentric factor introdction}
+
+	Despite their success, both of these cubic EOS models fall short in
+	representing the geometric complexity and polar properties of certain
+	molecules. As illustrated in Figure 2.5, in complex polar
+	compounds,intermolecular forces arise from locations other than the
+	molecular centers.
+
+	To address this issue, Pitzer introduced the acentric factor $\omega$ in 1955
+	[30], as a measure of how much the thermodynamic properties of a substance
+	deviate from those predicted by the Corresponding States Principle (CSP).
+
+	\subsubsection{Soave's contribution}
+
+	In 1972, Soave, recognizing the significance of Pitzer's acentric factor,
+	extended the Redlich-Kwong equation of state (EOS) to create the widely
+	known Soave-Redlich-Kwong (SRK) EOS [31]:
+
+	\begin{equation}
+		P = \frac{RT}{V-b}-\frac{a[1+K_{SRK}(\omega)(1-\sqrt(T_r))]^2}{V(V+b)}
+	\end{equation}
+
+	\begin{equation}
+		K_{SRK}(\omega) = 0.480 + 1.574\omega -0.176\omega^2
+	\end{equation}
+
+	This formulation is particularly well-suited for accurately predicting vapor
+	pressure data and behavior in the near-critical region [24].
+
+	\subsubsection{Peng-Robinson equation of state}
+
+	In 1976, Peng and Robinson (PR) recognized that the SRK EOS overestimated
+	the critical compressibility factor of fluids ($Z_{c,SRK} = 1/3$). In response,
+	they proposed an alternative form for the attractive term along with a more
+	complex volume dependency [32]:
+
+	\begin{equation}
+		P = \frac{RT}{V-b}-\frac{a[1+K_{SRK}(\omega)(1-\sqrt(T_r))]^2}{V^2 +2V -b^2}
+	\end{equation}
+
+	\begin{equation}
+		K_{SRK}(\omega) = 0.37464 + 1.54226\omega -0.26992\omega^2
+	\end{equation}
+
+	This formulation improved the accuracy of liquid volume predictions and
+	provided more precise results around the critical point ($Z_{c,PR} = 0.307$).
+
+	\subsection{Derived Properties for a Generic CEOS}
+	This section focuses on establishing thermodynamic properties derived from
+	Cubic Equations of State (CEOS). To provide a foundation for this, we begin
+	with a few key reminders. Basic relationships between energy functions are
+	introduced, followed by the application of the first law of thermodynamics
+	to present fundamental equations that link differential expressions of
+	various thermodynamic variables. Maxwell's relations are also recalled.
+
+	Next, we demonstrate that Helmholtz free energy can serve as a generating
+	function for other thermodynamic quantities. The concept of residual properties
+	is then introduced, and these are applied to CEOS to determine the final
+	expressions for important state functions, based on a generic CEOS.
+
+	\subsubsection{Few reminders}
+
+	Basic Definitions: In this section, we revisit the definitions of key
+	thermodynamic quantities, including specific enthalpy $h$, Helmholtz free
+	energy $A_W$, Gibbs free energy $g$, and the compressibility factor $Z$.
+
+	\begin{equation}
+		h = e + P/\rho
+	\end{equation}
+
+	\begin{equation}
+		A_W = e + Ts
+	\end{equation}
+
+	\begin{equation}
+		g = h - Ts
+	\end{equation}
+
+	\begin{equation}
+		Z = \frac{P}{\rho RT}
+	\end{equation}
