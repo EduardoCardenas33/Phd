@@ -454,3 +454,52 @@ the NIST Chemistry WebBook [16] or calculated using some EOS.
 	\begin{equation}
 		Z = \frac{P}{\rho RT}
 	\end{equation}
+
+	Fundamental equations: At this point, we need to establish relationships between the energetic
+	variables and the PVT (Pressure-Volume-Temperature) state of a system. The
+	first law of thermodynamics provides the fundamental equation for internal
+	energy ee (see Eq. XXX). By combining this with the definitions of
+	specific enthalpy, Helmholtz free energy, and Gibbs free energy, we derive
+	the remaining fundamental equations. These equations are presented for a
+	single species or a mixture of constant composition. Additionally, to
+	transition between volume and density formulations, the following identity
+	is applied: $dv = -\frac{d\rho}{\rho ^2}$
+
+	\begin{equation}
+		de = Tds - Pdv = Tds + \frac{P}{\rho ^2}d\rho
+	\end{equation}
+
+	\begin{equation}
+		dh = Tds + vdP = Tds + \frac{1}{\rho}dP
+	\end{equation}
+
+	\begin{equation}
+		dA_W = -Pdv -sdT = \frac{P}{\rho ^2}d\rho - sdT
+	\end{equation}
+
+	\begin{equation}
+		dg = vdP - sdT = \frac{1}{\rho}dP -sdT
+	\end{equation}
+
+	Maxwell rules: Some mathematical tools required to derive the so-called
+	Maxwell relations are presented in Section A.1. The Maxwell relations,
+	derived from Equations (2.32a) through (2.32d), are then given as follows:
+
+	\begin{equation}
+		\left(\frac{\partial T}{\partial \rho}\right)_s = \frac{1}{\rho ^2}\left(\frac{\partial P}{\partial s}\right)_{\rho}
+	\end{equation}
+
+	\begin{equation}
+		\left(\frac{\partial T}{\partial P}\right)_s = \left(\frac{\partial 1/\rho}{\partial s}\right)_P 
+	\end{equation}
+
+	\begin{equation}
+		\frac{1}{\rho ^2}\left(\frac{\partial P}{\partial T}\right)_{\rho} = -\left(\frac{\partial s}{\partial \rho}\right)_T
+	\end{equation}
+
+	\begin{equation}
+		\left(\frac{\partial 1/\rho}{\partial T}\right)_P = -\left(\frac{\partial s}{\partial P}\right)_T
+	\end{equation}
+
+	These relations will soon be used to demonstrate that Helmholtz free energy
+	serves as a generating function for other important thermodynamic variables.
