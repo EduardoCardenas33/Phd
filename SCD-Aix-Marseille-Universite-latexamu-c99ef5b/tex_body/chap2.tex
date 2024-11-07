@@ -503,3 +503,353 @@ the NIST Chemistry WebBook [16] or calculated using some EOS.
 
 	These relations will soon be used to demonstrate that Helmholtz free energy
 	serves as a generating function for other important thermodynamic variables.
+
+	\subsection{Residual Properties}
+
+	In this section, we introduce residual properties, which serve as transition
+	functions between a fluid in a real gas state and its ideal gas equivalent
+	at the same thermodynamic conditions ($\rho$,$T$). Here, $\rho$ (density) and $T$
+	(temperature) are used to describe the thermodynamic state, as these are the
+	independent variables in cubic equation of state (CEOS) formulations.
+
+For a given state function $\phi$, its residual property $\phi^R$​ is defined as
+follows:
+
+\begin{equation}
+	\phi^r(\rho, T) = \phi(\rho, T) - \phi^*(\rho, T) = 
+\end{equation}
+
+The key idea here is to utilize residual properties in conjunction with the
+generating properties of the Helmholtz energy and a suitable description of the
+ideal gas state. For this purpose, a reformulated version of eq. (2.34) is used
+to analytically calculate variations of $A_W(\rho,T)$ along a strategically
+chosen path. Since $A_W$ is a state function, this path can be freely selected.
+
+A practical approach is to integrate residual quantities along isotherms, given
+that ideal gas properties depend solely on temperature. For mixtures (see
+Section 2.4.4), these paths are also iso-compositional, although compositional
+terms are omitted here for simplicity.
+
+Furthermore, since ideal gas properties are temperature-dependent and follow
+$Z=1$ (the PVT relationship for ideal gases), we simplify the integration by
+taking the limit $V=+\inf$ (or equivalently $\rho=0$). This approach eliminates
+integration constants that would otherwise cancel out throughout the entire
+calculation. The resulting simplifications are illustrated in the following
+equation, where redundant constants are explicitly removed through matching
+terms:
+
+\[
+\Delta_{(T_0, \rho_0) \rightarrow (T, \rho)} \phi = \Delta_{(T_0, \rho_0) \rightarrow (T_0, \rho)} \phi^* + \Delta_{(T_0, \rho_0) \rightarrow (T, \rho)} \phi^* + \Delta_{(T, \rho)^* \rightarrow (T, \rho)} \phi
+\]
+\[
+= \phi^*(T_0) - \phi(T_0, \rho_0) + \phi^*(T) - \phi^*(T_0) + \phi(T, \rho) - \phi^*(T)
+\]
+
+The complete integration path for calculating the thermodynamic state function
+$\phi$ is illustrated in Figure 2.7.
+
+First, Section 2.4.3.3 will demonstrate that the residual Helmholtz energy acts
+as a generating function for other residual properties of interest. Then, in
+Section 2.4.3.4, these resulting expressions will be transformed to relate key
+residual properties to the compressibility factor ZZ and its derivatives.
+Finally, these expressions will be reformulated in terms of variables compatible
+with pressure-explicit equations of state (EOS), yielding temperature- and
+density-dependent relationships.
+
+\subsection{Residual Properties from Helmholtz Energy}
+
+In this section, we will use the expressions from Section 2.4.3.1 along with
+fundamental definitions to link residual properties to the residual Helmholtz
+energy. The goal of this approach is to demonstrate that $A_W^R$ serves as a
+generating function for other residual properties. Starting from the definition
+of $A_W^R$ and equation (2.34), we derive the total differential of
+$\frac{A_W^R}{rT}$. By applying the properties of exact differentials, we reveal the
+connections between the residual compressibility factor, residual internal
+energy, and the derivatives of $A_W(\rho,T)$.
+
+\begin{equation}
+	\[
+\mathrm{d} \left( \frac{A_W^R}{r T} \right) = \frac{Z^R}{\rho} \, \mathrm{d}\rho - \frac{e^R}{r T^2} \, \mathrm{d}T 
+\implies 
+\begin{cases}
+    Z^R = \rho \left( \frac{\partial}{\partial \rho} \left( \frac{A_W^R}{r T} \right) \right)_{T} \\[10pt]
+    \frac{e^R}{r T} = -T \left( \frac{\partial}{\partial T} \left( \frac{A_W^R}{r T} \right) \right)_{\rho}
+\end{cases}
+\]
+\end{equation}
+
+Residual entropy and enthalpy are then derived from the residual internal energy
+and Helmholtz energy. This is achieved by applying equations (2.31a) and (2.31b)
+to the ideal gas state and subtracting the results from those of the real gas
+state.
+
+\begin{equation}
+	\frac{s^R}{r} = \frac{e^R}{rT} - \frac{A^R_W}{rT} 
+\end{equation}
+
+\begin{equation}
+	\frac{h^R}{rT} = \frac{e^R}{rT} + Z^R
+\end{equation}
+
+Finally, as before, $Z^R , s^R, h^R$ and $e^R$ can be explicited through $A_W^R$:
+
+\begin{equation}
+	Z^R = Z - 1 = \rho\left(\frac{\partial(A_W^R/rT)}{\partial\rho}\right)_T
+\end{equation}
+
+\begin{equation}
+	\frac{e^R}{rT} = -T \left(\frac{\partial(A_W^R/rT)}{\partial T}\right)_\rho
+\end{equation}
+
+\begin{equation}
+	\frac{s^R}{r} = -T \left(\frac{\partial(A_W^R/rT)}{\partial T}\right)_\rho - \frac{A^R_W}{rT}
+\end{equation}
+
+\begin{equation}
+	\frac{h^R}{rT} = -T \left(\frac{\partial(A_W^R/rT)}{\partial T}\right)_\rho + \rho\left(\frac{\partial(A^R_W/rT)}{\partial\rho}\right)_T
+\end{equation}
+
+\begin{equation}
+	\frac{g^R}{rT} = \rho\left(\frac{\partial(A^R_W/rT)}{\partial\rho}\right)_T + \frac{A^R_W}{rT}
+\end{equation}
+
+\subsection{Residual Properties from $Z$ along and Isotherm}
+
+In the previous sections, it was shown that the residual term $\frac{A_W^R}{rT}$ can
+serve as a fundamental building block for other residual properties. Now,
+integration along an isothermal path (and an iso-compositional path in the case
+of mixtures) is performed to obtain density-explicit integrals. Starting from
+equation (2.37), equation (2.40a) is derived by choosing this specific
+integration path. Differentiating equation (2.40a) at constant density then
+yields equation (2.40b).
+
+\begin{equation}
+	\frac{A^R_W}{rT} = \int_0^\rho\frac{Z^R}{\rho}d\rho
+\end{equation}
+
+\begin{equation}
+	\frac{e^R}{rT} = -T\int_0^\rho\left(\frac{\partial Z^R}{\partial T}\right)_\rho\frac{d\rho}{\rho}
+\end{equation}
+
+Residual entropy and enthalpy are then explicited using Equations (2.38a) and
+(2.38b):
+
+\begin{equation}
+	\left(\frac{s^R}{r}\right)_T = -T\int_0^\rho\left(\frac{\partial Z^R}{\partial T}\right)_\rho\frac{d\rho}{\rho} - \int_0^\rho\frac{Z^R}{\rho}d\rho 
+\end{equation}
+
+\begin{equation}
+	\left(\frac{h^R}{rT}\right)_T = -T\int_0^\rho\left(\frac{\partial Z^R}{\partial T}\right)_\rho\frac{d\rho}{\rho} + Z^R
+\end{equation}
+
+\subsection{Application to cubic Equations of State}
+
+From Section 2.4.3.4, only a few key components are needed to derive analytical
+expressions for all residual functions. This section aims to compute these
+expressions using a cubic equation of state. The pressure-volume-temperature
+(PVT) relationship described by this EOS takes the form of equation (2.29),
+restated here for reference:
+
+MAKE THAT USING PENG ROBINSON EQUATION OF STATE.
+
+\subsection{Heat Capacities}
+Isochoric Heat Capacity: First, a comparison is made to highlight the existence
+of a departure function for $c_v$. By definition,
+\begin{equation}
+	\[
+c_v = \left( \frac{\partial e}{\partial T} \right)_\rho = c_v^* + \underbrace{\left( \frac{\partial e^R}{\partial T} \right)_\rho}_{\equiv c_v^R},
+\]
+\end{equation}
+
+Here, $c_v^*$ represents the isochoric heat capacity of the ideal gas, while
+$c_v^R$ denotes the residual isochoric heat capacity, which still needs to be
+determined. This calculation will be based on Equation (2.45b)."
+
+Isobaric Heat Capacity: 
+
+\subsection{Speed of Sound}
+The speed of sound, $c$, is calculated using the following expression from [33].
+The partial derivative in this expression is explicitly detailed in Equation
+(2.49b):
+
+\section{Modeling of transport Coefficients}
+As discussed in Section 2.3.2.2, the pseudo-boiling transition is both a
+thermodynamic and dynamic process [23], highlighting the need for an accurate
+description of transport properties in pseudo-boiling scenarios. This chapter
+focuses on the models used in this study to account for these phenomena. It is
+organized into two sections:
+
+    Viscosity (shear viscosity) correlations: First, we examine viscosity
+    correlations, as viscosity plays a key role in the momentum conservation
+    equation (Equation 1.2) and drives shear stresses (Equation 1.3).
+
+    Thermal conductivity: Next, we discuss the thermal transport coefficient, or
+    thermal conductivity. This parameter influences thermal conduction and is
+    essential for calculating the heat flux (refer to Equation 1.9), which is
+    included in the total energy conservation equation (Equation 1.7).
+
+\subsection{Viscosity}
+
+To determine the viscosity, we use the correlation developed by A. Laesecke and
+C. D. Muzny, as it is specifically designed for carbon dioxide.
+The viscosity correlation is defined as:
+\begin{equation}
+    \eta(T,\rho) = \eta_0(T) + \rho\eta_1(T) + \Delta\eta_r(\rho,T) + \Delta\eta_c(\rho,T)
+\end{equation}
+
+In this equation:
+\begin{itemize}
+    \item $\eta$ represents the dynamic viscosity, measured in mPa·s,
+    \item $T$ is the temperature in Kelvin (K), and
+    \item $\rho$ is the density in kg/m$^3$.
+\end{itemize}
+
+Each term in the expression has a specific role:
+\begin{itemize}
+    \item $\eta_0(T)$ is the viscosity at zero density,
+    \item $\eta_1(T)$ represents the linear-in-density contribution to the viscosity,
+    \item $\Delta \eta_r(\rho, T)$ is the residual viscosity, accounting for interactions beyond the ideal gas limit, and
+    \item $\Delta \eta_c(\rho, T)$ describes the enhancement of viscosity near the gas-liquid critical point.
+\end{itemize}
+
+\subsection{Zero density viscosity}
+\begin{equation}
+    \eta_0(T) = \frac{1.0055\sqrt{T}}{a_0 + a_1T^{\frac{1}{6}}+ a_2\exp{a_3T^{\frac{1}{3}}} + \frac{a_4 + a_5T^{\frac{1}{3}}}{\exp{T^{\frac{1}{3}}}} + a_6\sqrt{T}}
+\end{equation}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{c|c}
+        $i$ & $a_i$\\
+        \hline  
+        0 & 1749.354893188350\\
+        1 & -369.069300007128\\
+        2 & 5423856.34887691\\
+        3 & -2.21283852168356\\
+        4 & -269503.247933569\\
+        5 & 73145.021531826\\
+        6 & 5.34368649509278\\
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:my_label1}
+\end{table}
+
+
+\subsection{Linear-in density viscosity}
+
+\begin{equation}
+    \eta_1(T) = \eta_0(T)B^*_\eta(T^*)\sigma^3N_A/M 
+\end{equation}
+
+\begin{equation}
+    B^*_\eta(T^*)=b_0+\sum^8_{i=1}\frac{b_i}{(T^*)^{t_i}}
+\end{equation}
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c|c|c}
+    $i$&$b_i$&$t_i$\\
+    \hline
+    0   & -19.572881    &—\\  
+    1   & 219.73999     &0.25\\       
+    2   & -1015.322 6   &0.5 \\   
+    3   & 2471.012 5    &0.75\\   
+    4   & -3375.171 7   &1  \\
+    5   & 2491.659 7    &1.25\\   
+    6   & -787.260 86   &1.5 \\   
+    7   & 14.085 455    &2.5 \\   
+    8   & -0.346 641 58 &5.5\\
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:my_label2}
+\end{table}
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c c}
+    \hline
+    \hline
+    $\gamma$   & 8.062 827 374 812 77    \\  
+    $c_1$ & 0.360 603 235 428 487    \\       
+    $c_2$   & 0.121 550 806 591 497   \\
+    \hline
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:my_label3}
+\end{table}
+
+
+\subsection{Residual viscosity}
+
+\begin{equation}
+    \Delta\eta_r(T,\rho) = \eta_{tL}(c_1T_r\rho_r^3 + (\rho_r^2 + \rho_r^\gamma)/(T_r -c_2))
+\end{equation}
+
+\begin{equation}
+    \eta_{tL} = \frac{\rho_{tL}^{2/3} \sqrt{RT_t}}{M^{1/6}N_A^{1/3}}
+\end{equation}
+
+\subsection{Critical enhancement viscosity}
+This viscosity is really small and is only important near to the critical condition (For $CO_2$ from 304.29$\leq T\leq$304.99 K. Because this value is really small it's going to be neglected in the predictions of the total viscosity (for more information read the paper). 
+\begin{equation}
+    \Delta\eta_c = \eta_b(T,\rho)\exp{\left(z_\eta H\right)}
+\end{equation}
+
+\section{Conductivity}
+In order to determine the conductivity, the paper in titled Reference Correlation of the Thermal Conductivity of Carbon Dioxide from the Triple Point to 1100 K and up to 200 MPa was used.
+
+According to this paper, the conductivity could be calculated as:
+\begin{equation}
+    \lambda(T,\rho) = \lambda_0(T) + \Delta\lambda(T,\rho) + \Delta\lambda_c(T,\rho)    
+\end{equation}
+
+\subsection{Dilute gas conductivity}
+\begin{equation}
+    \lambda_0(T) = \frac{\sqrt{T_r}}{\sum^3_{k=0}\frac{L_k}{T_r^k}}
+\end{equation}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{c|c}
+         $k$ & $L_k$  \\
+         \hline
+         0  &   $1.51874307\times10^{-2}$\\
+         1  &   $2.80674040\times10^{-2}$\\
+         2  &   $2.28564190\times10^{-2}$\\
+         3  &   $-7.41624210\times10^{-3}$\\
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:my_label}
+\end{table}
+
+\subsection{Residual conductivity}
+\begin{equation}
+    \Delta\lambda(\rho,T) = \sum_{i=1}^6(B_{1,i} + B_{2,i}(T/T_c))(\rho/\rho_c)^i
+\end{equation}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{c|c|c}
+         $i$ & $B_{1,i}(Wm^{-1}k^{-1})$  & $B_{2,i}(Wm^{-1}k^{-1})$\\ 
+         \hline
+         1  &   $1.00128\times10^{-2}$   & $4.3089\times10^{-3}$\\
+         2  &   $5.60488\times10^{-2}$   & $-3.58563\times10^{-2}$\\
+         3  &   $-8.11620\times10^{-2}$  & $6.71480\times10^{-2}$\\
+         4  &   $6.24337\times10^{-2}$   & $-5.22855\times10^{-2}$\\
+         5  &   $-2.06336\times10^{-2}$  & $1.74571\times10^{-2}$\\
+         6  &   $2.53248\times10^{-3}$   & $1.96414\times10^{-3}$\\       
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:my_label}
+\end{table}
+
+\subsection{Critical enhancement conductivity}
+
+\begin{equation}
+    \Delta\lambda_c(\rho,T) = \frac{-17.47-44.88\Delta T_c}{0.8563-exp[8.865\Delta T_c +4.16\Delta \rho_c^2 + 2.302\Delta T_c \Delta\rho_c - \Delta\rho_c^3] -0.4503\Delta\rho_c - 7.197\Delta T_c}    
+\end{equation}
+
+where $\Delta T_c= \frac{T}{T_c}-1$ and $\frac{\rho}{\rho_c}-1$
+
+
+\subsection{Thermal Conductivity}
