@@ -1,179 +1,77 @@
-\chapter{Intitulés des doctorats AMU}
-\label{chap:doctorats}
+\chapter{Dynamic Pressure Equation}
+\label{appendix:2ndOrderMoments}
 
-		\begin{itemize}
-		\item Discipline
-			\begin{itemize}
-			\item Spécialité
-			\end{itemize}
-		\end{itemize}
-		
-	\addsec*{ED 62 SCIENCES DE LA VIE ET DE LA SANTE}\label{ed-62-sciences-de-la-vie-et-de-la-sante}
+The continuity equation serves as the starting point:
 
-		\begin{itemize}
-		\item Biologie santé
-			\begin{itemize}
-			\item Biochimie structurale
-			\item Génomique et  Bioinformatique
-			\item Biologie du développement
-			\item Immunologie
-			\item Génétique
-			\item Microbiologie
-			\item Biologie végétale
-			\item Neurosciences
-			\item Oncologie
-			\item Maladies infectieuses
-			\item Pathologie vasculaire et nutrition
-			\item Ethique
-			\item Recherche clinique et Santé Publique
-			\item Biotechnologie
-			\end{itemize}
-		\end{itemize}
+\begin{equation}
+\frac{\partial \rho}{\partial t} + \frac{\partial (\rho u_\alpha)}{\partial x_\alpha} = 0.
+\end{equation}
 
-	\addsec*{ED 67 SCIENCES JURIDIQUES ET POLITIQUES}\label{ed-67-sciences-juridiques-et-politiques}
+Multiplying the entire expression by the square of the lattice speed of sound \(c_s^2\) yields:
 
-		\begin{itemize}
-		\item Droit
-			\begin{itemize}
-			\item Droit Privé
-			\item Droit Public
-			\item Histoire du Droit
-			\end{itemize}
-		\item Science Politique
-		\end{itemize}
+\begin{equation}
+\frac{\partial (\rho c_s^2)}{\partial t} + c_s^2 \frac{\partial (\rho u_\alpha)}{\partial x_\alpha} = 0.
+\end{equation}
 
-	\addsec*{ED 184 MATHEMATIQUES ET INFORMATIQUE}\label{ed-184-mathematiques-et-informatique}
+To proceed, a low Mach number expansion of the density and velocity fields is performed:
 
-		\begin{itemize}
-		\item Mathématiques
-		\item Informatique
-		\item Automatique
-		\end{itemize}
+\begin{equation}
+\rho = \rho^{(0)} + M\!a^2 \rho^{(1)}, \qquad u_\alpha = u_\alpha^{(0)} + M\!a^2 u_\alpha^{(1)}.
+\end{equation}
 
-	\addsec*{ED 250 SCIENCES CHIMIQUES DE MARSEILLE}\label{ed-250-sciences-chimiques-de-marseille}
+Substituting into the continuity equation yields:
+\begin{align}
+\frac{\partial\left( \rho^{(0)} + M\!a^2 \rho^{(1)} \right)c_s^2}{\partial t} 
++ c_s^2 \frac{\partial}{\partial x_\alpha}\left[ \left( \rho^{(0)} + M\!a^2 \rho^{(1)} \right)\left( u_\alpha^{(0)} + M\!a^2 u_\alpha^{(1)} \right) \right] = 0.
+\end{align}
 
-		\begin{itemize}
-		\item Sciences Chimiques
-		\end{itemize}
+Expanding and collecting terms:
+\begin{align}
+\frac{\partial (\rho^{(0)})}{\partial t}  c_s^2
++ M\!a^2 \frac{\partial(\rho^{(1)})}{\partial t} c_s^2 
++ c_s^2 \frac{\partial}{\partial x_\alpha} \left( \rho^{(0)} u_\alpha^{(0)} 
++ M\!a^2 \left( \rho^{(1)} u_\alpha^{(0)} + \rho^{(0)} u_\alpha^{(1)} \right) \right) = 0.
+\end{align}
 
-	\addsec*{ED 251 SCIENCES DE L'ENVIRONNEMENT}\label{ed-251-sciences-de-lenvironnement}
+The terms are now separated by Mach number order:
 
-		\begin{itemize}
-		\item Sciences de l'Environnement
-			\begin{itemize}
-			\item Anthropologie biologique
-			\item Ecologie
-			\item Géosciences 
-			\item Génie des procédés
-			\item Océanographie
-			\item Chimie 
-			\item Environnement et santé 
-			\end{itemize}
-		\end{itemize}
+\paragraph{Zeroth-order (O(0)) terms:}
+\begin{equation}
+\frac{\partial(\rho^{(0)})}{\partial t} c_s^2 + c_s^2 \frac{\partial (\rho^{(0)} u_\alpha^{(0)})}{\partial x_\alpha} = 0,
+\end{equation}
+which is consistent with the continuity equation.
 
-	\addsec*{ED 352 PHYSIQUE ET SCIENCES DE LA MATIERE}\label{ed-352-physique-et-sciences-de-la-matiere}
+\paragraph{Second-order (O(M\!a\textsuperscript{2})) terms:}
+\begin{equation}
+\frac{\partial (\rho^{(1)} c_s^2)}{\partial t} + c_s^2 \frac{\partial}{\partial x_\alpha}(\rho^{(1)} u_\alpha^{(0)} + \rho^{(0)} u_\alpha^{(1)}) = 0.
+\end{equation}
 
-		\begin{itemize}
-		\item Physique et Sciences de la Matière 
-			\begin{itemize}
-			\item Astrophysique et Cosmologie
-			\item Biophysique
-			\item Energie, Rayonnement et Plasma
-			\item Instrumentation
-			\item Optique, Photonique et Traitement d'Image
-			\item Physique des Particules et Astroparticules
-			\item Physique Théorique et Mathématique
-			\item Matière Condensée et Nanosciences 
-			\end{itemize}
-		\end{itemize}
+The dynamic pressure is defined as:
 
-	\addsec*{ED 353 SCIENCES POUR L'INGENIEUR: MECANIQUE, PHYSIQUE, MICRO ET NANOELECTRONIQUE}\label{ed-353-sciences-pour-lingenieur-mecanique-physique-micro-et-nanoelectronique}
+\begin{equation}
+P_{\text{dyn}} = c_s^2 M\!a^2 \rho^{(1)},
+\end{equation}
 
-		\begin{itemize}
-		\item Sciences pour l'Ingénieur
-			\begin{itemize}
-			\item Energétique
-			\item Mécanique et physique des fluides 
-			\item Acoustique
-			\item Mécanique des solides
-			\item Micro et Nanoélectronique
-			\item Génie civil et architecture
-			\item Nucléaire de fission 
-			\item Fusion magnétique
-			\end{itemize}
-		\end{itemize}
+so the second-order equation becomes:
+\begin{equation}
+\frac{\partial P_{\text{dyn}}}{\partial t} + c_s^2 \frac{\partial}{\partial x_\alpha} \left( M\!a^2 (\rho^{(1)} u_\alpha^{(0)} + \rho^{(0)} u_\alpha^{(1)}) \right) = 0.
+\end{equation}
 
-	\addsec*{ED 354 LANGUES, LETTRES ET ARTS}\label{ed-354-langues-lettres-et-arts}
+To express this in terms of known variables, the mass flux is expanded:
+\begin{align*}
+\rho u_\alpha &= (\rho^{(0)} + M\!a^2 \rho^{(1)})(u_\alpha^{(0)} + M\!a^2 u_\alpha^{(1)}) \\
+&= \rho^{(0)} u_\alpha^{(0)} + M\!a^2(\rho^{(0)} u_\alpha^{(1)} + \rho^{(1)} u_\alpha^{(0)}) + \mathcal{O}(M\!a^4).
+\end{align*}
 
-		\begin{itemize}
-		\item Etudes anglophones
-		\item Etudes germaniques
-		\item Etudes slaves
-		\item Langues et littératures d'Asie
-			\begin{itemize}
-			\item Chinois
-			\item Vietnamien
-			\item Coréen
-			\end{itemize}
-        	\item Arts
-            		\begin{itemize}
-            		\item Arts plastiques 
-            		\item Sciences de l'art
-            		\item Musique et musicologie
-            		\item Etudes cinématographiques et audiovisuelles
-            		\item Arts de la scène
-            		\item Médiation culturelle des arts
-            		\end{itemize}
-        	\item Pratique et théorie de la création artistique et littéraire
-		\item Langue et Littératures françaises
-		\item Littérature générale et comparée
-		\item Langues, littératures et civilisations romanes 
-			\begin{itemize}
-			\item Etudes hispaniques et latino-américaines
-			\item Etudes italiennes
-			\item Etudes roumaines
-			\end{itemize}
-		\end{itemize}
+Neglecting higher-order terms, the second-order contribution is isolated:
 
-	\addsec*{ED 355 ESPACES, CULTURES, SOCIETES}\label{ed-355-espaces-cultures-societes}
+\begin{equation}
+M\!a^2 (\rho^{(1)} u_\alpha^{(0)} + \rho^{(0)} u_\alpha^{(1)}) = \rho u_\alpha - \rho^{(0)} u_\alpha^{(0)}.
+\end{equation}
 
-		\begin{itemize}
-		\item Géographie
-		\item Démographie
-		\item Urbanisme et Aménagement du territoire
-		\item Préhistoire
-		\item Archéologie
-		\item Histoire de l'Art
-		\item Histoire
-		\item Sciences de l'Antiquité
-		\item Mondes arabe, musulman et sémitique
-		\item Etudes romanes
-		\item Sociologie
-		\item Anthropologie
-		\item Architecture
-		\item Cultures et Sociétés d'Asie
-		\end{itemize}
+Substituting into the previous equation yields the final form:
+\begin{equation}
+\frac{\partial P_{\text{dyn}}}{\partial t} + c_s^2 \frac{\partial}{\partial x_\alpha} \left( \rho u_\alpha - \rho^{(0)} u_\alpha^{(0)} \right) = 0.
+\end{equation}
 
-	\addsec*{ED 356 COGNITION, LANGAGE, EDUCATION}\label{ed-356-cognition-langage-education}
-
-		\begin{itemize}
-		\item Philosophie
-		\item Psychologie
-		\item Sciences du Langage
-		\item Sciences de l'Information et de la Communication
-		\item Sciences de l'Education
-		\item Sciences Cognitives
-		\end{itemize}
-
-	\addsec*{ED 372 SCIENCES ECONOMIQUES ET DE GESTION}\label{ed-372-sciences-economiques-et-de-gestion}
-
-		\begin{itemize}
-		\item Sciences de Gestion
-		\item Sciences Economiques
-		\end{itemize}
-
-	\addsec*{ED 463 SCIENCES DU MOUVEMENT HUMAIN}\label{ed-463-sciences-du-mouvement-humain}
-
-		\begin{itemize}
-		\item Sciences du Mouvement Humain 
-		\end{itemize}
+This equation governs the evolution of the dynamic pressure and is valid under the low Mach number approximation.

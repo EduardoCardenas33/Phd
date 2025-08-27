@@ -1,47 +1,366 @@
-\chapter{ Résultats}
-\chaptertoc{}
+\chapter{ Immersed Boundary Methods}
 
-\section{Modèles}
+\section{Overview of the Immersed Boundary Method in CFD}
+The Immersed Boundary (IB) Method is a computational approach in CFD used to
+simulate fluid-structure interactions and complex boundary problems. It offers
+flexibility in handling interfaces between fluids and solid structures, which
+are represented within a fixed (usually Cartesian) grid, rather than requiring
+body-fitted grids that conform to complex geometries. The IB method was
+pioneered to study biological flows and has since expanded to a wide range of
+fields including engineering, medicine, and environmental sciences. Below, we
+trace the key developments that have shaped the evolution and application of the
+IB method.
 
-	%% tableau nécessitant des filets verticaux
-	\begin{table}[h!tbp]
-		\begin{center}
-			\begin{tabular}{c|*{5}{c}}
-			0\\
-			$c_2$    & $a_{21}$\\
-			$c_3$    & $a_{31}$ & $a_{32}$\\
-			$\vdots$ & $\vdots$ &           & $\ddots$\\
-			$c_s$    & $a_{s1}$ & $a_{s2}$  & $\cdots$ & $a_{s,s - 1}$\\
-			\hline
-			         & $b_1$    & $b_2$     & $\cdots$ & $b_{s-1}$     & $b_s$\\
-			\end{tabular}
-		\end{center}
-		\caption{Tableau de Butcher}
-		\label{table:butcher}
-	\end{table}
+\subsection{Origins and Early Development: Peskin’s Work (1970s)}
+The IB method was first introduced by Charles Peskin in the early 1970s to model
+blood flow through heart valves. Peskin's approach was innovative in that it
+allowed for the simulation of moving boundaries (such as the flexible heart
+valves) within a fixed grid. Traditionally, simulating complex structures would
+require deforming the mesh to match the structure, which is computationally
+intensive and can lead to numerical instability.
 
-	%% tableau avec booktabs (sans filets verticaux)
-	\begin{table}[h!tbp]
-		\begin{center}
-			\begin{tabular}{@{}lcc@{}} \toprule
-			$\lambda$ (nm) & $(\alpha_{\lambda}/\alpha_{426,7})_{moy}$ & écart type \\ \midrule
-			391,9 \& 392,1 & 0,12 & 0,01 \\
-			588,9 \& 589,2 & 0,45 & 0,07 \\
-			657,8 \& 658,3 & 6,70 & 0,06 \\
-			711,3 & 0,16 & 0,01 \\
-			711,6 & 0,15 & 0,01 \\
-			712 & 0,31 & 0,02 \\ \bottomrule
-			\end{tabular}
-		\end{center}
-		\caption[Valeur moyenne et écart type des rapports $\alpha_{\lambda}/\alpha_{426,7}$]{Valeur moyenne et écart type des rapports $\alpha_{\lambda}/\alpha_{426,7}$ mesurés pour les chocs plasma de la deuxième série.}
-		\label{table:alpha}
-	\end{table}
+Peskin's original IB method employed a two-phase approach:
 
-%\newpage
+\begin{enumerate}
+    \item A Lagrangian representation for the boundary or interface, where
+    discrete points represented the boundary, allowing for the flexibility of
+    movement.
+    \item An Eulerian grid for the fluid domain, which remained fixed in space.
+\end{enumerate}
 
-\section{Articles}
+The Lagrangian points interact with the Eulerian grid through a smoothing
+function, which distributes forces from the boundary to the fluid domain and
+interpolates fluid velocities back to the boundary points.
 
-	\fullcite{mohamed_clinical_2014}
-	% avant d'intégrer un article dans votre thèse, consulter http://www.sherpa.ac.uk/romeo/ si vous souhaitez diffuser sur internet
-	\includepdfset{pagecommand=\thispagestyle{scrheadings}} % ajoute la numérotation continue des pages aux fichiers pdf importés
-	\includepdf[scale=0.9,pages=-]{BMC-1471-2334-14-S2-O1.pdf} % 'scale' ajuste la taille du pdf, vous pouvez affiner en fonction des marges
+\section{General Formulation}
+Para ilustrar de manera grafica, la siguiente figura, muestra un esquema de como
+se representan la parte fluida y solida en el metodo de fronteras sumergidas de
+manera discreta.
+
+En este esquema, se designa la parte fluida $\omega_f$ como nodos eulerianos
+representados en color negro, mientras que la parte solida $\omega_s$ es
+designada como Lagrangiana y en color rojo.  
+
+Otra convecion que utilizada en la presente documento es la de utilizar letras
+mayusculas para la parte Lagrangiana y minusculas para la parte euleriana.
+
+En general, el metodo IB consiste en la representacion del solido por medio de
+terminos fuente, ya sea de cantidad de movimiento o de energia. Es decir, en
+lugar de representar completamente el solido, solo se veran sus efectos en los
+puntos Lagrangianos. Estos efectos, luego seran repartidos hacia el campo
+euleriano mediante una operacion conocida como Spreading.
+
+\subsection{Source term in momentum equation}
+
+This method originally was developed using the Navier Stokes equations. As a
+first approach and to have a good comprehension of the method, a brief
+demonstration using the classical Navier Stokes equations is showed. Then, a
+similar development is developed but using the Lattice Boltzmann Method. After
+making that, we can profite an reduce the algorithme using some properties and
+characteristiques of the LBM.
+
+\subsubsection{Similar to Navier Stokes developments}
+
+La ecuacion general de la conservacion de la cantidad de movimiento en un fluido puede ser
+descrita de la siguiente manera;
+
+\begin{equation}
+	\frac{\partial \rho u_\alpha}{\partial t} + \frac{ \partial(\rho u_\alpha u_\beta + p\delta_{\alpha\beta}-\Pi_{\alpha\beta})}{\partial x_\beta} = F
+\end{equation}
+
+\begin{equation}
+	\frac{\partial \rho u_\alpha}{\partial t}  = F + RHS
+\end{equation}
+
+De esta ecuacion, podemos decir que el termino de fuerza representa la influencia del solido,
+en el dominio fluido. Sin embargo por el momento este termino es desconocido.
+
+Para obtener la funcion matematica que permite calcular el termino de fuerza, el
+metodo se divide en dos etapas. Una primera etapa donde se realiza una
+simualcion sin tomar en cuenta el termino fuerza, esta etapa es conocida como la
+etapa de prediccion.
+
+\begin{equation}
+	\frac{\partial \rho u_\alpha}{\partial t}  = RHS
+\end{equation}
+
+Discretizando la ecuacion tenemos:
+\begin{equation}
+	\frac{ (\rho u)^* - (\rho u)^n}{\Delta t}  = RHS
+\end{equation}
+
+Si discretizamos la ecuacion original tenemos:
+\begin{equation}
+	\frac{ (\rho u)^{n+1} - (\rho u)^n}{\Delta t}  = RHS + F
+\end{equation}
+
+Si quisieramos que en un solo paso de tiempo, la velocidad alcance el valor de
+la velocidad target, la expresion se transforma en: 
+
+\begin{equation}
+	\frac{ (\rho u)^{t} - (\rho u)^n}{\Delta t}  = RHS + F
+\end{equation}
+
+Finalmente tenemos que:
+
+\begin{equation}
+	F = \frac{(\rho u)^{t} - (\rho u)^*}{\Delta t}
+\end{equation}
+
+
+En resumen, para aplicar el metodo IB y poder determinar la influencia del
+solido en el fluido, debemos aplicar dos veces la ecuacion de conservacion de
+momento de mecanica de fluidos. Una primera vez para poder hacer una prediccion
+y una segunda para poder hacer una correcion aplicando el termino de fuerza.
+
+
+
+
+
+\section{Choice of interpolation kernel}
+En la literatura existen diversos kernel de interpolacion, tales como los
+propuestos por Peskin, Roma, etc. Estos Kernel deben de cumplir con ciertas
+condiciones para poder permitir una buena interpoalcion y spreading para la
+comunicacion entre el dominio fluido y el dominio solido. La principal
+condicion es que el kernel sea de clase uno, $C_1$ al menos.
+
+\begin{equation}
+	\delta_h(x) = \frac{1}{h^3}\phi\left(\frac{x}{h}\right)\phi\left(\frac{y}{h}\right)\phi\left(\frac{z}{h}\right)
+\end{equation}
+
+En el presente trabajo de tesis se utiliso, el kernel dado por Peskin, el cual
+tiene la forma siguiente:
+
+\begin{equation}
+	\phi(r) = \frac{1}{4}(1+cos(\frac{\pi r}{2}))
+\end{equation}
+
+
+\section{Weight calibration}
+Como descrito anteriormente, la region solida definida de acuerdo al metodo de
+fronteras sumergidas, tiene una dimension menos que la dimension del dominio
+fluido. Esto provoca que no exista una reprocidad directa entre el campo
+euleriano y lagrangiano, por ello, una calibracion es necesaria de realizar de
+tal manera que existq una reciprocidad y conservacion entre ambos espacios.
+
+\begin{equation}
+	W_k = \frac{1}{\sum_l\sum_j\delta(x_j-X_K)\delta(x_j-X_l)}
+\end{equation}
+
+\section{Linking LBM with LBM}
+In order to link this two methods, we have to use two steps, the prediction and
+the corrector step.
+
+\subsection{Prediction}
+In the prediction step, all the calculations are made without the forces. Using
+equation (\ref{explicit equivalent equation}) we have:
+
+\begin{equation}
+    \Bar{f}_i^* (t+\Delta t, x_i + c_i \Delta t) = \Bar{f}_i (t, x) + \Delta t \, \Omega_i (t, x_i)
+\end{equation}
+
+It seems that in this equation we eliminate the forces but in reality there
+exist some force terms hidden in $\Bar{f_i}$.\footnote{Another important  thing
+is to note that this equation is second order because it comes from the Cranck
+Nicholson step, we can use an upwind scheme also but it's only first order} 
+
+Using the definition of $\Bar{f_i}$, replacing in equation 8 and eliminating
+also the hidden force terms: 
+
+\begin{equation}
+    f_i^* (t+\Delta t, x_i + c_i \Delta t) 
+    - \frac{\Delta t}{2} \, \Omega_i (t+\Delta t, x_i + c_i \Delta t) 
+    = f_i (t, x) 
+    + \frac{\Delta t}{2} \, \Omega_i (t, x_i).
+\end{equation}
+
+\begin{equation}
+    f_i^* (t+\Delta t, x_i + c_i \Delta t) 
+    = f_i (t, x) 
+    + \frac{\Delta t}{2} \left( \Omega_i (t, x_i) 
+    + \frac{\Delta t}{2} \, \Omega_i (t+\Delta t, x_i + c_i \Delta t) \right).
+\end{equation}
+
+\begin{equation}
+    f_i^* (t+\Delta t, x_i + c_i \Delta t) = f_i (t, x) + \frac{\Delta t}{2} \, (\text{RHS})
+    \label{Prediction equation}
+\end{equation}
+
+\subsection{Correction}
+In this part we are going to use the forcing term exactly as in equation
+(\ref{explicit equivalent equation}).  
+
+\begin{equation}
+    \Bar{f_i^t}_{(t+\Delta t, x_i +c_i \Delta t)} = \Bar{f_i}_{(t,x)} + \Delta t(\Omega_i +F_i)_{(t, x_i)}
+\end{equation}
+
+Using the definition of $\Bar{f_i}$ we have:
+
+\begin{equation}
+    \Bar{f_i} (t+\Delta t, x_i + c_i \Delta t) = f_i (t, x) + \frac{\Delta t}{2} \left( \Omega_i + F_i \right)_{(t, x_i)}
+\end{equation}  
+
+\begin{equation}
+    f_i^t (t+\Delta t, x_i + c_i \Delta t) 
+    - \frac{\Delta t}{2} \left( \Omega_i + F_i \right)_{(t+\Delta t, x_i + c_i \Delta t)} 
+    = f_i (t, x) 
+    + \frac{\Delta t}{2} \left( \Omega_i + F_i \right)_{(t, x_i)}.
+\end{equation}  
+
+\begin{equation}
+    f_i^t (t+\Delta t, x_i + c_i \Delta t) = f_i (t, x) 
+    + \frac{\Delta t}{2} \left( \Omega_i + F_i \right)_{(t, x_i)} 
+    + \frac{\Delta t}{2} \left( \Omega_i + F_i \right)_{(t+\Delta t, x_i + c_i \Delta t)}.
+\end{equation}  
+
+\begin{equation}
+    f_i^t (t+\Delta t, x_i + c_i \Delta t) = f_i (t, x) 
+    + \frac{\Delta t}{2} \left( \Omega_i (t, x_i) + \Omega_i (t+\Delta t, x_i + c_i \Delta t) \right) 
+    + \frac{\Delta t}{2} \left( F_i (t, x_i) + F_i (t+\Delta t, x_i + c_i \Delta t) \right).
+\end{equation}
+
+\begin{equation}
+    f_i^t (t+\Delta t, x_i + c_i \Delta t) = f_i (t, x) 
+    + \frac{\Delta t}{2} (\text{RHS}) 
+    + \frac{\Delta t}{2} \left( F_i (t, x_i) + F_i (t + \Delta t, x_i + c_i \Delta t) \right)
+    \label{Correction equation}
+\end{equation}
+
+Subtracting equation (\ref{Prediction equation}) from (\ref{Correction
+equation}):
+
+\begin{equation}
+    f_i^t (t+\Delta t, x_i + c_i \Delta t) - f_i^* (t+\Delta t, x_i + c_i \Delta t) 
+    = \frac{\Delta t}{2} \left( F_i (t, x_i) + F_i (t + \Delta t, x_i + c_i \Delta t) \right)
+    \label{IBM with LBM}
+\end{equation}
+
+Now applying the reconstruction to the equation (\ref{IBM with LBM}) in order to
+have the macroscopic properties: 
+
+\begin{equation}
+    \rho u^t - \rho u^* = \frac{\Delta t}{2} (F_{(t)} + F_{(t+\Delta t)})
+    \label{Real IBM LBM}
+\end{equation}
+
+We can see that if the force is constant the equations from Navier Stokes and
+LBM are equal.
+
+In a similar way, if we use a first order scheme for equation (8), we are going
+to arrive to the Navier Stokes equation.
+
+\section{An one step algorithme}
+As seen before, all the demonstration was deducted solving to times the
+Boltzmann equation. One time in order to determine the required force and a
+second time using this force to find the good velocity, pressure, temperature,
+etc field.
+
+This is the classical way that was herited from the Navier Stokes developements,
+but one advantage of using the Immersed Boundary method in the Lattice Boltzmann
+framework is that in order to determine the force, we don't need to make a
+prediction.
+
+Using the defition of the variable change made in order to have a second order
+algorithme, we can have an expression to apprximate the required force that
+represents the effect of the solid on the fluid.
+
+From the variable change, we have:
+
+\begin{equation}
+    \bar{f_i} = f_i - \frac{\Delta t}{2}({\Omega + F_i})
+\end{equation}
+
+Taking the first moment od the last equation we have:
+\begin{equation}
+    \sum{c_i\bar{f}} = \rho u_\alpha - \frac{\Delta t}{2}({\sum F_i})
+\end{equation}
+
+This equation is valid for all the times steps and positions. Suddenly if we
+would like to compute the force term we need to known the value of the first
+moment of the bar distribution function, but this value is unknown because we
+need the force term to solve the Boltzmann method. This is why, in order to
+approximate the force term, the previous value of the first moment is used. 
+
+Finally, the expression to approximate the force term is:
+
+\begin{equation}
+    F_\alpha = 2(\rho u_\alpha - \sum {c_i\bar{f_i}})
+\end{equation}
+
+In this manuscript, the one step algorithme is used due the gain in time because
+the LBM is going to be solved only one time.
+
+\subsection{Energy source term}
+
+The total energy equation is:
+
+\begin{equation}
+    \frac{\partial\rho E}{\partial t} + \frac{\partial\left[(\rho E +p)u_\beta + q_\beta - u_\alpha\Pi_{\alpha\beta}\right]}{\partial x_\beta} = \dot{Q}_{IBM}
+\end{equation}
+
+In a similar way that was made for the momentum equation, we can estimate the
+IBM source term in order to represent the impact of a solid on the fluid. To
+make that, a prediction of the temperature should be made. 
+
+In this case the prediction of the temperture on the solid is going to be only
+related with the temperature of the fluid around the solid using for that the
+interpolation operator.
+
+\begin{equation}
+    \rho E^t - \rho E^{n} = \dot{Q}_{IBM}
+\end{equation}
+
+Where $E = e + \frac{1}{2}\rho u^2$, then:
+
+\begin{equation}
+    \rho {e^t + \frac{1}{2}\rho u^t}^2 - \rho {e^n - \frac{1}{2}\rho u^n}^{2} = \dot{Q}_{IBM}
+\end{equation}
+
+\begin{equation}
+    \rho {e^t} - \rho {e^n} + {\frac{1}{2}\rho u^t}^2  - {\frac{1}{2}\rho u^n}^{2} = \dot{Q}_{IBM}
+\end{equation}
+
+\begin{equation}
+    \rho {e^t} - \rho {e^n} + \left({\rho u^t}  - {\rho u^n}\right) \left(\frac{u^t + u^n}{2}\right) = \dot{Q}_{IBM}
+\end{equation}
+
+\begin{equation}
+    \rho {e^t} - \rho {e^n} + \left(F_{IBM}\right) \left(\frac{u^t + u^n}{2}\right) = \dot{Q}_{IBM}
+\end{equation}
+
+What is interesting to see here is the presence of the force IBM. This term
+represent the work of this force.
+
+Another important remark in this model is that this source term for the energy
+doesn't need a prediction step, we are going to use directly the interpolated
+internal energy and the interpoleted velocity. This makes that the algorithme
+should be solved only once. 
+
+\section{Numerical implementation}
+\section{Coupling with Lattice Boltzmann equations}
+\subsection{Algorithme}
+\begin{enumerate}
+	\item Displacement of Lagrangian points according to the chosen physical
+    model for boundary deformation; update of $U_d(X,t+\Delta t)$ and the
+    interpolation and spreading operators based on the new geometry.
+
+    \item Calculation of fi(x,t)
+    
+    \item Calculation of the IBM force 
+
+    \item Solution of the discretized Boltzmann equation (2.9), yielding \(
+    f_i(x, t + \Delta t) \) at the next time step.
+
+    \item Calculation of the density \( \rho(x, t + \Delta t) \).
+
+    \item Interpolation of the terms in equation (2.26) at time \( t + \Delta t
+    \), and evaluation of the force \( F(X, t + \Delta t) \) on the Lagrangian
+    points based on the desired velocity \( U_d(X, t + \Delta t) \).
+
+    \item Spreading of the force \( F(X, t + \Delta t) \) onto the neighboring
+    Eulerian points, yielding \( f(x, t + \Delta t) \) via equation (1.3).
+
+    \item Update of the fluid state variables \( \rho(x, t + \Delta t) \) and \(
+    u(x, t + \Delta t) \) at time \( t + \Delta t \) using equation (2.14),
+    which includes the forcing term; return to step 1 for the next time step.
+\end{enumerate}

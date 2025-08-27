@@ -5,7 +5,7 @@
 
 A mathematical relationship that connects temperature, pressure, and volume is
 known as an Equation of State (EOS). These equations can be expressed in either
-a pressure-explicit form (such as CEOS) or a volume-explicit form. The ideal gas
+a pressure-explicit form or a volume-explicit form. The ideal gas
 (IG) model is the most basic theoretical representation of a gas, grounded in
 the principles of kinetic theory. This model is based on the key assumption that
 the gas consists of point-like particles, which interact only through elastic
@@ -44,7 +44,7 @@ Where $\rho = \frac{1}{v}=\frac{M}{V}$ represents the density, $M$ is the fluid'
 
 		\item Variation in internal energy:
 		\begin{equation}
-			\mathrm{d}E = C_V\mathrm{d}T
+			\mathrm{d}U = C_V\mathrm{d}T
 		\end{equation}
 
 		\item Variation in enthalpy:
@@ -67,7 +67,7 @@ Where $\rho = \frac{1}{v}=\frac{M}{V}$ represents the density, $M$ is the fluid'
 	not valid across a wide range of temperatures. For example, in the field of
 	combustion, the NASA polynomial model is commonly used to describe heat
 	capacities more accurately. The NASA-7 model, for instance, expresses heat
-	capacities in the following form [10]:
+	capacities in the following form \cite{gardiner1984combustion}:
 
 	\begin{equation}
 		\frac{C_p}{R} = a_1 + a_2 + a_3 T^2 + a_4 T^3 + a_5 T^4
@@ -80,21 +80,23 @@ Where $\rho = \frac{1}{v}=\frac{M}{V}$ represents the density, $M$ is the fluid'
 	\begin{equation}
 		\frac{S}{R} = a_1 \ln T + a_2 T + \frac{a_3}{2}T^2 + \frac{a_4}{3}T^3 + \frac{a_5}{4}T^4 + a_7
 	\end{equation}
-	The ideal gas equation of state (EOS) is a straightforward yet accurate
-	model for describing gas behavior at high temperatures and relatively low
-	pressures. However, it falls short in representing condensed fluids. Despite
-	this limitation, the ideal gas model has been extensively studied and
-	documented over the years. Consequently, many thermodynamic problems
-	transition from the Real Gas (RG) state to the Ideal Gas (IG) state using
-	residual or departure functions (see Section 2.4.3.2) to leverage the wealth
-	of existing knowledge associated with the IG model.
+
+	Where $a_i$ are constants that depends on the fluid. The ideal gas equation
+	of state (EOS) is a straightforward yet accurate model for describing gas
+	behavior at high temperatures and relatively low pressures. However, it
+	falls short in representing condensed fluids. Despite this limitation, the
+	ideal gas model has been extensively studied and documented over the years.
+	Consequently, many thermodynamic problems transition from the Real Gas (RG)
+	state to the Ideal Gas (IG) state using residual or departure functions (see
+	Section 2.4.3.2) to leverage the wealth of existing knowledge associated
+	with the IG model.
 
 
 	\subsection{Compressibility Factor}
 
-	Real fluids at low density and high temperature can be accurately modeled by
-	the perfect gas equation of state (EOS). However, at lower temperatures or
-	higher densities, a real fluid deviates significantly from ideal gas
+	Real fluids at low pressure and high temperature can be accurately modeled by
+	the ideal gas equation of state (EOS). However, at lower temperatures or
+	higher pressures, a real fluid deviates significantly from ideal gas
 	behavior, especially during phase changes, such as when it condenses from a
 	gas to a liquid or deposits from a gas to a solid. This deviation is
 	quantified by the compressibility factor, $Z$, which indicates how much the
@@ -104,30 +106,70 @@ Where $\rho = \frac{1}{v}=\frac{M}{V}$ represents the density, $M$ is the fluid'
 		Z = \frac{PV}{RT} =\frac{Pv}{rT} = \frac{P}{\rho RT} 
 	\end{equation}
 
+	Although this definition may appear simple, it serves as a fundamental
+	starting point for the development of more complex EOS, such as cubic EOS.
+	Before introducing cubic EOS and discussing their suitability for modeling
+	supercritical fluids, it is useful to first present some basic EOS. These
+	simpler models highlight the limitations of the ideal EOS and illustrate the
+	need for more advanced formulations.  
+
+\section{Nobel-Abel and Stiffned Gas Models}
+
+One of the main limitations of the ideal gas model is its inability to account
+for intermolecular interactions, particularly those at a distance. To address
+this, two of the simplest equations of state (EOS) that include both repulsive
+and attractive forces between molecules are the Noble-Abel (NA) and
+Stiffened-Gas (SG) models:	
+
+\begin{equation}
+	P = \frac{RT}{V - b} 
+\end{equation}
+
+\begin{equation}
+	P = \frac{RT}{V} - P_{\infty}
+\end{equation}
+
+In the Noble-Abel (NA) equation of state (EOS), the repulsive force between
+molecules is modeled by the introduction of a covolume $b$, which intuitively
+represents the volume that cannot be occupied by the compressed hard spheres at
+high pressures in the ideal gas model. In the Stiffened-Gas (SG) EOS, the
+attractive forces are represented by a constant pressure $P_{\infty}$, which allows the
+consideration of denser phases using a simple EOS. While both models remain
+approximations, they accurately capture the asymptotic behavior of a fluid at
+low or high temperatures and pressures. 
+
+These two models were later combined in the NASG EOS \cite{le2016noble} to model
+two-phase flows, and further extended by incorporating NASA polynomials in
+\cite{boivin2019thermodynamic}:
+
+\begin{equation}
+	P = \frac{RT}{V - b} - P_{\infty}
+\end{equation}
+
 \section{Supercritical Fluids}
 
-Supercritical phenomena are crucial in various industrial applications,
-particularly in power cycles and energy recovery, which are the focus of this
-work. This section is dedicated to understanding the key differences between
-supercritical and subcritical fluids, with an emphasis on their role in power
-generation.
+Supercritical phenomena are crucial in various industrial applications
+\cite{jofre2021transcritical}, particularly in power cycles and energy recovery,
+which are the focus of this work. This section is dedicated to understanding the
+key differences between supercritical and subcritical fluids, with an emphasis
+on their role in power generation.
 
-Supercritical fluids, especially supercritical carbon dioxide ($CO_2$) and water,
+Supercritical fluids, especially supercritical carbon dioxide ($\ce{CO2}$) and water,
 are increasingly important in the development of advanced power cycles due to
 their exceptional thermodynamic properties. These fluids are used to enhance
 efficiency, reduce the size of equipment, and minimize environmental impact in
 power generation systems. Here are some key applications:
 
-    Supercritical $CO_2$ Power Cycles: Brayton Cycle: Supercritical $CO_2$ is a
+    Supercritical $\ce{CO2}$ Power Cycles: Brayton Cycle: Supercritical $\ce{CO2}$ is a
         promising working fluid in closed-loop Brayton cycles, where it operates
         at temperatures and pressures above its critical point. These cycles
         have the potential to surpass the efficiency of traditional steam
-        Rankine cycles, primarily because supercritical $CO_2$ has a higher
+        Rankine cycles, primarily because supercritical $\ce{CO2}$ has a higher
         density, which allows for more compact and efficient turbomachinery.
         This increased efficiency translates into lower fuel consumption and
-        reduced greenhouse gas emissions, making supercritical $CO_2$ Brayton
+        reduced greenhouse gas emissions, making supercritical $\ce{CO2}$ Brayton
         cycles a leading candidate for next-generation power plants. Waste Heat
-        Recovery: One of the significant advantages of supercritical $CO_2$ cycles
+        Recovery: One of the significant advantages of supercritical $\ce{CO2}$ cycles
         is their ability to recover waste heat from industrial processes, gas
         turbines, and even nuclear reactors. By utilizing waste heat, these
         systems can generate additional electricity without burning extra fuel,
@@ -150,24 +192,24 @@ power generation systems. Here are some key applications:
         supercritical steam cycles represents a significant advancement in
         making coal-fired power generation cleaner and more efficient.
 		
-    Hybrid Power Cycles: Integration with Renewable Energy: Supercritical $CO_2$
+    Hybrid Power Cycles: Integration with Renewable Energy: Supercritical $\ce{CO2}$
         and water cycles are being integrated with renewable energy sources,
         such as concentrated solar power (CSP) and geothermal energy. In CSP
-        plants, supercritical $CO_2$ is used to transfer heat from the solar field
+        plants, supercritical $\ce{CO2}$ is used to transfer heat from the solar field
         to the power block, allowing for more efficient energy conversion.
         Similarly, in geothermal systems, supercritical fluids can enhance
         energy extraction from deep, high-temperature reservoirs, providing a
         reliable and sustainable source of electricity. Combined Cycle Plants:
-        In combined cycle power plants, supercritical $CO_2$ can be used in
+        In combined cycle power plants, supercritical $\ce{CO2}$ can be used in
         conjunction with gas turbines to further increase overall efficiency.
         The exhaust heat from the gas turbine is used to generate additional
-        power in a supercritical $CO_2$ cycle, making these plants among the most
+        power in a supercritical $\ce{CO2}$ cycle, making these plants among the most
         efficient forms of fossil fuel-based power generation.
 
     Environmental Benefits and Future Potential: Carbon Capture and Utilization:
-        Supercritical $CO_2$ power cycles not only improve efficiency but also
+        Supercritical $\ce{CO2}$ power cycles not only improve efficiency but also
         facilitate carbon capture and utilization (CCU). By integrating CCU with
-        supercritical $CO_2$ cycles, power plants can reduce their carbon emissions
+        supercritical $\ce{CO2}$ cycles, power plants can reduce their carbon emissions
         while potentially producing valuable products like synthetic fuels. This
         dual benefit supports the transition to more sustainable energy systems.
         Future Research and Development: Ongoing research into supercritical
@@ -210,26 +252,51 @@ where subscript $c$ denotes the parameter's value at the critical point.
 
 	The first topic to address is the nature of supercritical fluids. It is
 	well-known that, in the supercritical state, there is no distinctly separate
-	phase (see Figure 2.1) [14].
+	phase (see Figure ~\ref{Banuti fluid state plane}) \cite{mcmillan2010going}.
 
 	Using molecular dynamics simulations of liquid and transcritical states at a
 	reduced temperature of 0.5 and reduced pressures of 0.7, 1.4, and 3.0,
-	Banuti [15] demonstrated that there is no need to separate quadrants IL and
-	IV in Figure 2.1. This is because densely packed fluids in IL exhibit the
-	same physical behavior as their supercritical counterparts in IV. For gases,
-	however, the equivalency between the supercritical fluid and the ideal gas
-	model in the ($P_r,T_r$) plane is reduced to a line. It is important to
-	note that, up to $P_r=3$ and for $T_r>2$, describing a supercritical
-	fluid as an ideal gas results in a compressibility factor error of less than
-	5$\%$, as shown in Figure 2.2.
+	Banuti ~\cite{banuti2017seven} demonstrated that there is no need to
+	separate quadrants IL and IV in Figure ~\ref{Banuti fluid state plane}. This
+	is because densely packed fluids in IL exhibit the same physical behavior as
+	their supercritical counterparts in IV. For gases, however, the equivalency
+	between the supercritical fluid and the ideal gas model in the ($P_r,T_r$)
+	plane is reduced to a line. It is important to note that, up to $P_r=3$ and
+	for $T_r>2$, describing a supercritical fluid as an ideal gas results in a
+	compressibility factor error of less than 5$\%$, as shown in Figure
+	~\ref{BanutiRealGasCompresibility}.
 
 	Consequently, a pseudo-transition should exist, dividing the supercritical
-	region, as illustrated in Figure 2.1. Recent independent studies by Gorelli
-	et al. [17] and Simeoni et al. [18], using X-ray scattering, have shown that
-	sound dispersion, typically observed only in liquids, indeed occurs in a
-	supercritical transition. This suggests that there are two distinct
+	region, as illustrated in Figure ~\ref{Banuti fluid state plane}. Recent
+	independent studies by Gorelli et al. \cite{gorelli2006liquidlike} and
+	Simeoni et al. \cite{simeoni2010widom}, using X-ray scattering, have shown
+	that sound dispersion, typically observed only in liquids, indeed occurs in
+	a supercritical transition. This suggests that there are two distinct
 	pseudo-states within supercritical matter, implying the existence of a
 	mechanism analogous to a subcritical phase transition.
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.5\textwidth]{BanutiFluidStatePlane.png}
+		\caption{Fluid state plane and supercritical states structure with Widom
+		Line (dashed), dividing the supercritical quadrant into a liquid-like
+		(subscript LL) and a gas-like (subscript GL) region, extracted from
+		\cite{banuti2017seven}.}
+		\label{Banuti fluid state plane}
+	\end{figure}
+
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.5\textwidth]{BanutiRealGasCompresibility.png}
+		\caption{Z (solid lines) in pure fluid P r - Tr diagram. Regions of less
+		than 5$\%$
+		deviation from ideal gas behavior are shaded. The critical point is
+		marked by the red circle. Data from NIST
+		\cite{burgess2012thermochemical} for nitrogen. Extracted from
+		\cite{banuti2017seven}.}
+    \label{BanutiRealGasCompresibility}
+	\end{figure}
 
 	\subsection{Pseudo-Boiling} % entre [] pour le texte dans la TOC
 		\subsubsection{The Widom line}
@@ -239,19 +306,21 @@ where subscript $c$ denotes the parameter's value at the critical point.
 		These two definitions correspond to the Widom Line and the Characteristic
 		Isobaric Inflection Curve (CIIC), respectively. Recently, Lamorgese et al.
 		compiled classical cubic Equation of State (EOS) results to map the Widom
-		Line locus [19].
+		Line locus \cite{lamorgese2018widom}.
 
 		Banuti, however, advanced this understanding further. By applying the
-		theoretical definition of an equilibrium state—where Gibbs free energy is
-		equal—and using a correlation from Waring [20] along with a
-		Soave-Redlich-Kwong-based calculation of the subcritical coexistence line's
-		slope, he proposed a similarity law that aligns both the coexistence and
-		Widom lines across a range of fluids [21]. The strength of Banuti's approach
-		lies in its solid theoretical foundation, its adaptability to various
-		fluids, and its simplicity.
+		theoretical definition of an equilibrium state—where Gibbs free energy
+		is equal—and using a correlation from Waring \cite{waring1954form} along
+		with a Soave-Redlich-Kwong-based calculation of the subcritical
+		coexistence line's slope, he proposed a similarity law that aligns both
+		the coexistence and Widom lines across a range of fluids
+		\cite{banuti2017similarity}. The strength of Banuti's approach lies in
+		its solid theoretical foundation, its adaptability to various fluids,
+		and its simplicity.
 
 		\begin{equation}
 			P_r = exp\left[\frac{A_s}{min(T_r,1)}(T_r-1)\right]
+			\label{ReducePressureEquation}
 		\end{equation}
 
 		where $A_s$ is the critical slope of the coexistence line and can be
@@ -262,31 +331,52 @@ where subscript $c$ denotes the parameter's value at the critical point.
 			A_{SRK} = 5.51934 + 4.80640\omega - 0.537437\omega^2
 		\end{equation}
 		
-		where $\omega$ is the acentric factor of the considered species [21]. The
-		corresponding scaling parameter is defined as:
+		where $\omega$ is the acentric factor of the considered species
+		\cite{banuti2017similarity}. The corresponding scaling parameter is
+		defined as:
 
 		\begin{equation}
 			P_r^* = P_r^{\frac{A_0}{A_s}}
 		\end{equation}
 
-		where $A_0$ is the result of Eq. (2.19) for a zero acentric factor. This
-		scaling parameter is illustrated graphically in Figure 2.3 below.
+		where $A_0$ is the result of Eq. ~\ref{ReducePressureEquation} for a
+		zero acentric factor. This scaling parameter is illustrated graphically
+		in Figure ~\ref{BanutiCollapseWidomLines} below.
+
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.5\textwidth]{BanutiCollapseWidomLines.png}
+			\caption{Collapse of Widom lines from NIST
+			\cite{burgess2012thermochemical} data when using $Pr^*$ instead of P
+			r . Extracted from \cite{banuti2017similarity}}
+		\label{BanutiCollapseWidomLines}
+		\end{figure}
 
 	\subsection{Supercritical Latent Heat}
 
 	To highlight the differences between subcritical and supercritical phase
-	transitions, Banuti [22] illustrated the contrast between low-pressure and
-	high-pressure state transitions. As shown in Figure 2.4, at low pressures,
-	the latent heat $\Delta h_{th}$ required to overcome intermolecular forces is
-	gradually replaced by a thermal shielding effect $\Delta h_{th}$ at higher
-	pressures. This effect forces the fluid to heat up before it can undergo the
-	transition.
+	transitions, Banuti \cite{banuti2015crossing} illustrated the contrast
+	between low-pressure and high-pressure state transitions. As shown in Figure
+	~\ref{BanutiLatentHeat}, at low pressures, the latent heat $\Delta h_{th}$
+	required to overcome intermolecular forces is gradually replaced by a
+	thermal shielding effect $\Delta h_{th}$ at higher pressures. This effect
+	forces the fluid to heat up before it can undergo the transition.
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.8\textwidth]{BanutiLatentHeat.png}
+		\caption{Isobaric specific heat capacity in the vicinity of the liquid
+		to gas transi- tion at low and high subcritical and at supercritical
+		pressures. Extracted from \cite{banuti2019latent}}
+	\label{BanutiLatentHeat}
+	\end{figure}
 
 	Furthermore, the pseudo-boiling phenomenon involves both dynamic and
-	thermodynamic state transitions [23]. Banuti et al. note in their study that
-	at very high pressures, this transition loses its thermodynamic nature and
-	is replaced by a dynamic shift from rigid to non-rigid liquids, which no
-	longer display liquid-like dispersion behavior.
+	thermodynamic state transitions \cite{banuti2020between,banuti2019latent}.
+	Banuti et al. note in their study that at very high pressures, this
+	transition loses its thermodynamic nature and is replaced by a dynamic shift
+	from rigid to non-rigid liquids, which no longer display liquid-like
+	dispersion behavior.
 
 	Section 2.3 highlights the need for an accurate thermodynamic description of
 	heat capacities. Models of transport properties, such as thermal conductivity,
@@ -296,57 +386,73 @@ where subscript $c$ denotes the parameter's value at the critical point.
 			
 \section{Cubic EoS}
 
-In this section, some of the most popular cubic equations of state (CEOS) are
-introduced. Energy changes are expressed by applying the results from the
-previous section. The widespread use of these equations is due to three key
-reasons [4, 24]:
+Once the importance of accurate thermodynamic representations for calculations
+involving supercritical fluids has been established, attention can be directed
+to more advanced EOS.  
 
-    They are applicable across a wide range of pressures and temperatures. They
-    can represent compounds in both liquid and vapor phases. They are
-    well-suited for the study of supercritical fluids.
+In this section, several of the most widely used cubic equations of state (CEOS)
+are introduced. The widespread application of these equations is attributed to
+three main factors \cite{tosun2021thermodynamics,poling2001properties}:  
+
+\begin{enumerate}
+    \item They are applicable across a broad range of pressures and
+    temperatures.  
+    \item They are capable of describing both liquid and vapor phases.  
+    \item They are particularly suitable for the study of supercritical fluids.  
+\end{enumerate}
 
 All thermodynamic properties presented in this chapter are either obtained from
-the NIST Chemistry WebBook [16] or calculated using some EOS.
+the NIST Chemistry WebBook \cite{burgess2012thermochemical} or calculated using
+an EOS.  
+
+Before presenting the CEOS in detail, a brief historical overview is provided to
+highlight how these equations have evolved to represent the behavior of
+supercritical fluids.  
+
 		
-	\subsection{A bit of history}
-	This first section provides a brief historical overview of the EOS class
-	under consideration.
+\subsection{A Brief Historical Perspective}
 
-	\subsubsection{The Corresponding States Principle and Criticalicity Condition}
-	Van der Waals introduced the Corresponding States Principle (CSP) with the
-	statement: 'Substances behave alike at the same reduced states. Substances
-	at the same reduced states are in corresponding states.' This principle is
-	of fundamental importance when considering supercritical fluids, as it
-	introduces the critical point of a fluid (denoted by the subscript $\phi_c$) as
-	a scaling factor, allowing for comparisons between different compounds. The
-	concept gave rise to the widely used 'reduced' thermodynamic variables. The
-	critical point serves as the ideal scaling reference for the application of
-	the corresponding states principle due to the existence of specific
-	criticality conditions, which are as follows:
+This section provides a short historical overview of the EOS considered in this
+chapter. The aim is to illustrate how the fundamental principles behind these
+models were established and how they shaped the development of CEOS for
+describing supercritical fluids.  
 
-	\begin{equation}
-		\left(\frac{\partial P}{\partial V}\right)_{T=T_c}
-	\end{equation}
+\subsubsection{The Corresponding States Principle and Criticality Conditions}
+The Corresponding States Principle (CSP) was first introduced by van der Waals
+with the statement: ``Substances behave alike at the same reduced states.
+Substances at the same reduced states are in corresponding states.'' This
+principle is of fundamental importance for the study of supercritical fluids, as
+it introduces the critical point of a fluid (denoted by the subscript $c$) as a
+scaling factor. The critical point enables comparisons between different
+compounds through the use of reduced thermodynamic variables, which remain
+widely applied today.  
 
-	\begin{equation}
-		\left(\frac{\partial^2 P}{\partial V^2}\right)_{T=T_c}
-	\end{equation}
+The critical point also provides a natural reference for scaling because it is
+uniquely defined by specific \emph{criticality conditions}, given by:  
 
-	These conditions express the fact that the saturation curve reaches a
-	maximum at the critical point, and that the critical isotherm exhibits an
-	inflection point at this same critical point. In fact, the attractive and
-	repulsive parameters in cubic equations of state (CEOS) are derived from
-	these critical conditions, making all compounds comparable under the
-	Corresponding States Principle (CSP)
+\begin{equation}
+  \left(\frac{\partial P}{\partial V}\right)_{T=T_c} = 0
+\end{equation}
+
+\begin{equation}
+  \left(\frac{\partial^2 P}{\partial V^2}\right)_{T=T_c} = 0
+\end{equation}
+
+These conditions reflect the fact that the saturation curve terminates at the
+critical point, where the critical isotherm exhibits an inflection. Importantly,
+the attractive and repulsive parameters in cubic equations of state are derived
+directly from these criticality conditions. As a result, the CSP provides a
+framework in which different compounds can be consistently compared.  
+
 
 	\subsubsection{Van der Waals EOS}
-	Historically, cubic equations of state (EOS) have been expressed in
-	pressure-explicit form. They were specifically designed to account for
-	intermolecular forces and accurately depict multiphase behavior. Van der
-	Waals was the first to address this challenge, introducing the first cubic
-	EOS, for which he was awarded the Nobel Prize in 1910 [25]. His
-	straightforward formulation utilizes two constant parameters, aa and bb, to
-	model attractive and repulsive forces, respectively
+	Historically, CEOS have been expressed in pressure-explicit form. They were
+	specifically designed to account for intermolecular forces and accurately
+	depict multiphase behavior. Van der Waals was the first to address this
+	challenge, introducing the first cubic EOS, for which he was awarded the
+	Nobel Prize in 1910 \cite{van1910equation}. His straightforward formulation
+	utilizes two constant parameters, a and b, to model attractive and repulsive
+	forces, respectively
 
 	\begin{equation}
 		P = \frac{RT}{V-b} - \frac{a}{V^2}
@@ -355,13 +461,13 @@ the NIST Chemistry WebBook [16] or calculated using some EOS.
 	This formulation was developed into various equations of state (EOS)
 	throughout the second half of the 20th century, particularly to refine the
 	attractive term and make it more complex and accurate for different
-	applications.
+	applications \cite{wei2000equations}.
 
 	\subsubsection{Redlich and Kwong's modification}
 	
 	In 1949, Redlich and Kwong, building on Van der Waals’ hard-sphere term,
-	introduced an improved equation of state (EOS) by incorporating a more
-	detailed temperature dependency into the attractive term [27]. This
+	introduced an improved EOS by incorporating a more detailed temperature
+	dependency into the attractive term \cite{redlich1949thermodynamics}. This
 	modification allowed their EOS to provide more accurate predictions of fluid
 	behavior, particularly for gases near the critical point:
 
@@ -371,25 +477,34 @@ the NIST Chemistry WebBook [16] or calculated using some EOS.
 
 	Its widespread success stemmed from its adaptability, as Chueh and Prausnitz
 	demonstrated that it could accurately predict both liquid and vapor
-	saturation properties [28, 29].
+	saturation properties \cite{chueh1967vapor1, chueh1967vapor2}.
 
 	\subsubsection{Acentric factor introdction}
 
-	Despite their success, both of these cubic EOS models fall short in
-	representing the geometric complexity and polar properties of certain
-	molecules. As illustrated in Figure 2.5, in complex polar
+	Despite their success, both of these CEOS models fall short in representing
+	the geometric complexity and polar properties of certain molecules. As
+	illustrated in Figure ~\ref{AcentricFactorRepresentation}, in complex polar
 	compounds,intermolecular forces arise from locations other than the
 	molecular centers.
 
-	To address this issue, Pitzer introduced the acentric factor $\omega$ in 1955
-	[30], as a measure of how much the thermodynamic properties of a substance
-	deviate from those predicted by the Corresponding States Principle (CSP).
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.8\textwidth]{AcentricFactorRepresentation.png}
+		\caption{Isobaric specific heat capacity in the vicinity of the liquid
+		to gas transi- tion at low and high subcritical and at supercritical
+		pressures. Extracted from \cite{banuti2019latent}}
+	\label{AcentricFactorRepresentation}
+	\end{figure}
+
+	To address this issue, Pitzer introduced the acentric factor $\omega$ in
+	1955 \cite{pitzer1955volumetric}, as a measure of how much the thermodynamic
+	properties of a substance deviate from those predicted by the CSP.
 
 	\subsubsection{Soave's contribution}
 
 	In 1972, Soave, recognizing the significance of Pitzer's acentric factor,
 	extended the Redlich-Kwong equation of state (EOS) to create the widely
-	known Soave-Redlich-Kwong (SRK) EOS [31]:
+	known Soave-Redlich-Kwong (SRK) EOS \cite{soave1972equilibrium}:
 
 	\begin{equation}
 		P = \frac{RT}{V-b}-\frac{a[1+K_{SRK}(\omega)(1-\sqrt(T_r))]^2}{V(V+b)}
@@ -400,14 +515,15 @@ the NIST Chemistry WebBook [16] or calculated using some EOS.
 	\end{equation}
 
 	This formulation is particularly well-suited for accurately predicting vapor
-	pressure data and behavior in the near-critical region [24].
+	pressure data and behavior in the near-critical region
+	\cite{tosun2021thermodynamics}.
 
 	\subsubsection{Peng-Robinson equation of state}
 
 	In 1976, Peng and Robinson (PR) recognized that the SRK EOS overestimated
 	the critical compressibility factor of fluids ($Z_{c,SRK} = 1/3$). In response,
 	they proposed an alternative form for the attractive term along with a more
-	complex volume dependency [32]:
+	complex volume dependency \cite{peng1976new}:
 
 	\begin{equation}
 		P = \frac{RT}{V-b}-\frac{a[1+K_{SRK}(\omega)(1-\sqrt(T_r))]^2}{V^2 +2V -b^2}
@@ -422,11 +538,11 @@ the NIST Chemistry WebBook [16] or calculated using some EOS.
 
 	\subsection{Derived Properties for a Generic CEOS}
 	This section focuses on establishing thermodynamic properties derived from
-	Cubic Equations of State (CEOS). To provide a foundation for this, we begin
-	with a few key reminders. Basic relationships between energy functions are
-	introduced, followed by the application of the first law of thermodynamics
-	to present fundamental equations that link differential expressions of
-	various thermodynamic variables. Maxwell's relations are also recalled.
+	CEOS. To provide a foundation for this, we begin with a few key reminders.
+	Basic relationships between energy functions are introduced, followed by the
+	application of the first law of thermodynamics to present fundamental
+	equations that link differential expressions of various thermodynamic
+	variables. Maxwell's relations are also recalled.
 
 	Next, we demonstrate that Helmholtz free energy can serve as a generating
 	function for other thermodynamic quantities. The concept of residual properties
@@ -455,18 +571,19 @@ the NIST Chemistry WebBook [16] or calculated using some EOS.
 		Z = \frac{P}{\rho RT}
 	\end{equation}
 
-	Fundamental equations: At this point, we need to establish relationships between the energetic
-	variables and the PVT (Pressure-Volume-Temperature) state of a system. The
-	first law of thermodynamics provides the fundamental equation for internal
-	energy ee (see Eq. XXX). By combining this with the definitions of
-	specific enthalpy, Helmholtz free energy, and Gibbs free energy, we derive
-	the remaining fundamental equations. These equations are presented for a
-	single species or a mixture of constant composition. Additionally, to
-	transition between volume and density formulations, the following identity
-	is applied: $dv = -\frac{d\rho}{\rho ^2}$
+	Fundamental equations: At this point, we need to establish relationships
+	between the energetic variables and the PVT (Pressure-Volume-Temperature)
+	state of a system. The first law of thermodynamics provides the fundamental
+	equation for internal energy e (see Eq. ~\ref{ThermodynamicFirstLaw}). By
+	combining this with the definitions of specific enthalpy, Helmholtz free
+	energy, and Gibbs free energy, we derive the remaining fundamental
+	equations. These equations are presented for a single species. Additionally,
+	to transition between volume and density formulations, the following
+	identity is applied: $dv = -\frac{d\rho}{\rho ^2}$
 
 	\begin{equation}
 		de = Tds - Pdv = Tds + \frac{P}{\rho ^2}d\rho
+		\label{ThermodynamicFirstLaw}
 	\end{equation}
 
 	\begin{equation}
@@ -483,7 +600,7 @@ the NIST Chemistry WebBook [16] or calculated using some EOS.
 
 	Maxwell rules: Some mathematical tools required to derive the so-called
 	Maxwell relations are presented in Section A.1. The Maxwell relations,
-	derived from Equations (2.32a) through (2.32d), are then given as follows:
+	derived from Equations (2.34) through (2.37), are then given as follows:
 
 	\begin{equation}
 		\left(\frac{\partial T}{\partial \rho}\right)_s = \frac{1}{\rho ^2}\left(\frac{\partial P}{\partial s}\right)_{\rho}
@@ -510,9 +627,9 @@ the NIST Chemistry WebBook [16] or calculated using some EOS.
 	functions between a fluid in a real gas state and its ideal gas equivalent
 	at the same thermodynamic conditions ($\rho$,$T$). Here, $\rho$ (density) and $T$
 	(temperature) are used to describe the thermodynamic state, as these are the
-	independent variables in cubic equation of state (CEOS) formulations.
+	independent variables in CEOS formulations.
 
-For a given state function $\phi$, its residual property $\phi^R$​ is defined as
+For a given state function $\phi$, its residual property $\phi^R$ is defined as
 follows:
 
 \begin{equation}
@@ -526,9 +643,7 @@ to analytically calculate variations of $A_W(\rho,T)$ along a strategically
 chosen path. Since $A_W$ is a state function, this path can be freely selected.
 
 A practical approach is to integrate residual quantities along isotherms, given
-that ideal gas properties depend solely on temperature. For mixtures (see
-Section 2.4.4), these paths are also iso-compositional, although compositional
-terms are omitted here for simplicity.
+that ideal gas properties depend solely on temperature.
 
 Furthermore, since ideal gas properties are temperature-dependent and follow
 $Z=1$ (the PVT relationship for ideal gases), we simplify the integration by
@@ -546,7 +661,16 @@ terms:
 \]
 
 The complete integration path for calculating the thermodynamic state function
-$\phi$ is illustrated in Figure 2.7.
+$\phi$ is illustrated in Figure ~\ref{ResidualPath}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.8\textwidth]{ResidualPath.png}
+	\caption{Isobaric specific heat capacity in the vicinity of the liquid
+	to gas transi- tion at low and high subcritical and at supercritical
+	pressures. Extracted from \cite{banuti2019latent}}
+\label{ResidualPath}
+\end{figure}
 
 First, Section 2.4.3.3 will demonstrate that the residual Helmholtz energy acts
 as a generating function for other residual properties of interest. Then, in
@@ -568,14 +692,12 @@ connections between the residual compressibility factor, residual internal
 energy, and the derivatives of $A_W(\rho,T)$.
 
 \begin{equation}
-	\[
 \mathrm{d} \left( \frac{A_W^R}{r T} \right) = \frac{Z^R}{\rho} \, \mathrm{d}\rho - \frac{e^R}{r T^2} \, \mathrm{d}T 
 \implies 
 \begin{cases}
     Z^R = \rho \left( \frac{\partial}{\partial \rho} \left( \frac{A_W^R}{r T} \right) \right)_{T} \\[10pt]
     \frac{e^R}{r T} = -T \left( \frac{\partial}{\partial T} \left( \frac{A_W^R}{r T} \right) \right)_{\rho}
 \end{cases}
-\]
 \end{equation}
 
 Residual entropy and enthalpy are then derived from the residual internal energy
@@ -656,9 +778,7 @@ MAKE THAT USING PENG ROBINSON EQUATION OF STATE.
 Isochoric Heat Capacity: First, a comparison is made to highlight the existence
 of a departure function for $c_v$. By definition,
 \begin{equation}
-	\[
-c_v = \left( \frac{\partial e}{\partial T} \right)_\rho = c_v^* + \underbrace{\left( \frac{\partial e^R}{\partial T} \right)_\rho}_{\equiv c_v^R},
-\]
+c_v = \left( \frac{\partial e}{\partial T} \right)_\rho = c_v^* + \underbrace{\left( \frac{\partial e^R}{\partial T} \right)_\rho}_{\equiv c_v^R}
 \end{equation}
 
 Here, $c_v^*$ represents the isochoric heat capacity of the ideal gas, while
@@ -668,31 +788,35 @@ determined. This calculation will be based on Equation (2.45b)."
 Isobaric Heat Capacity: 
 
 \subsection{Speed of Sound}
-The speed of sound, $c$, is calculated using the following expression from [33].
-The partial derivative in this expression is explicitly detailed in Equation
-(2.49b):
+The speed of sound, $c$, is calculated using the following expression from
+\cite{riazi1993use}. The partial derivative in this expression is explicitly
+detailed in Equation (2.49b):
 
 \section{Modeling of transport Coefficients}
 As discussed in Section 2.3.2.2, the pseudo-boiling transition is both a
-thermodynamic and dynamic process [23], highlighting the need for an accurate
-description of transport properties in pseudo-boiling scenarios. This chapter
-focuses on the models used in this study to account for these phenomena. It is
-organized into two sections:
+thermodynamic and dynamic process \cite{banuti2020between}, highlighting the
+need for an accurate description of transport properties in pseudo-boiling
+scenarios. This chapter focuses on the models used in this study to account for
+these phenomena. It is organized into two sections:
 
-    Viscosity (shear viscosity) correlations: First, we examine viscosity
-    correlations, as viscosity plays a key role in the momentum conservation
-    equation (Equation 1.2) and drives shear stresses (Equation 1.3).
+Viscosity (shear viscosity) correlations: First, we examine viscosity
+correlations, as viscosity plays a key role in the momentum conservation
+equation (Equation 1.2) and drives shear stresses (Equation 1.3).
 
-    Thermal conductivity: Next, we discuss the thermal transport coefficient, or
-    thermal conductivity. This parameter influences thermal conduction and is
-    essential for calculating the heat flux (refer to Equation 1.9), which is
-    included in the total energy conservation equation (Equation 1.7).
+Thermal conductivity: Next, we discuss the thermal transport coefficient, or
+thermal conductivity. This parameter influences thermal conduction and is
+essential for calculating the heat flux (refer to Equation 1.9), which is
+included in the total energy conservation equation (Equation 1.7).
+
+The next subsection refers to the calculation of the viscosity properties. They
+are a summary of the paper of ~\cite{}. In his work they developpe a new
+viscosity correlation
 
 \subsection{Viscosity}
 
 To determine the viscosity, we use the correlation developed by A. Laesecke and
-C. D. Muzny, as it is specifically designed for carbon dioxide.
-The viscosity correlation is defined as:
+C. D. Muzny \cite{laesecke2017reference}, as it is specifically designed for
+carbon dioxide. The viscosity correlation is defined as:
 \begin{equation}
     \eta(T,\rho) = \eta_0(T) + \rho\eta_1(T) + \Delta\eta_r(\rho,T) + \Delta\eta_c(\rho,T)
 \end{equation}
@@ -713,9 +837,23 @@ Each term in the expression has a specific role:
 \end{itemize}
 
 \subsection{Zero density viscosity}
+
+This contribution reflects the fact that, for ideal gases, thermodynamic
+properties depend only on temperature. In this limit, density plays no role and
+has no relevance for the contribution.
+
+The physical interpretation is that molecular interactions are limited to binary
+collisions, which is somewhat counterintuitive. The mathematical formulation is
+based on the intermolecular potential energy surface and is expressed as:
+
 \begin{equation}
     \eta_0(T) = \frac{1.0055\sqrt{T}}{a_0 + a_1T^{\frac{1}{6}}+ a_2\exp{a_3T^{\frac{1}{3}}} + \frac{a_4 + a_5T^{\frac{1}{3}}}{\exp{T^{\frac{1}{3}}}} + a_6\sqrt{T}}
 \end{equation}
+
+The coefficients required for the calculations are presented in
+Table~\ref{ZeroDensityCoef}. In addition, according to
+\cite{laesecke2017reference}, the factor 1.0055 is introduced to improve the
+agreement with experimental results.
 
 \begin{table}[h]
     \centering
@@ -731,7 +869,7 @@ Each term in the expression has a specific role:
         6 & 5.34368649509278\\
     \end{tabular}
     \caption{Caption}
-    \label{tab:my_label1}
+    \label{ZeroDensityCoef}
 \end{table}
 
 
@@ -790,7 +928,7 @@ Each term in the expression has a specific role:
 \end{equation}
 
 \subsection{Critical enhancement viscosity}
-This viscosity is really small and is only important near to the critical condition (For $CO_2$ from 304.29$\leq T\leq$304.99 K. Because this value is really small it's going to be neglected in the predictions of the total viscosity (for more information read the paper). 
+This viscosity is really small and is only important near to the critical condition (For $\ce{CO2}$ from 304.29$\leq T\leq$304.99 K. Because this value is really small it's going to be neglected in the predictions of the total viscosity (for more information read the paper). 
 \begin{equation}
     \Delta\eta_c = \eta_b(T,\rho)\exp{\left(z_\eta H\right)}
 \end{equation}
@@ -853,3 +991,42 @@ where $\Delta T_c= \frac{T}{T_c}-1$ and $\frac{\rho}{\rho_c}-1$
 
 
 \subsection{Thermal Conductivity}
+
+\begin{figure*}[htbp]
+    \centering
+    \subfloat[]{%
+        \includesvg[width=\figwidth,height=\figheight]{InternalEnergyVSTemp(1)}%
+        \label{fig:subfig1}%
+    }\hfill
+    \subfloat[]{%
+        \includesvg[width=\figwidth,height=\figheight]{SoundSpeedVSTemp(1)}%
+        \label{fig:subfig2}%
+    }\hfill
+    \subfloat[]{%
+        \includesvg[width=\figwidth,height=\figheight]{CpVSTemp(1)}%
+        \label{fig:subfig3}%
+    }\hfill
+    \subfloat[]{%
+        \includesvg[width=\figwidth,height=\figheight]{ZVSTemp(1)}%
+        \label{fig:subfig4}%
+    }\hfill
+    \subfloat[]{%
+        \includesvg[width=\figwidth,height=\figheight]{RhoVSTemp(1)}%
+        \label{fig:subfig5}%
+    }\hfill
+    \subfloat[]{%
+        \includesvg[width=\figwidth,height=\figheight]{betaVSTemp(1)}%
+        \label{fig:subfig6}%
+    }
+    \caption{
+Thermodynamic properties of the s\ce{CO2} computed using the Peng–Robinson equation of state as functions of temperature. 
+(a) Internal energy, 
+(b) speed of sound, 
+(c) isobaric heat capacity \(C_p\), 
+(d) compressibility factor \(Z\), 
+(e) density \(\rho\), and 
+(f) thermal expansion coefficient \(\beta\). 
+All properties are evaluated at a constant pressure of 80 bar.
+    }
+    \label{fig:multi1}
+\end{figure*}

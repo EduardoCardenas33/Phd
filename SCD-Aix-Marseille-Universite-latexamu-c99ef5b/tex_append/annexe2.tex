@@ -1,45 +1,105 @@
-\chapter{Consignes de présentation}
-\label{chap:consignes}
+\chapter{Unified Hybrid Recursive Regularised LBM}
+\label{uHRR-LBM}
 
-Vous venez de télécharger la classe personnalisée LaTeX AMU pour les thèses de doctorat de l'université d'Aix-Marseille.
-Certains éléments doivent obligatoirement être utilisés:
-\\
+The theoretical foundation of the method is briefly reviewed. The Lattice Boltzmann equation (LBE), which governs the time evolution of the particle distribution function, is formulated as:
 
+\begin{equation}
+    \frac{\partial f_i}{\partial t} + c_{i\alpha} \frac{\partial f_i}{\partial x_{\alpha}} = -\frac{1}{\tau}(f_i - f_i^{\mathrm{eq}}) + F_i,
+\end{equation}
+where $f_i$ denotes the distribution function along the $i$-th discrete velocity direction, and $f_i^{\mathrm{eq}}$ is its corresponding equilibrium value. Here, $c_{i\alpha}$ is the $\alpha$-component of the lattice velocity vector $\mathbf{c}_i$, and $\tau$ is the relaxation time. The term $F_i$ denotes an external force applied in direction $i$.
 
-\begin{figure}[h!tbp]
-	%\vspace{0.5cm}
-	\centering
-	\includegraphics[width=0.8\textwidth]{titre.pdf}
-\end{figure}
+In this paper, the equilibrium function given by the uHRR with \(\kappa\) and \(\xi\) set to zero is used to obtain a method similar to the pressure-based approach proposed in~\cite{farag2020pressure}:
 
-\begin{enumerate}
-	\item La page de titre des thèses AMU: elle est rédigée en langue française avec la police Titillium, disponible avec le modèle LaTeX AMU aux formats TTF et TFM, selon la charte graphique AMU.
-	\item En cas de cotutelle internationale, le logo de l’établissement partenaire doit apparaître en haut à droite de la page de titre;
-	\item La composition du jury, l’école doctorale, la discipline et la spécialité (le cas échéant) doivent être conformes au formulaire ADUM de demande de soutenance de thèse;
-	\item Le numéro national de thèse (NNT) doit être apposé sur la page de titre;
-	\item Le cas échéant, les logos d’institutions ou d’unité de recherche partenaires peuvent être ajoutés en bas de la page de titre;
-	\item La page \nameref{chap:affidavit}: selon la langue utilisée pour la rédaction de de votre thèse, opter pour la version en français ou en anglais, puis la compléter, la dater et la signer;
-	\item La page \nameref{chap:publications} réalisées au cours de votre projet de thèse ;
-	\item Les pages \nameref{chap:resume} en français et \nameref{chap:abstract} en anglais: chaque résumé ne doit pas dépasser 4000 caractères;
-\end{enumerate}
+\begin{equation}
+    f_i^{eq} = \omega_i\left( \rho + \frac{\omega_i-\delta_{0i}}{\omega_i}(\frac{P}{c_s^2}-\rho) + \frac{\mathcal{H}_{i\alpha}^{(1)}}{c_s^2} \rho u_\alpha + \frac{\mathcal{H}_{i\alpha\beta}^{(2)}}{2c_s^4}[\rho u_\alpha u_\beta] + \frac{\mathcal{H}_{i\alpha\beta\gamma}^{(3)}}{6c_s^6}[\rho u_\alpha u_\beta u_\gamma] \right)
+\end{equation}
 
-Selon vos besoins, vous pouvez ajouter les éléments suivants: sommaire et/ou table des matières, liste des figures, liste des tableaux, liste des acronymes, glossaire, index, nomenclature…
+The details and signification of each component of the equation can be found in ~\cite{farag2021unified}. This method adopts the D3Q19 velocity discretization, where the raw moments of the equilibrium distribution are defined as:
 
-Pour le corps de votre thèse, si votre école doctorale ne vous donne pas de consignes plus précises, vous pouvez utiliser les styles établis dans ce modèle ou vos propres styles en suivant ces recommandations:
-\begin{itemize}
-	\item Police neutre : Il est conseillé d'utiliser une police serif standard pour le texte et une police sans-serif standard pour les titres;
-	\item Géométrie : paper=a4, fontsize=12pt, DIV=12;
-	\item Interligne simple;
-	\item Texte justifié.
-\end{itemize}
+\begin{equation}
+    \sum_i f_i^{\mathrm{eq}} = \sum_i f_i = \rho,
+\end{equation}
 
-\begin{figure}[h!tbp]
-	%\vspace{0.5cm}
-	\centering
-	\includegraphics[width=0.3\textwidth]{geometry.pdf}
-\end{figure}
+\begin{equation}
+    \sum_i c_{i\alpha} f_i^{\mathrm{eq}} = \sum_i c_{i\alpha} f_i = \rho u_{\alpha},
+\end{equation}
 
+\begin{equation}
+    \sum_i c_{i\alpha} c_{i\beta} f_i^{\mathrm{eq}} = \rho u_{\alpha} u_{\beta} + P \delta_{\alpha\beta}.
+\end{equation}
 
-Votre thèse devra être déposée en ligne en format PDF version 1.5 minimum sur \href{https://www.adum.fr/}{adum.fr}.
+These raw moments directly yield the macroscopic quantities of interest at each time step. A more rigorous derivation of the governing hydrodynamic equations can be achieved using the Chapman-Enskog or Taylor expansion techniques, as demonstrated in~\cite{kruger2017lattice}.
+
+Unlike the classical athermal LBM, where the pressure is defined as \( P = \rho c_s^2 \), a parameter \( \theta \) is introduced to incorporate thermal effects. In uHRR formulation, \( \theta \) is defined as:
+
+\begin{equation}
+    \theta = \frac{P}{\rho c_s^2},
+\end{equation}
+
+where \( P \) is the real pressure defined by an Equation of State (EoS) and \( \rho c_s^2 \) represents the athermal pressure. This formulation decouples \( \theta \) from the temperature, enabling the method to represent non-ideal and supercritical thermodynamic behavior independently of the chosen EoS.
 
 
+
+To achieve second-order accuracy in time, the Crank--Nicolson scheme is applied to discretize the LBE. To maintain an explicit formulation, a change of variables is introduced as:
+
+\begin{equation}
+    \bar{f}_i = f_i - \frac{\Delta t}{2\tau}(f_i^{\mathrm{eq}} - f_i) - \frac{\Delta t}{2} F_i,
+\end{equation}
+
+\begin{equation}
+    \bar{\tau} = \tau + \frac{\Delta t}{2}.
+\end{equation}
+
+where $\Delta t$ is the time-step. Using this transformation, the algorithm is split into two steps. The collision step, a local operation, is expressed as:
+
+\begin{equation}
+    \bar{f}_i^{\mathrm{col}} = f_i^{\mathrm{eq}} + \left(1 - \frac{\Delta t}{\bar{\tau}}\right) \bar{f}_i^{\mathrm{neq}} + \frac{\Delta t}{2} F_i,
+\end{equation}
+
+followed by the streaming step:
+
+\begin{equation}
+    \bar{f}_i(t + \Delta t, \mathbf{x}) = \bar{f}_i^{\mathrm{col}}(t, \mathbf{x} - \mathbf{c}_i \Delta t).
+\end{equation}
+
+After this variable change, the computation of macroscopic variables is made using:
+\begin{equation}
+    \rho = \sum_i \Bar{f}_i
+\end{equation}
+
+\begin{equation}
+    \rho u_\alpha= \sum_i c_{i\alpha}\Bar{f}_i + \frac{\Delta t}{2}\sum_i c_{i\alpha}F_i
+\end{equation}
+
+In this formulation, the only unresolved component is the non-equilibrium part $\bar{f}_i^{\mathrm{neq}}$, which will be detailed in the next subsection.
+
+
+\subsection{Non-Equilibrium reconstruction}
+
+In this study, the hybrid recursive regularization approach proposed in~\cite{farag2021unified} is adopted, which combines the recursive regularization technique with traceless non-equilibrium moment reconstruction~\cite{farag2020pressure}. This method has been shown to serve as an effective supplementary regularization strategy, particularly for improving the accuracy of the second-order non-equilibrium moment $\Pi_{\gamma\gamma}$~\cite{wissocq2022hydrodynamic}:
+
+\begin{equation}
+\begin{aligned}
+\Pi_{\alpha\beta}^{\bar{f}^{\text{neq}},(2)}(x,t) =\ 
+&\sigma \sum_i \left( c_{i\alpha} c_{i\beta} - \frac{\delta_{\alpha\beta}}{3} c_{i\gamma} c_{i\gamma} \right) 
+\left[ \bar{f}_i(x,t) - f_i^{\text{eq}}(x,t) + \frac{\Delta t}{2} F_i(x,t - \Delta t) \right] \\
+&- (1 - \sigma) \rho c_s^2 \bar{\tau} \left( 
+\frac{\partial u_\alpha}{\partial x_\beta} + \frac{\partial u_\beta}{\partial x_\alpha} 
+- \frac{2 \delta_{\alpha\beta}}{3} \frac{\partial u_\gamma}{\partial x_\gamma} 
+\right)(x,t)
+\end{aligned}
+\end{equation}
+
+where $\sigma$ is a free weighting parameter introduced in~\cite{jacob2018new}. Note that the force term $F_i$ is evaluated at time $t - \Delta t$ for stability reasons as mentioned in ~\cite{farag2021unified}.
+
+The recursive regularization procedure defines the non-equilibrium distribution as follows:
+
+\begin{equation}
+    \Pi_{\alpha\beta\gamma}^{\Bar{f}^{neq}}(x,t) = \left[ u_\alpha \Pi_{\beta\gamma}^{\Bar{f}^{neq},(2)} + u_\beta \Pi_{\gamma\alpha}^{\Bar{f}^{neq},(2)} + u_\gamma \Pi_{\alpha\beta}^{\Bar{f}^{neq},(2)}\right](x,t)
+\end{equation}
+
+Then, the recursive D3Q19r (~\ref{appendix:D3Q19r}) dictates that the non equilibrium, is defined as:
+
+\begin{equation}
+    \Bar{f}^{neq}_i = \omega_i\left( \frac{\mathcal{H}_{i\alpha\beta}^{(2)}}{2c_s^4} \Pi_{\alpha\beta}^{\Bar{f}^{neq},(2)} + \frac{\mathcal{H}_{i\alpha\beta\gamma}^{(3r)}}{6c_s^6} \Pi_{\alpha\beta}^{\Bar{f}^{neq},(2)}\right)
+\end{equation}

@@ -1,42 +1,76 @@
-\chapter{Presentation guidelines}
-\label{chap:guidelines}
-\selectlanguage{english}
-You have downloaded the LaTeX AMU custom class for Aix-Marseille University doctoral theses. Some elements must be used:
-\\
+\chapter{D3Q19r basis}
+\label{appendix:D3Q19r}
+
+\begin{equation}
+    \mathcal{H}_i^{(0)} = 1
+\end{equation}
+
+\begin{equation}
+    \mathcal{H}_{i,\alpha}^{(1)} = c_{i\alpha}
+\end{equation}
+
+\begin{equation}
+    \mathcal{H}_{i,\alpha\beta}^{(2)} = c_{i\alpha}c_{i\beta} - c_s^2\delta_{\alpha\beta}
+\end{equation}
+
+\begin{equation}
+    \mathcal{H}_{i,\alpha\beta\gamma}^{(3)} = c_{i\alpha}c_{i\beta}c_{i\gamma} - c_s^2(\delta_{\alpha\beta}c_{i\gamma} + \delta_{\beta\gamma}c_{i\alpha} + \delta_{\alpha\gamma}c_{i\beta}) 
+\end{equation}
+
+\begin{align}
+\mathcal{H}_{i,\alpha\beta\gamma\delta}^{(4)} &= c_{i\alpha} c_{i\beta} c_{i\gamma} c_{i\delta} 
++ c_s^4 \left( \delta_{\alpha\beta} \delta_{\gamma\delta} 
++ \delta_{\beta\gamma} \delta_{\delta\alpha} 
++ \delta_{\delta\alpha} \delta_{\beta\gamma} \right) \notag \\
+&\quad - c_s^2 \big( 
+c_{i\alpha} c_{i\beta} \delta_{\gamma\delta} 
++ c_{i\beta} c_{i\gamma} \delta_{\delta\alpha} 
++ c_{i\gamma} c_{i\delta} \delta_{\alpha\beta} \notag \\
+&\qquad\quad 
++ c_{i\delta} c_{i\alpha} \delta_{\beta\gamma} 
++ c_{i\gamma} c_{i\alpha} \delta_{\beta\delta} 
++ c_{i\beta} c_{i\delta} \delta_{\alpha\gamma} 
+\big)
+\end{align}
 
 
-\begin{figure}[h!tbp]
-	%\vspace{0.5cm}
-	\centering
-	\includegraphics[width=0.8\textwidth]{titre.pdf}
-\end{figure}
+\begin{equation}
+    \mathcal{H}_{i,1}^{(3r)} = \mathcal{H}_{i,xxy}^{(3)} + \mathcal{H}_{i,yzz}^{(3)} 
+\end{equation}
 
-\begin{enumerate}
-    \item The title page of AMU’s thesis: it is written in French with the Titillium font, provided with the LaTeX AMU template in TTF and TFM formats, according to AMU’s graphic charter.
-    \item In the case of international cotutelle, the logo of the partner institution must appear at the top right of the title page;
-	\item The composition of the jury, the doctoral school, the discipline and the specialty (if applicable) must be in accordance with the ADUM application form for the thesis defense;
-	\item The national thesis number (NNT) must be displayed on the title page;
-	\item Where appropriate, logos of partner institutions or research units can be added to the bottom of the title page;
-	\item The \nameref{chap:affidavit} page: according to the language used for writing your thesis, choose the French or English version, then complete, date and sign it;
-	\item The \nameref{chap:publications} page made during the course of your thesis project ;
-	\item \nameref{chap:resume} in French and \nameref{chap:abstract} in English pages: each summary must not exceed 4,000 characters.\\
-\end{enumerate}
+\begin{equation}
+    \mathcal{H}_{i,2}^{(3r)} = \mathcal{H}_{i,xzz}^{(3)} + \mathcal{H}_{i,xyy}^{(3)} 
+\end{equation}
 
-Depending on your needs, you can add the following elements: summary and/or table of contents, list of figures, list of tables, list of acronyms, glossary, index, nomenclature...
-For the body of your thesis, if your doctoral school does not give you more specific instructions, you can use the styles established in this template or your own styles following these recommendations:
-\begin{itemize}
-	\item Neutral font : It is recommended to use a standard serif font for text and a standard sans-serif font for titles;
-	\item Geometry : paper=a4, fontsize=12pt, DIV=12;
-	\item Single-line spacing;
-	\item Justified text.\\
-\end{itemize}
+\begin{equation}
+    \mathcal{H}_{i,3}^{(3r)} = \mathcal{H}_{i,yyz}^{(3)} + \mathcal{H}_{i,xxz}^{(3)}
+\end{equation}
 
-\begin{figure}[h!tbp]
-	%\vspace{0.5cm}
-	\centering
-	\includegraphics[width=0.3\textwidth]{geometry.pdf}
-\end{figure}
+\begin{equation}
+    \mathcal{H}_{i,4}^{(3r)} = \mathcal{H}_{i,xxy}^{(3)} - \mathcal{H}_{i,yyz}^{(3)}
+\end{equation}
 
-Your thesis must be submitted online in PDF 1.5 minimum version format on \href{https://www.adum.fr/}{adum.fr}.
+\begin{equation}
+    \mathcal{H}_{i,5}^{(3r)} = \mathcal{H}_{i,xzz}^{(3)} - \mathcal{H}_{i,xyy}^{(3)}
+\end{equation}
 
-\selectlanguage{french}
+\begin{equation}
+    \mathcal{H}_{i,6}^{(3r)} = \mathcal{H}_{i,yyz}^{(3)} - \mathcal{H}_{i,xxz}^{(3)}
+\end{equation}
+
+Leading to 16 linearly independant Hermite polynomials. To form a complete basis, 3 additional orthogonal polynomials should be defined,
+
+\begin{equation}
+    \mathcal{A}_i = \frac{4}{9}(3 + 2\sqrt{3})\mathcal{D}_{xyz}^{(4)} + \frac{4}{9}(3 -\sqrt{3})\mathcal{D}_{xzy}^{(4)} + \frac{4}{9}(3 - \sqrt{3})\mathcal{D}_{zyx}^{(4)} 
+\end{equation}
+
+\begin{equation}
+    \mathcal{B}_i = \frac{4}{9}(3 + 2\sqrt{3})\mathcal{D}_{xzy}^{(4)} + \frac{4}{9}(3 -\sqrt{3})\mathcal{D}_{xyz}^{(4)} + \frac{4}{9}(3 - \sqrt{3})\mathcal{D}_{zyx}^{(4)} 
+\end{equation}
+
+\begin{equation}
+    \mathcal{C}_i = \frac{4}{9}(3 + 2\sqrt{3})\mathcal{D}_{zyx}^{(4)} + \frac{4}{9}(3 -\sqrt{3})\mathcal{D}_{xzy}^{(4)} + \frac{4}{9}(3 - \sqrt{3})\mathcal{D}_{xyz}^{(4)} 
+\end{equation}
+
+where $\mathcal{D}_{xyz}^{(4)} = \mathcal{H}_{ixxyy}^{(4)} + \frac{c_s^2}{2}\mathcal{H}_{izz}^{(2)}$
+

@@ -1,59 +1,59 @@
 \chapter{Fluid simulation}
 \chaptertoc{}
 
-In fluid simulation, there are different approaches: the microscopic, 
-the mesoscopic, and the macroscopic approach. In the microscopic approach, 
-all the interactions between molecules are modeled. While this method provides a 
-highly detailed representation of the fluid's behavior, it is extremely 
-time-consuming due to the complexity of calculating every molecular interaction.
+In fluid simulation, there are different approaches: the microscopic, the
+mesoscopic, and the macroscopic approach. In the microscopic approach, all the
+interactions between molecules are modeled. While this method provides a highly
+detailed representation of the fluid's behavior, it is extremely time-consuming
+due to the complexity of calculating every molecular interaction.
 
-The mesoscopic approach, on the other hand, is based on kinetic theory. In this 
-approach, a group of molecules is treated as a single entity. This method relies 
-on statistical mechanics to describe the distribution of particles in a fluid and
-how this distribution evolves over time. It provides a balance between 
-computational efficiency and accuracy by focusing on the collective behavior of 
-particles rather than individual interactions.
+The mesoscopic approach, on the other hand, is based on kinetic theory. In this
+approach, a group of molecules is treated as a single entity. This method relies
+on statistical mechanics to describe the distribution of particles in a fluid
+and how this distribution evolves over time. It provides a balance between
+computational efficiency and accuracy by focusing on the collective behavior of
+particles rather than individual interactions ~\cite{kruger2017lattice}.
 
 The macroscopic approach is the classical method, where the fluid is treated by
-considering only its macroscopic properties, such as velocity, pressure, and 
-temperature. This method typically involves solving the Navier-Stokes (NS) 
+considering only its macroscopic properties, such as velocity, pressure, and
+temperature. This method typically involves solving the Navier-Stokes (NS)
 equations, which describe the motion of fluid substances.
 
 In this manuscript, the mesoscopic approach is utilized, specifically through
- the Lattice Boltzmann Method (LBM). The LBM has proven its efficiency in 
- simulating fluid dynamics by significantly improving computational speed compared 
- to classical NS solvers.
+ the Lattice Boltzmann Method (LBM). The LBM has proven its efficiency in
+ simulating fluid dynamics by significantly improving computational speed
+ compared to classical NS solvers ~\cite{boivin2021benchmarking}.
 
 To achieve this, some fundamental concepts from kinetic theory are introduced,
-followed by an overview of the classical Lattice Boltzmann Method. 
-Subsequently, the method used for the simulation of supercritical 
-CO\textsubscript{2} is presented.
+followed by an overview of the classical Lattice Boltzmann Method. Subsequently,
+the method used for the simulation of supercritical CO\textsubscript{2} is
+presented.
 
 \section{Fundamentals on kinetic theory}
 
 \section{Fundamentals on Lattice Boltzmann Method}
 
-The Lattice Boltzmann Method (LBM) was developed in the late 1980s and has been used
-for Computational Fluid Dynamics (CFD) since then. Specifically, the foundational
-work on LBM can be traced back to the work of Frisch, Hasslacher, and Pomeau in 
-1986, who introduced the Lattice Gas Automaton (LGA), which is the precursor to 
-LBM. The LBM, as it is known today, evolved from these early developments in the 
-late 1980s and early 1990s. This first method was only used for weakly compressible
-flows, where the temperature is constant and a perfect gas equation is used to close
-the system and being equivalent to a Navier-Stokes formulation. The method has 
-evelouated from that basic formulation and nowadays permits the use of difficult 
-equations of state and the use for High compressible flows. 
-This section provides the main concepts and expressions used in the classical and 
-more simplest LBM. For doing that, a brief introduction of the Boltzmann equation
-is made. 
+The Lattice Boltzmann Method (LBM) was developed in the late 1980s and has been
+used for Computational Fluid Dynamics (CFD) since then. Specifically, the
+foundational work on LBM can be traced back to the work of Frisch, Hasslacher,
+and Pomeau in 1985 ~\cite{frisch1985lattice}, who introduced the Lattice Gas
+Automaton (LGA), which is the precursor to LBM. The LBM, as it is known today,
+evolved from these early developments in the late 1980s and early 1990s. This
+first method was only used for weakly compressible flows, where the temperature
+is constant and a perfect gas equation is used to close the system and being
+equivalent to a Navier-Stokes formulation. The method has evelouated from that
+basic formulation and nowadays permits the use of difficult equations of state
+and the use for High compressible flows. This section provides the main concepts
+and expressions used in the classical and more simplest LBM. For doing that, a
+brief introduction of the Boltzmann equation is made. 
 
 \subsection{Boltzmann equation}
 The Boltzmann equation, formulated by Ludwig Boltzmann in 1872, is a fundamental
-equation in statistical mechanics that describes the statistical behavior of a 
-thermodynamic system out of equilibrium. It is used to study the dynamics of a 
-gas at the microscopic level by considering the distribution function 
-f($x$,$\xi$,$t$), which represents the number of particles at a given 
-position $x$, with a given velocity $\xi$, at time $t$.
+equation in statistical mechanics that describes the statistical behavior of a
+thermodynamic system out of equilibrium. It is used to study the dynamics of a
+gas at the microscopic level by considering the distribution function
+f($x$,$\xi$,$t$), which represents the number of particles at a given position
+$x$, with a given velocity $\xi$, at time $t$.
 
 In order to see the time evolution, the total derivative of the distribution
 function can be expressed as:
@@ -65,10 +65,10 @@ function can be expressed as:
 	+\left(\frac{\partial f}{\partial \xi_{\beta}}\right)\frac{\mathrm{d}\xi_{\beta}}{\mathrm{d}t}
 \end{equation}
 
-Looking each term, we can indentify and define $\frac{\mathrm{d}f}{\mathrm{d}t} = \Omega(f)$
-as the collision operator, $\frac{\mathrm{d}t}{\mathrm{d}t}=1$, 
-the particle velocity as $\frac{\mathrm{d}x_{\beta}}{\mathrm{d}t} = \xi_{\beta}$
-and $\frac{\mathrm{d}\xi_{\beta}}{\mathrm{d}t} = \frac{F_{\beta}}{\rho}$.
+Looking each term, we can indentify and define $\frac{\mathrm{d}f}{\mathrm{d}t}
+= \Omega(f)$ as the collision operator, $\frac{\mathrm{d}t}{\mathrm{d}t}=1$, the
+particle velocity as $\frac{\mathrm{d}x_{\beta}}{\mathrm{d}t} = \xi_{\beta}$ and
+$\frac{\mathrm{d}\xi_{\beta}}{\mathrm{d}t} = \frac{F_{\beta}}{\rho}$.
 
 Leading to the final expresion for the Boltzmann equation.
 
@@ -76,30 +76,234 @@ Leading to the final expresion for the Boltzmann equation.
 	\Omega(f) = \frac{\partial f}{\partial t} 
 	+ \xi_{\beta}\frac{\partial f}{\partial x_{\beta}}
 	+ \frac{F_{\beta}}{\rho}\frac{\partial f}{\partial \xi_{\beta}}
+	\label{Boltzmann equation}
 \end{equation}
 
-This expression can be seen as an advection equation for the distribution 
+This expression can be seen as an advection equation for the distribution
 function, where the collision operator acts as a source term.
 
-In the first equation developed by Ludwig Boltzmann, the formulation for
-the collision operator involved complex integrals and cumbersome mathematical 
-operations, making the calculations difficult to achieve. In 1954, 
-P. L. Bhatnagar, E. P. Gross, and M. Krook introduced the BGK collision 
-operator in their seminal paper titled "A Model for Collision Processes 
-in Gases. I. Small Amplitude Processes in Charged and Neutral One-Component 
-Systems," published in Physical Review. The BGK collision operator 
-simplifies these calculations by incorporating only a single relaxation time.
+In the first equation developed by Ludwig Boltzmann, the formulation for the
+collision operator involved complex integrals and cumbersome mathematical
+operations, making the calculations difficult to achieve. In 1954, P. L.
+Bhatnagar, E. P. Gross, and M. Krook introduced the BGK collision operator in
+their seminal paper titled "A Model for Collision Processes in Gases. I. Small
+Amplitude Processes in Charged and Neutral One-Component Systems," published in
+Physical Review. The BGK collision operator simplifies these calculations by
+incorporating only a single relaxation time to the equilibrium distribution
+function ~\cite{bhatnagar1954model}. This equailibrium distribution function is
+expressed in a continous form thanks to the Maxwellian distribution function:
 
-The next subsection is dedicated to show a little bit about the BGK collision 
-operator and how it was constructed.
+\begin{equation}
+	f^{eq} = \frac{\rho}{(2\pi RT)^{D/2}}exp\left(-\frac{|\xi - u|^2}{2RT}\right)
+\end{equation}
+
+
+\subsection{Distribution Function Projection onto Hermite Series Basis}
+
+The continuous Boltzmann equation presented in the previous section must now be
+discretized to enable numerical solutions. This involves discretization not only
+in time and space but also in velocity space, denoted as $\xi$. The distribution
+function $f$ in Eq. ~\ref{Boltzmann equation} must be projected onto an
+appropriate functional space to serve as the basis for discretization and
+expansion procedures.
+
+In 1998, Shan and He ~\cite{shan1998discretization} demonstrated that the
+velocity space can be discretized following the framework established by Grad
+and his 13-moment equation ~\cite{grad1949note}. Grad's approach extended the
+Hermite polynomial distribution function, elaborating on its mathematical
+properties and utility for fluid models. This methodology was further developed
+by He and Luo in 1997 ~\cite{he1997theory} and refined by Shan and He in 1998
+~\cite{shan1998discretization}. Later, in 2006, Shan and collaborators
+~\cite{shan2006kinetic} constructed a comprehensive discretization model using
+Gauss-Hermite quadrature on a grid.
+
+Importantly, any continuous function, including the equilibrium distribution
+function, can be expressed as a series expansion in terms of Hermite
+polynomials: 
+
+\begin{equation}
+	f^{eq}_{(x,\xi,t)} = \omega(\xi)\sum_{n=0}^{\infty}\frac{1}{n!(rT_0)^n}a^{(n),eq}_{(x,t)}:\mathcal{H}^n_{(\xi)}
+	\label{equilibrium distribution function}
+\end{equation}
+
+Here, $\omega$, $\mathcal{H}^(n)$, and $a^{(n),eq}$ represent, respectively, the
+weight function, the Hermite polynomials, and the Hermite expansion
+coefficients. Their definitions are given as follows:
+
+\begin{equation}
+	\omega_{(\xi)} = \frac{1}{(2\pi rT_0^{D/2})}exp\left(-\frac{|\xi|^2}{2rT_0}\right)
+\end{equation}
+
+\begin{equation}
+	\mathcal{H}^{(n)}_{(\xi)} = \frac{(-rT_0)^n}{\omega_(\xi)}\nabla_{\xi}^n\omega_{\xi}
+\end{equation}
+
+\begin{equation}
+	a^{(n),eq}_{(x,t)} = \int f^{eq}_{(x,\xi,t)}\mathcal{H}^{(n)}_{(\xi)}\mathrm{d}\xi
+	\label{a_eq equation}
+\end{equation}
+
+Here, the weight (or generative) function $\omega$ of the Hermite polynomials is
+normalized such that $\int\omega_{(\xi)}\mathrm{d}\xi=1$. Additionally, the
+operator $\nabla_\xi^n$ denotes the n-th order gradient tensor, obtained through
+n successive differentiations with respect to $\xi$. Finally, the inner product
+is defined in the space of square-integrable functions, relative to the
+orthogonal Hermite polynomial basis, as:
+
+\begin{equation}
+	<a|b> = \int\omega_{(\xi)}a_{(\xi)}b_{(\xi)}\mathrm{d}\xi
+\end{equation}
+
+The first Hermite polynomials are:
+
+\begin{equation}
+	\begin{aligned}
+		\mathcal{H}^{(0)} &= 1 \\
+		\mathcal{H}_{\alpha}^{(1)} &= \xi_{\alpha} \\
+		\mathcal{H}_{\alpha\beta}^{(2)} &= \xi_{\alpha}\xi_{\beta} - rT_0\delta_{\alpha\beta} \\
+		\mathcal{H}_{\alpha\beta\gamma}^{(3)} &= \xi_{\alpha}\xi_{\beta}\xi_{\gamma} 
+		- rT_0\left(\delta_{\alpha\beta}\xi_{\gamma} + \delta_{\alpha\gamma}\xi_{\beta} + \delta_{\beta\gamma}\xi_{\alpha}\right)\\
+		\mathcal{H}_{\alpha\beta\gamma\delta}^{(4)} &= \xi_{\alpha}\xi_{\beta}\xi_{\gamma}\xi_{\delta} \\
+    	&\quad - rT_0 \big(
+    	    \delta_{\alpha\beta}\xi_{\gamma}\xi_{\delta} 
+    	    + \delta_{\alpha\gamma}\xi_{\beta}\xi_{\delta} 
+    	    + \delta_{\alpha\delta}\xi_{\beta}\xi_{\gamma} \\
+    	&\quad 
+    	    + \delta_{\beta\gamma}\xi_{\alpha}\xi_{\delta} 
+    	    + \delta_{\beta\delta}\xi_{\alpha}\xi_{\gamma} 
+    	    + \delta_{\gamma\delta}\xi_{\alpha}\xi_{\beta} 
+    	\big) \\
+    	&\quad + (rT_0)^2 \big(
+    	    \delta_{\alpha\beta}\delta_{\gamma\delta} 
+    	    + \delta_{\alpha\gamma}\delta_{\beta\delta} 
+    	    + \delta_{\alpha\delta}\delta_{\beta\gamma}
+    	\big)	
+	\end{aligned}
+\end{equation}	
+
+From Equation ~\ref{a_eq equation}, the first four equilibrium moments can be
+derived as follows:
+
+\begin{equation}
+	\begin{aligned}
+		a^{(0,eq)} &= \rho\\
+		a^{(1,eq)} &= \rho u\\
+		a^{(2,eq)} &= \rho\left[u^2 + rT_0(\theta -1)\delta\right]\\
+		a^{(3,eq)} &= \rho\left[u^3 + rT_0(\theta -1)u\delta\right]\\
+		a^{(4,eq)} &= \rho\left[u^4 + rT_0(\theta -1)u^2\delta + (rT_0)^2(\theta - 1)\delta^2\right]
+	\end{aligned}
+\end{equation}
+
+Here, $\theta=\frac{T}{T_0}$. It is now evident why Hermite polynomials are
+particularly well-suited for projecting the equilibrium function. In this basis,
+the expansion coefficients naturally align with the hydrodynamic (i.e.,
+low-order) moments of the equilibrium function.
+
+\subsection{Lattice Boltzmann equation discretization}
+
+The lattice Boltzmann (LB) equation presented earlier must now be discretized.
+First, the velocity discretization is introduced. This is followed by a
+discussion of spatial and temporal discretization methods. Finally, the
+limitations of these simplified models are outlined, providing context and
+motivation for the developments discussed in the subsequent sections.
+
+The continuous velocity space $\xi_i$ must be discretized into a finite set of
+velocities $\xi_i$ while ensuring that the conservation laws for the discrete
+moments $f_i^{eq}$ are preserved. This is achieved by applying the Gauss-Hermite
+quadrature rule:
+
+\begin{equation}
+	\int \mathcal{H}^{(M)}f^{(N),eq}\mathrm{d}\xi = \sum_i \mathcal{H}_i^{(M)}f_i^{(N),eq}
+	\label{Gauss-Hermite quadrature}
+\end{equation}
+
+Here, $M$ represents the order of the Hermite polynomials, and $N$ denotes the
+truncation order of Equation ~\ref{equilibrium distribution function}, which
+will be discussed shortly. Additionally, the following shorthand notations are
+introduced:
+
+\begin{equation}
+	\mathcal{H}_i^{(M)} = \mathcal{H}^{(M)}(\xi) 
+\end{equation}
+
+\begin{equation}
+	f_i^{(N),eq} = \frac{\omega_i}{\omega(\xi)}f^{(N),eq}(\xi) 
+\end{equation}
+
+The weights $\omega_i$ in the Gaussian quadrature represent the Gaussian
+quadrature weights. Applying the Gauss-Hermite quadrature from Eq.
+~\ref{Gauss-Hermite quadrature} to a selected lattice set enables the
+calculation of moments and coefficients for the Hermite series expansion. This
+quadrature is performed using a truncated Hermite expansion of order N, which
+introduces various errors depending on the truncation order. As explained in
+~\cite{farag2022modelisation}, due to the low quadrature order of standard
+lattices, a third-order equilibrium function is required to correctly capture
+the first two moments.
+
+    Second-order truncation introduces significant errors in the energy equation
+    but is suitable for athermal low-Mach-number cases. Third-order truncation
+    recovers the second-order moment but fails to correctly model the energy
+    equation. Fourth-order truncation ensures accurate modeling of the energy
+    equation, enabling the simulation of thermo-hydrodynamic flows.
+
+It is worth noting that the truncation accuracy strongly depends on the chosen
+velocity set. A fully isotropic fourth-order truncation is only achievable with
+very large velocity sets, which significantly increase computational costs.
+Standard velocity sets, commonly referred to as nearest-neighbor lattices,
+are typically used for low-Mach, athermal applications. These standard lattices
+only support truncation up to N=2, leading to the well-known isotropy problem
+~\cite{kruger2017lattice}.
+
+In this work, a standard lattice is employed to reduce computational cost,
+complemented by appropriate corrections to ensure consistent energy
+conservation. This approach aligns with prior contributions to combustion
+modeling by Tayyab, Bhairapurada, Taileb, Boivin, and Zhao
+~\cite{tayyab2020hybrid, tayyab2021lattice, zhao2023lattice, taileb2022lattice},
+as well as to compressible flow simulations by Coratger, Farag, and Wissocq
+~\cite{coratger2021large, wissocq2022restoring, zhao2020toward}.
+
+The design of velocity sets involves rescaling $\xi_i$ to obtain on-grid lattice
+velocities $c_i$. These velocity sets are conventionally denoted as $DdQq$,
+where d is the number of spatial dimensions, and q is the number of discrete
+velocities in the lattice. Three components are essential to fully define a
+lattice set: the discrete velocities $c_i$, their associated weights $\omega_i$,
+and the derived lattice sound speed $c_s$.
+
+Furthermore, for a lattice to be suitable for any lattice Boltzmann (LB) method
+and to serve as an accurate Navier-Stokes solver, the lattice weights must be
+positive and isotropic up to the fifth order. This requirement translates into
+satisfying the following identities:
+
+\begin{equation}
+	\begin{aligned}
+		\sum_i \omega_i &= 1, \\
+		\sum_i \omega_i c_{i\alpha} &= 0, \\
+		\sum_i \omega_i c_{i\alpha} c_{i\beta} &= c_s^2 \delta_{\alpha\beta}, \\
+		\sum_i \omega_i c_{i\alpha} c_{i\beta} c_{i\gamma} &= 0, \\
+		\sum_i \omega_i c_{i\alpha} c_{i\beta} c_{i\gamma} c_{i\delta} &= c_s^4 (\delta_{\alpha\beta}\delta_{\gamma\delta} + \delta_{\alpha\gamma}\delta_{\beta\delta} + \delta_{\alpha\delta}\delta_{\beta\gamma}), \\
+		\sum_i \omega_i c_{i\alpha} c_{i\beta} c_{i\gamma} c_{i\delta} c_{i\epsilon} &= 0.
+	\end{aligned}
+\end{equation}
+	
+
+The distribution function f is discretized similarly to $f^{eq}$ 
+
+\begin{equation}
+	f_i(x,t) = \frac{w_i}{w(c_i)}f(x, c_i,t)
+\end{equation}
+
+Finally, the only expression that missed is the collision operator.
+
+The next subsection is dedicated to show a little bit about the BGK
+collision operator and how it was constructed.
 
 \subsection{BGK Collision Operator}
 
-The BGK collision operator can be seen as a linearization of the complicated 
-collision operator proposed by Boltzmann. Like any other collision operator, 
-it must respect the conservation of mass, momentum, and energy. 
-To illustrate how its form is constructed, a Taylor expansion of the 
-collision operator around the equilibrium point is developed.
+The BGK collision operator can be seen as a linearization of the complicated
+collision operator proposed by Boltzmann. Like any other collision operator, it
+must respect the conservation of mass, momentum, and energy. To illustrate how
+its form is constructed, a Taylor expansion of the collision operator around the
+equilibrium point is developed.
 
 \begin{equation}
 	\Omega(f) = \Omega|_{f^{eq}} 
@@ -107,18 +311,18 @@ collision operator around the equilibrium point is developed.
 	+ \mathrm{O}(\Delta f^2)
 \end{equation}
 
-As explained before, the collision operator evaluated at the equilibrium 
-should be equal to zero. Thus, the linearized expression for the collision 
-operator is represented by the following equation:
+As explained before, the collision operator evaluated at the equilibrium should
+be equal to zero. Thus, the linearized expression for the collision operator is
+represented by the following equation:
 
 \begin{equation}
 	\Omega(f) \approx 
-	(f - f^{eq}) \frac{\partial \Omega}{\partial f} \bigg|_{f^{eq}} The basics of the Lattice Boltzmann Method (LBM) have been presented. After performing the Chapman-Enskog expansion, it becomes apparent that a primary limitation of the standard LBM is its reliance on the ideal gas equation of state 
+	(f - f^{eq}) \frac{\partial \Omega}{\partial f} \bigg|_{f^{eq}} 
 \end{equation}
 
-Typically, this first derivative evaluated at the equilibrium point is 
-considered as the relaxation parameter, which indicates that over a 
-long time, equilibrium is achieved.
+Typically, this first derivative evaluated at the equilibrium point is
+considered as the relaxation parameter, which indicates that over a long time,
+equilibrium is achieved.
 
 \begin{equation}
 	\frac{\partial \Omega}{\partial f} \bigg|_{f^{eq}} = -\frac{1}{\tau}	
@@ -133,22 +337,89 @@ Finally, the Boltzmann equation using the BGK collision operator is written as:
 \end{equation}
 
 
-\subsection{Hybrid recursive regularised collision operator}
-The BGK collision operator is the most simplest representation for the collision, but suddenly it lacks from stability. One interesting thing in order to improve stability is the recursive regularized step. 
-
 
 \subsection{Numerical Discretization}
+In this section , a brief explanation about how to discrretise the Lattice
+Boltzmann equation is made.
+
+In order to make the discretization, the method of Characteristics and the Crank
+Nicholson was used.
+
+After using the Hermite polynomials the discrete LB equation is:
+
+\begin{equation}
+    \frac{\partial f_i}{\partial t} + c_{i\alpha}\frac{\partial f_i}{\partial x_\alpha} = \Omega_i +F_i 
+\end{equation}
+
+Applying the characteristic method and Crank - Nicholson pour la discretisation we have: 
+
+\begin{equation}
+    f_{i_{(t+\Delta t, x_i +c_i \Delta t)}} = f_{i_{(t,x)}} + \int_{t}^{t+\Delta t}(\Omega_i + F_i)d\xi
+\end{equation}
+
+\begin{equation*}
+    f_{i_{(t+\Delta t, x_i +c_i \Delta t)}} = f_{i_{(t,x)}} + \frac{\Delta t}{2}((\Omega_i +F_i)_{(t+\Delta t, x_i +c_i \Delta t)} + (\Omega_i +F_i)_{(t, x_i)})
+\end{equation*}
+
+This equation is implicit. In order to have some explicit scheme, we can use a
+change of variable $\Bar{f_i} = f_i - \frac{\Delta t}{2}(\Omega_i + F_i) $. Note
+that this substitution is valable for all the time of evaluation.
+
+After making this change of variable, we have:
+\begin{equation}
+    \Bar{f_i}_{(t+\Delta t, x_i +c_i \Delta t)} = \Bar{f_i}_{(t,x)} + \Delta t(\Omega_i +F_i)_{(t, x_i)}
+    \label{explicit equivalent equation}
+\end{equation}
+
+Even if this equation now is implicit, more algebraic manipulations can be made
+in order to recover fastly the viscous stress tensor from the LBM (We are going
+to see its importance when the Hybrid recursive regularised method is used to
+have a more stable solver). To make that, two new variables variables
+$\bar{\tau}$ and $\bar{f^{neq}}$ should be defined:
+
+\begin{equation}
+	\bar{\tau} = \tau + \frac{\Delta t}{2}
+\end{equation}
+
+\begin{equation}
+	\bar{f}^{neq} = \bar{f} - f^{eq} - \frac{\Delta t}{2}F_i = f-f^{eq} - \frac{\Delta t}{2}\Omega_i  
+\end{equation}
+
+The last equation can be rewrite as:
+
+\begin{equation}
+    \Bar{f_i}_{(t+\Delta t, x_i +c_i \Delta t)} = \Bar{f_i}_{(t,x)} + \Delta t(-\frac{f_i - f_i^{eq}}{\tau} +F_i)_{(t, x_i)}
+\end{equation}
 
 \section{Unified Lattice Boltzmann method}
-The basics of the Lattice Boltzmann Method (LBM) have been presented. After performing the Chapman-Enskog expansion, it becomes apparent that a primary limitation of the standard LBM is its reliance on the ideal gas equation of state (($P$$=$$\rho$$c_s^2$).
+The basics of the Lattice Boltzmann Method (LBM) have been presented. After
+performing the Chapman-Enskog expansion, it becomes apparent that a primary
+limitation of the standard LBM is its reliance on the perfect gas equation of
+state ($P$$=$$\rho$$c_s^2$).
 
-However, to accurately simulate supercritical fluids, a more sophisticated equation of state is required, as explained in the chapter on thermodynamics. For capturing the properties of supercritical CO\textsubscript{2}, an equation such as the Peng-Robinson equation of state is necessary.
+However, to accurately simulate supercritical fluids, a more sophisticated
+equation of state is required, as explained in the chapter on thermodynamics.
+For capturing the properties of supercritical \ce{CO2}, an equation
+such as the Peng-Robinson equation of state is necessary.
 
-In the LBM community, there are two main approaches to address this limitation: improved density-based models and pressure-based models. In the improved density-based models, the second moment is modified to include a free parameter that allows for the adjustment of pressure as needed. In the pressure-based models, the zeroth moment is altered to directly use pressure as a variable.
+In the LBM community, there are two main approaches to address this limitation:
+improved density-based models and pressure-based models. In the improved
+density-based models, the second moment is modified to include a free parameter
+that allows for the adjustment of pressure as needed. In the pressure-based
+models, the zeroth moment is altered to directly use pressure as a variable.
 
-To unify these two models and address the limitation related to the equation of state, Farag et al. proposed the Unified Hybrid Recursive Regularized (UHRR) model. This model allows the use of any equation of state, overcoming the constraints of the traditional LBM. Depending on the parameters $\kappa$ or $\zeta$, which will be introduced in this section, the model can represent either the pressure-based or density-based algorithm.
+To unify these two models and address the limitation related to the equation of
+state, Farag et al. proposed the Unified Hybrid Recursive Regularized (UHRR)
+model ~\cite{farag2021unified}. This model allows the use of any equation of
+state, overcoming the constraints of the traditional LBM. Depending on the
+parameters $\kappa$ or $\zeta$, the model can represent either the
+pressure-based or density-based algorithm, for more details see
+~\cite{farag2021unified}.
 
-This section aims to present the essential differentiating features and the algorithm used in the Unified Hybrid Recursive Regularized model. The main difference from the classical LBM lies in the redefinition of the equilibrium distribution function.
+This section aims to present the essential differentiating features and the
+algorithm used in the Unified Hybrid Recursive Regularized model. The main
+difference from the classical LBM lies in the redefinition of the equilibrium
+distribution function.
 
 
 \begin{align}
@@ -158,5 +429,443 @@ This section aims to present the essential differentiating features and the algo
 	\end{split}
 \end{align}
 
-\subsection{title}
+In this work, the equilibrium function given by the uHRR with $\kappa$ and
+$\zeta$ set to zero is used to obtain a method similar to the pressure-based
+approach as mentioned in ~\cite{farag2021unified}.
 
+This method adopts the D3Q19 velocity discretization, where the raw moments of
+the equilibrium distribution are defined as:
+
+\begin{equation}
+    \sum_i f_i^{\mathrm{eq}} = \sum_i f_i = \rho,
+\end{equation}
+
+\begin{equation}
+    \sum_i c_{i\alpha} f_i^{\mathrm{eq}} = \sum_i c_{i\alpha} f_i = \rho u_{\alpha},
+\end{equation}
+
+\begin{equation}
+    \sum_i c_{i\alpha} c_{i\beta} f_i^{\mathrm{eq}} = \rho u_{\alpha} u_{\beta} + P \delta_{\alpha\beta}.
+\end{equation}
+
+These raw moments directly yield the macroscopic quantities of interest at each time step. A more rigorous derivation of the governing hydrodynamic equations can be achieved using the Chapman-Enskog or Taylor expansion techniques, as demonstrated in~\cite{kruger2017lattice}.
+
+Unlike the classical athermal LBM, where the pressure is defined as \( P = \rho c_s^2 \), a parameter \( \theta \) is introduced to incorporate thermal effects. In uHRR formulation, \( \theta \) is defined as:
+
+\begin{equation}
+    \theta = \frac{P}{\rho c_s^2},
+\end{equation}
+
+where \( P \) is the real pressure defined by an Equation of State (EoS) and \( \rho c_s^2 \) represents the athermal pressure. This formulation decouples \( \theta \) from the temperature, enabling the method to represent non-ideal and supercritical thermodynamic behavior independently of the chosen EoS.
+
+
+
+To achieve second-order accuracy in time, the Crank--Nicolson scheme is applied to discretize the LBE. To maintain an explicit formulation, a change of variables is introduced as:
+
+\begin{equation}
+    \bar{f}_i = f_i - \frac{\Delta t}{2\tau}(f_i^{\mathrm{eq}} - f_i) - \frac{\Delta t}{2} F_i,
+\end{equation}
+
+\begin{equation}
+    \bar{\tau} = \tau + \frac{\Delta t}{2}.
+\end{equation}
+
+where $\Delta t$ is the time-step. Using this transformation, the algorithm is split into two steps. The collision step, a local operation, is expressed as:
+
+\begin{equation}
+    \bar{f}_i^{\mathrm{col}} = f_i^{\mathrm{eq}} + \left(1 - \frac{\Delta t}{\bar{\tau}}\right) \bar{f}_i^{\mathrm{neq}} + \frac{\Delta t}{2} F_i,
+\end{equation}
+
+followed by the streaming step:
+
+\begin{equation}
+    \bar{f}_i(t + \Delta t, \mathbf{x}) = \bar{f}_i^{\mathrm{col}}(t, \mathbf{x} - \mathbf{c}_i \Delta t).
+\end{equation}
+
+After this variable change, the computation of macroscopic variables is made using:
+\begin{equation}
+    \rho = \sum_i \Bar{f}_i
+\end{equation}
+
+\begin{equation}
+    \rho u_\alpha= \sum_i c_{i\alpha}\Bar{f}_i + \frac{\Delta t}{2}\sum_i c_{i\alpha}F_i
+\end{equation}
+
+In this formulation, the only unresolved component is the non-equilibrium part $\bar{f}_i^{\mathrm{neq}}$, which will be detailed in the next subsection.
+
+
+\subsection{Non-Equilibrium reconstruction}
+
+In this study, the hybrid recursive regularization approach proposed in ~\cite{farag2021unified} is adopted, which combines the recursive regularization technique with traceless non-equilibrium moment reconstruction~\cite{farag2020pressure}. This method has been shown to serve as an effective supplementary regularization strategy, particularly for improving the accuracy of the second-order non-equilibrium moment $\Pi_{\gamma\gamma}$~\cite{wissocq2022hydrodynamic}:
+
+\begin{equation}
+\begin{aligned}
+\Pi_{\alpha\beta}^{\bar{f}^{\text{neq}},(2)}(x,t) =\ 
+&\sigma \sum_i \left( c_{i\alpha} c_{i\beta} - \frac{\delta_{\alpha\beta}}{3} c_{i\gamma} c_{i\gamma} \right) 
+\left[ \bar{f}_i(x,t) - f_i^{\text{eq}}(x,t) + \frac{\Delta t}{2} F_i(x,t - \Delta t) \right] \\
+&- (1 - \sigma) \rho c_s^2 \bar{\tau} \left( 
+\frac{\partial u_\alpha}{\partial x_\beta} + \frac{\partial u_\beta}{\partial x_\alpha} 
+- \frac{2 \delta_{\alpha\beta}}{3} \frac{\partial u_\gamma}{\partial x_\gamma} 
+\right)(x,t)
+\end{aligned}
+\end{equation}
+
+where $\sigma$ is a free weighting parameter introduced in~\cite{jacob2018new}. Note that the force term $F_i$ is evaluated at time $t - \Delta t$ for stability reasons as mentioned in ~\cite{farag2021unified}.
+
+The recursive regularization procedure defines the non-equilibrium distribution as follows:
+
+\begin{equation}
+    \Pi_{\alpha\beta\gamma}^{\Bar{f}^{neq}}(x,t) = \left[ u_\alpha \Pi_{\beta\gamma}^{\Bar{f}^{neq},(2)} + u_\beta \Pi_{\gamma\alpha}^{\Bar{f}^{neq},(2)} + u_\gamma \Pi_{\alpha\beta}^{\Bar{f}^{neq},(2)}\right](x,t)
+\end{equation}
+
+Then, the recursive D3Q19r (~\ref{appendix:D3Q19r}) dictates that the non equilibrium, is defined as:
+
+\begin{equation}
+    \Bar{f}^{neq}_i = \omega_i\left( \frac{\mathcal{H}_{i\alpha\beta}^{(2)}}{2c_s^4} \Pi_{\alpha\beta}^{\Bar{f}^{neq},(2)} + \frac{\mathcal{H}_{i\alpha\beta\gamma}^{(3r)}}{6c_s^6} \Pi_{\alpha\beta}^{\Bar{f}^{neq},(2)}\right)
+\end{equation}
+
+\subsection{Standard LBM limitations}
+
+Using first-order lattices (commonly referred to as standard LBM) with a limited
+number of velocities, such as the D3Q19 lattice, is inherently restricted to
+isothermal, weakly compressible flows due to the following two major
+limitations:
+
+    Numerical stability at high Mach numbers: For high Mach numbers,
+    particularly in inviscid flows, the numerical stability of the method is
+    constrained by the BGK collision model [69]. Its robustness is compromised
+    by the emergence of non-hydrodynamic modes, which lead to instabilities [58,
+    70]. Over the past few decades, significant efforts have been devoted to
+    developing more stable collision operators [71]. Among these, the
+    regularized and recursive regularized collision models, developed and
+    utilized at M2P2, are discussed in more detail in Section 4.4.
+
+    Mach-related errors and Galilean invariance: Due to the low-order velocity
+    discretization, a Mach-related error—commonly referred to as the Galilean or
+    symmetry-breaking error—arises in the momentum conservation equation. This
+    error impedes the accurate modeling of temperature variations [58]. One
+    approach to address this issue is the use of multi-speed lattices [58, 72],
+    which increase the number of lattice velocities. However, this strategy
+    reduces the computational efficiency advantage of the LB method and
+    exacerbates instability issues by introducing additional non-hydrodynamic
+    modes [73, 70].
+
+The strategy adopted in this work is referred to as a segregated approach, where
+the energy equation is solved separately. This can be achieved by introducing a
+second set of distribution functions (the double distribution function approach)
+or by coupling the LBM with a finite-volume formulation of the energy equation
+(the hybrid approach). In this study, a segregated hybrid approach is employed,
+and further details are provided in Section 4.5.
+
+\subsection{Hybrid recursive regularised collision operator}
+The BGK collision operator is the most simplest representation for the
+collision, but suddenly it lacks from stability. One interesting thing in order
+to improve stability is the recursive regularized step. 
+
+\begin{equation}
+	\Pi_{\alpha\beta}^{\bar{f}^{neq},(2)} = \sigma\sum_{i=0}^{q-1}c_{i\alpha}c_{i\beta}(\bar{f}_i - f_i^{eq} + \frac{\Delta t}{2}F_i) - (1-\sigma)\rho c_s^2 \bar{\tau}\left[ \frac{\partial u_\alpha}{\partial x_{\beta}} + \frac{\partial u_\beta}{\partial x_{\alpha}} -\frac{2\delta_{\alpha\beta}}{3}\frac{\partial u_\gamma}{\partial x_{\gamma}} \right]_{FD}
+\end{equation}
+
+In this methods we combine the Lattice Boltzmann method with the finite
+difference. The viscous stress tensor is going to be computed from the LBM and
+mixed with his equivalent part from a finite difference method. As pointed in
+Jacob's work, make this method improves stability due a generation of an
+artificial hyperviscoity.
+
+\subsection{Energy Equation Strategy}
+
+This section details the strategy employed to solve the total energy
+conservation equation. As discussed in Section 4.3.3, the chosen approach
+belongs to the segregated hybrid family. This decision is supported by recent
+studies demonstrating the effectiveness of such methods for simulating
+compressible flows [76–82]. In particular, Zhao et al. [67] highlighted the
+value of stability and accuracy-preserving methods, noting that coupling an LB
+scheme with an explicit discrete energy equation can introduce new instabilities
+[83].
+
+In the context of supercritical fluids, it is well-known that spurious pressure
+waves generated by these instabilities can significantly impact the flow [7, 42,
+43, 84]. The model adopted in this work, developed by Wissocq et al. [66],
+leverages the Riemann invariants of the hyperbolic system formed by the Euler
+equations. By design, this method ensures compatibility with LB fluxes,
+resulting in a conservative total energy scheme that is linearly equivalent to
+its non-conservative entropy-based counterparts. A detailed description of this
+model is provided in Section 4.5.1.
+
+However, in the presence of strong gradients, high-order methods used to
+discretize the total energy scheme may induce Gibbs oscillations [85]. Following
+the approach outlined in [66], this issue is addressed using slope limiters.
+These limiters locally adjust the flux by blending high-order and first-order
+fluxes, effectively damping spurious oscillations. To ensure low-order methods
+are applied only where necessary, a carefully chosen limiter is essential. The
+methodology for selecting and implementing these limiters is described in
+Section 4.5.2.
+
+\subsubsection{LBM/FV Coherence}
+
+In this section, Wissocq’s total energy scheme [66] is outlined, with particular
+emphasis on its construction procedure. To maintain clarity and avoid
+unnecessary complexity, mathematical formulations involving lattice sets are not
+explicitly presented. Readers seeking a deeper understanding are encouraged to
+consult the original article for comprehensive details.
+
+\subsubsection{Targeted continous equations}
+
+In the inviscid case, the conservative system corresponds to the 3D Euler
+equations, augmented by a conservative formulation of the total energy
+conservation equation. This system can be expressed as:
+
+\begin{equation}
+	\partial_t U + \partial_\alpha F_\alpha^{U,c} = 0
+\end{equation}
+
+Where \( U = [\rho, \rho u_\alpha, \rho E]^T \) is the vector of conservative
+variables, and \( F_\alpha^{U,c} = [\rho u_\alpha, \rho u_\alpha u_\beta +
+\delta_{\alpha\beta}, \rho h_t u_\alpha] \). Here, \( F_\alpha \) represents the
+flux vector in the direction \(\alpha\), and \( h_t = e_t + \frac{p}{\rho} \)
+denotes the specific total enthalpy.
+
+In most of the lattice Boltzmann method (LBM) literature, this system is
+reformulated as a non-conservative one, where entropy serves as the energy
+variable. 
+
+
+\begin{equation}
+	\partial_t V + A_{\alpha}^V \partial_{\alpha}F_\alpha^{V,c} = 0
+\end{equation}
+
+with $V = [\rho, \rho u_\alpha, s]^T$
+
+
+\begin{equation}
+	A_{\alpha}^V = 
+	\begin{bmatrix}
+		1 & 0 & 0 & 0 & 0 \\
+		0 & 1 & 0 & 0 & 0 \\
+		0 & 0 & 1 & 0 & 0 \\
+		0 & 0 & 0 & 1 & 0 \\
+		0 & 0 & 0 & 0 & u_\alpha
+		\end{bmatrix}
+\end{equation}
+
+and $F_\alpha^{V,c} = [\rho u_\alpha, \rho u_\alpha u_\beta +
+\delta_{\alpha\beta, s}]^T$
+
+Since entropy is an intrinsic characteristic of the system [85], it follows a
+simple advection equation. Moreover, assuming linearity, the entropy equation
+becomes entirely decoupled from the LB scheme, ensuring that it does not impact
+the scheme's stability [83].
+
+\subsection{Discrete hybrid system based on the entropy equation}
+
+In [66], Wissocq demonstrates that LB algorithms can systematically be
+reformulated in a conservative form as:
+
+\begin{equation}
+	\partial_t \rho + \partial_\beta F^{\rho}_{+\Delta\beta/2} = 0
+\end{equation}
+
+\begin{equation}
+	\partial_t (\rho u_\alpha) + \partial_\beta F^{\rho u_\alpha}_{+\Delta\beta/2} = 0
+\end{equation}
+
+Here, $F_{+\Delta \beta/2}^{\phi}(x,t)$ represents the intercell flux of the
+dummy variable $\phi$ across the cell face located between the cells centered at
+$x$ and $x+e_\beta\Delta x$, where $e_\beta$ is the unit vector in the $\beta$-direction. The
+operators $\delta_t$ and $\delta_\beta$ denote the first-order temporal and spatial
+derivatives (along direction $\beta$), respectively. Assuming the following explicit
+discretization of the entropy advection equation: 
+
+\begin{equation}
+	\delta_t s + u_\alpha(x,t)\delta_\alpha^*s = 0
+\end{equation}
+
+Here, $\delta_\alpha^*$ is a spatial gradient operator associated with an arbitrarily
+chosen numerical scheme. This operator can be reformulated using the spatial
+gradient operator defined in Equation (4.35) as:
+
+\begin{equation}
+	\delta_\alpha^*s = \delta_\alpha\mathcal{F}^*_{+\Delta\alpha/2}(s)
+\end{equation}
+
+$\mathcal{F}^*_{+\Delta\alpha/2}$ being a linear function of s. The complete
+discrete system then becomes
+
+\begin{equation}
+	\delta_t V + A_\alpha^V\delta_\alpha F_\alpha^{V,d} = 0
+\end{equation}
+
+Here, $F_\alpha^{V,d} = [F_{\Delta\alpha/2}^{\rho} , F_{\Delta\alpha/2}^{\rho
+u_\beta}, \mathcal{F}^*_{+\Delta\alpha/2}(s)]$ represents the flux
+contributions, but the system is not yet conservative as it describes the time
+evolution of entropy rather than total energy as the energetic variable.
+Additionally, $A_\alpha^V$ appears as a coefficient in front of the gradient
+operator, which modifies the flux dynamics.
+
+Finally, it is important to note that some degrees of freedom may remain in the
+construction of LB fluxes, as there are fewer conserved variables in UU than
+distributions in the LB solver.
+
+\subsection {Conservative hybrid scheme}
+
+In this section, a conservative hybrid scheme is derived from the generic
+numerical scheme used for the entropy advection equation. This formulation
+ensures that the linear stability of the energy equation does not interfere with
+the mass and momentum equations.
+
+The previously introduced discrete entropy system (Eq. 4.38) is multiplied by
+the Jacobian matrix, which facilitates the transformation from non-conserved to
+conserved variables, as follows:
+
+\[
+\mathbf{M} = \frac{\partial \mathbf{U}}{\partial \mathbf{V}} =
+\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 \\
+h - \kappa & u_x & u_y & u_z & \rho T
+\end{bmatrix}
+\]
+
+The kinetic energy of the system is denoted as $\kappa=u_\alpha^2/2$. The
+non-conservative system described by Equation (4.38) can then be expressed as:
+
+\begin{equation}
+	\partial_t U + MA_\alpha^V\partial_\alpha F_\alpha^{V,d} = 0;
+\end{equation}
+
+This scheme is not yet in the conservative form because \( MA_\alpha^V \) is not
+the identity matrix. What are the differences between our system and a
+discretized form of equation (4.30) then? It is worth noting that only the last
+line, corresponding to the conservation equation for the energetic variable, is
+changed compared to the original non-conservative system. 
+
+To understand how this equation changes, one can first multiply the continuous
+non-conservative equation (4.32) by the passage matrix \( M \) and subtract the
+result from equation (4.30). This leads to:
+
+\begin{equation}
+    \partial_\alpha F_\alpha^{U,c} = MA_\alpha^V \partial_\alpha F_\alpha^{V,c}
+\end{equation}
+
+Discretizing the gradient operator and combining the result with the last line
+of the system described by equation (4.40) yields:
+
+\begin{equation}
+    \partial_t(\rho e_t) + \partial_\alpha^*(\rho h_t u_\alpha) 
+    + (h-\kappa)\partial_\alpha[F_{\Delta\alpha/2}^\rho - \mathcal{F}_{\Delta\alpha/2}^*(\rho u_\alpha)]
+    + u_\beta\delta_\alpha[F_{\Delta\alpha/2}^{\rho u_\beta} - \mathcal{F}_{\Delta\alpha/2}^*(\rho u_\alpha u_\beta + p\delta_{\alpha\beta})] = 0
+\end{equation}
+
+Incorporating the prefactors \((h - \kappa)\) and \( u_\beta \) into the
+operator \(\delta_\alpha\) yields the desired conservative scheme. This approach
+does not affect the consistency or linear properties of the system, as
+demonstrated in the original article [66]. 
+
+Furthermore, as shown by the original authors, this scheme restores the
+consistency between the energy equation and the lattice Boltzmann (LB) scheme
+used for mass and momentum equations. Finally, in the case of an extension to
+viscous flows, this scheme naturally incorporates the viscous heating term, as
+expected when solving the Navier-Stokes equations.
+
+
+\subsection{Extension to viscous flows}
+
+The discrete conservative form of the total energy equation for the Euler system
+can be expressed as:
+
+\begin{equation}
+    \partial_t(\rho e_t) + \partial_\alpha F_{\Delta\alpha/2}^{\rho e_t} = 0
+\end{equation}
+
+On the other hand, the continuous total energy equation, considering viscous
+heating and thermal conduction, reads:
+
+\begin{equation}
+    \partial_t(\rho e_t) + \partial_\alpha (\rho h_t u_\alpha) = \partial_\alpha (u_\beta \Pi_{\alpha\beta}^{NS}) + \partial_\alpha (\lambda \partial_\alpha T)
+\end{equation}
+
+Here, \( \Pi_{\alpha\beta}^{NS} \) is the Navier-Stokes viscous stress tensor.
+As mentioned earlier, only the heat conduction term requires explicit
+discretization to extend the scheme to the Navier-Stokes case. This extension is
+achieved by replacing the Euler flux \( F_{\Delta\alpha/2}^{\rho e_t} \) with
+its Navier-Stokes counterpart:
+
+\begin{equation}
+    F_{\Delta\alpha/2}^{\rho e_t, NS} = F_{\Delta\alpha/2}^{\rho e_t} - \lambda \partial_\alpha T(x + c_i^\alpha \Delta x, t)
+\end{equation}
+
+
+\subsection{important properties of the energy scheme}
+
+\subsection{Extension of the scheme with force terms}
+Until now, we have a solver that can solve the LBM coupled with a finite volume
+solver for the energy. This method was developed by Wissocq et al.
+\cite{wissocq2022restoring} but in this demonstration the force term was not
+taked in account. 
+
+As stated before, in the introdction, the objective of this thesis is to couple
+this compressible solver with the Immersed Boundary Method and use that to
+simulate supercritical fluids. 
+
+The IBM, explained in a simple way is the representation as a source therm
+(Source of momentum of energy) of the solid when has an interaction with the
+fluid. Also the energy scheme proposed in \cite{wissocq2022restoring} serve to
+recorver the conservativity of all the equations, otherwise the scheme is
+loosing energy and mass.
+
+The main change is that the collision invariant is not longer true, therefore,
+another strategy should be taked in account in orther to recover the flux.
+
+To develop that, we are going to start from the variable change in order to
+recover a second orther algorithm.
+
+\begin{equation}
+	\bar{f}_i(x,t+\Delta t) = {f}_i(x,t+\Delta t) - \frac{\Delta t}{2}\left(\Omega_i(x,t+\Delta t) + F_i(x,t+\Delta t)\right) 
+\end{equation}
+
+The we take the first moment of this equation.
+
+\begin{equation}
+	\sum{c_i\bar{f}_i(x,t+\Delta t)} = \rho u_\alpha(x,t+\Delta t) - \frac{\Delta t}{2}F_\alpha(x,t+\Delta t)
+\end{equation}
+
+\begin{equation}
+	\rho u_\alpha(x,t+\Delta t) = \sum{c_i\bar{f}_i(x,t+\Delta t)} + \frac{\Delta t}{2}F_\alpha(x,t+\Delta t)
+\end{equation}
+
+from this last equation and using the fact due to the streamming operation
+$f_i^{col}(x-c_i\Delta t, t) = \bar{f}_i(x,t+\Delta t)$, we have:
+
+\begin{equation}
+	\rho u_\alpha(x,t+\Delta t) = \sum{c_i f_i^{col}(x-c_i\Delta t, t)} + \frac{\Delta t}{2}F_\alpha(x,t+\Delta t)
+\end{equation}
+
+then substracting $\rho u_\alpha(x,t)$ in each member of the last equation we have:
+
+\begin{equation}
+	\rho u_\alpha(x,t+\Delta t) -\textcolor{red}{\rho u_\alpha(x,t)}= \sum{c_i f_i^{col}(x-c_i\Delta t, t)} + \frac{\Delta t}{2}F_\alpha(x,t+\Delta t) -\textcolor{red}{\rho u_\alpha(x,t)}
+\end{equation}
+
+Also we known that:
+
+\begin{equation}
+	\rho u_\alpha(x,t) = \sum{c_i{f}_i^{col}(x,t)} - \frac{\Delta t}{2}F_\alpha(x,t)
+\end{equation}
+
+Then we have:
+
+\begin{equation}
+	\rho u_\alpha(x,t+\Delta t) -\textcolor{red}{\rho u_\alpha(x,t)}= \sum{c_i f_i^{col}(x-c_i\Delta t, t)} + \frac{\Delta t}{2}F_\alpha(x,t+\Delta t) -\textcolor{red}{\sum{c_i{f}_i^{col}(x,t)} + \frac{\Delta t}{2}F_\alpha(x,t)}
+\end{equation}
+
+\begin{equation}
+	\rho u_\alpha(x,t+\Delta t) -\textcolor{red}{\rho u_\alpha(x,t)}= \sum{c_i f_i^{col}(x-c_i\Delta t, t)} -\textcolor{red}{\sum{c_i{f}_i^{col}(x,t)}}+ \frac{\Delta t}{2}F_\alpha(x,t+\Delta t) + \textcolor{red}{\frac{\Delta t}{2}F_\alpha(x,t)}
+\end{equation}
+
+Finally:
+
+\begin{equation}
+	\rho u_\alpha(x,t+\Delta t) =\textcolor{red}{\rho u_\alpha(x,t)} + \sum{c_i f_i^{col}(x-c_i\Delta t, t)} -\textcolor{red}{\sum{c_i{f}_i^{col}(x,t)}}+ \frac{\Delta t}{2}\left(F_\alpha(x,t+\Delta t) + \textcolor{red}{{F_\alpha(x,t)}}\right)
+\end{equation}

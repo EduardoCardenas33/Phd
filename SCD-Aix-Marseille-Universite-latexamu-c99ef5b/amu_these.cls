@@ -69,15 +69,16 @@
 	maxcitenames=1,							%% nombre max. de noms auteurs dans les citations
 	mincitenames=1,							%% nombre min. de noms auteurs dans les citations
 	sorting=nyt,							%% trier par nom, année, titre
-	pagetracker,							%% pour l'utilisation d'ibidem
-	ibidtracker=constrict,					%% pour l'utilisation d'ibidem
-	citestyle=authoryear-ibid,				%% style de citation auteur-année
-	bibstyle=alphabetic,					%% style de bibliographie alphabétique
+	%pagetracker,							%% pour l'utilisation d'ibidem
+	%ibidtracker=constrict,					%% pour l'utilisation d'ibidem
+	citestyle=numeric,%authoryear-ibid,				%% style de citation auteur-année
+	bibstyle=numeric,%alphabetic,					%% style de bibliographie alphabétique
 %	bibstyle=iso-authoryear,				%% style de bibliographie ISO 690
 	backref=true							%% liens retour des références (cf. p.)
 	}
 	{biblatex}
 \RequirePackage{biblatex}					%% gestion de la bibliographie avec biblatex
+\addbibresource{biblio.bib}
 \RequirePackage{enotez}						%% notes de fin
 \setenotez{
 	list-name=Notes,						%% titre des notes
@@ -123,6 +124,8 @@
 	}
 \PassOptionsToPackage{version=4}{mhchem}
 \RequirePackage{mhchem}						%% chimie
+
+\RequirePackage{svg}
 
 \RequirePackage{physics}					%% physique
 
