@@ -797,7 +797,30 @@ its Navier-Stokes counterpart:
 \end{equation}
 
 
-\subsection{important properties of the energy scheme}
+\subsection{Important properties of the energy scheme}
+A methodology for constructing conservative total energy schemes, which remain
+linearly equivalent to entropic schemes, is presented. The motivation stems from
+the advantages offered by the non-conservative entropy equation within segregated
+modeling frameworks:
+
+\begin{enumerate}
+    \item \textbf{Controlled entropic phenomena} -- The choice of scheme enables
+    regulation of entropic effects, ensuring linear stability.
+    \item \textbf{Retention of low dissipation} -- The Lattice Boltzmann Method (LBM)
+    maintains its low dissipation properties for isentropic phenomena.
+    \item \textbf{Consistent viscous heating} -- Viscous heating is naturally implicit
+    and aligned with the LBM stress tensor.
+\end{enumerate}
+
+This methodology was applied by Wissocq \textit{et al.}~\cite{wissocq2019extended} to
+construct first-order upwind, Lax--Wendroff, and MUSCL--Hancock schemes, which
+were subsequently validated on several canonical compressible flow test cases.
+In this work, the entropy spot convection test is further adapted for
+supercritical pressures (see Section~\ref{sec:entropy-spot-convection}).
+These schemes inherit a key advantage of the hybrid LBM: the ability to handle
+complex geometries without altering the spatial stencil, thereby preserving
+parallelization efficiency.
+
 
 \subsection{Extension of the scheme with force terms}
 Until now, we have a solver that can solve the LBM coupled with a finite volume

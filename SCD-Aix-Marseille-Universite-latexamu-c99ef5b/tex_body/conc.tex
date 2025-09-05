@@ -1,2 +1,126 @@
 \addchap{Conclusion}
-%\lipsum[1-2]
+
+This dissertation has addressed the development and application of advanced
+numerical methods for the simulation of supercritical carbon dioxide (s\ce{CO2})
+flows, with a focus on their integration into an innovative machine concept. The
+motivation for this work stems from the growing interest in s\ce{CO2} power cycles as
+a promising pathway to high-efficiency, compact, and sustainable energy
+conversion systems. However, accurate modeling of s\ce{CO2} flows presents a number
+of challenges: sharp variations of thermodynamic properties near the critical
+point, the necessity for stable low-Mach formulations, and the need to handle
+complex industrial geometries. To meet these challenges, a set of complementary
+methodological contributions have been presented across five chapters of this
+thesis, culminating in the demonstration of the proposed approach on an
+industrially relevant test case.
+
+\addsec{Synthesis of contributions}
+
+The first chapter introduced the lattice Boltzmann method (LBM) as the
+computational foundation of this work. LBM was chosen for its inherent
+parallelism, flexibility in handling complex boundary conditions, and growing
+maturity in simulating thermofluid phenomena. The study established the
+mathematical framework and highlighted the potential of LBM as an alternative to
+conventional Navier–Stokes solvers, thereby laying the groundwork for subsequent
+developments.
+
+In the second chapter, emphasis was placed on the incorporation of realistic
+thermodynamics. The accurate description of thermodynamic properties is
+essential when dealing with s\ce{CO2}, especially near the pseudo-critical line where
+density and compressibility can vary dramatically with small temperature or
+pressure perturbations. A robust and efficient equation-of-state implementation
+was developed and coupled to the LBM framework, enabling simulations that
+faithfully capture the unique behavior of s\ce{CO2}. This contribution was critical
+in bridging the gap between abstract numerical methods and the physical fidelity
+required for engineering applications.
+
+The third chapter extended the methodology to complex geometries using immersed
+boundary methods (IBM). Industrial machines rarely consist of simple channels;
+their performance depends strongly on interactions between the working fluid and
+intricate blade passages, cavities, and cooling channels. By implementing IBM
+within the LBM framework, the thesis demonstrated the ability to simulate flows
+around geometrically complex domains without resorting to excessive meshing
+overhead. This methodological advance ensured that the simulation framework
+could be deployed in practical design scenarios.
+
+Chapter four focused on a novel low-Mach number formulation of the LBM, tailored
+for supercritical \ce{CO2} applications. Standard LBM formulations often suffer from
+stability and accuracy issues at low Mach regimes typical of turbomachinery and
+heat exchanger applications. The newly developed formulation preserved the
+advantages of LBM while ensuring robustness for s\ce{CO2} flows. This advance
+represents a key step forward in making LBM a reliable tool for the study of
+compressible yet subsonic regimes relevant to power cycle components.
+
+Finally, the fifth chapter validated the framework through an industrial test
+case. The methodology was applied to a realistic machine configuration,
+demonstrating the feasibility of simulating s\ce{CO2} under operating conditions
+representative of practical systems. This chapter not only showcased the
+applicability of the proposed approach but also served as a proof of concept for
+its future adoption in industrial design and optimization.
+
+\addsec{Key Achievements}
+
+Taken together, the work presented in this thesis delivers several contributions
+to the field of computational thermofluids:  
+\begin{itemize}
+    \item Development of an LBM-based framework capable of simulating
+    supercritical CO$_2$ with realistic thermodynamics.  
+    \item Integration of immersed boundary methods to handle complex geometries
+    relevant to turbomachinery.  
+    \item Formulation of a stable and accurate low-Mach version of LBM
+    applicable to supercritical fluids.  
+    \item Demonstration of the methodology on an industrially relevant machine,
+    bridging numerical method development with applied engineering challenges.  
+\end{itemize}
+
+These contributions represent a step toward reliable, efficient, and versatile
+simulation tools that can accelerate the adoption of sCO$_2$ technologies in
+energy conversion systems.  
+
+\addsec{Limitations}
+
+Despite these advances, several limitations must be acknowledged. The
+computational cost of high-resolution LBM simulations remains significant,
+particularly when three-dimensional domains and fine thermodynamic resolution
+are required. While the IBM offers flexibility in handling geometry, it can
+introduce spurious effects near boundaries, which may limit accuracy in strongly
+coupled fluid--structure scenarios. Moreover, the low-Mach formulation, though
+robust, may require further validation against a broader set of experimental
+data, particularly in highly transient or off-design conditions. Finally, the
+industrial case presented here represents an important first step, but further
+scaling and coupling with system-level analyses remain necessary to fully
+exploit the methodology in design practice.  
+
+\addsec{Perspectives and Outlook}
+
+The findings of this dissertation open several promising avenues for future
+research. From a methodological perspective, the extension of the framework to
+include turbulence modeling, conjugate heat transfer, and possibly multiphase
+effects (e.g., condensation of CO$_2$ in transcritical regimes) would broaden
+its applicability. Adaptive mesh refinement within the LBM framework could help
+mitigate computational cost while preserving accuracy near critical regions.  
+
+From an application perspective, further validation against experimental data
+and comparison with industrial CFD tools will be essential for industrial
+adoption. Coupling the solver with optimization algorithms could enable the
+direct use of the framework in design cycles, providing insights not only into
+performance but also into off-design behavior, safety margins, and long-term
+reliability.  
+
+More broadly, the methodology developed here contributes to the ongoing efforts
+toward cleaner and more efficient energy systems. By advancing the numerical
+modeling of sCO$_2$ flows, this work supports the engineering of next-generation
+power cycles, offering potential benefits in compactness, efficiency, and
+sustainability.  
+
+\addsec{Closing Remarks}
+
+In conclusion, this thesis has presented a coherent set of methodological
+advances that enable the simulation of supercritical CO$_2$ flows in complex
+machine configurations. Starting from the fundamentals of the lattice Boltzmann
+method, through the incorporation of realistic thermodynamics and boundary
+treatments, to the development of a dedicated low-Mach formulation and its
+application to an industrial case, the research has built a bridge between
+computational innovation and engineering application. While challenges remain,
+the work lays the foundation for future exploration and industrial deployment of
+sCO$_2$ simulations, with the ultimate goal of enabling more efficient and
+sustainable energy conversion technologies. 
